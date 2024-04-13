@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     debugPrint('Your message');
   }
 
-  // This widget is the root of your application. dfsffs
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     greet();
