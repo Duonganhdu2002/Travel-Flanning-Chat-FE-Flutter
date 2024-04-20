@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/on_bording_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,16 +8,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  void greet() {
-    debugPrint('Your message');
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    greet();
     return const MaterialApp(
-      home: Scaffold(),
+      debugShowCheckedModeBanner: false,
+      home: OnBordingPage(),
     );
   }
 }
