@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/on_bording_page.dart';
-import 'package:flutter_app/pages/signup_page.dart';
+import 'package:flutter_app/pages/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,12 +18,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.only(left: 12.0),
           child: BackButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OnBordingPage(),
-                ),
-              );
+              Navigator.pop(context);
             },
           ),
         ),
@@ -33,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             Text(
-              "Sign in now",
+              "Sign up now",
               style: GoogleFonts.roboto(
                 fontSize: 35,
                 fontWeight: FontWeight.w400,
@@ -43,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 10,
             ),
             Text(
-              "Please sign in to continue our app",
+              "Please fill the details and create account",
               style: GoogleFonts.roboto(
                 fontSize: 16,
                 color: Colors.black45,
@@ -62,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Don't have an account? ",
+                  "Already have an account? ",
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                   ),
@@ -72,11 +66,11 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SignUpPage()),
+                          builder: (context) => const LoginPage()),
                     );
                   },
                   child: Text(
-                    "Sign up",
+                    "Sign in",
                     style: GoogleFonts.roboto(
                       fontSize: 16,
                       color: Colors.yellow[600],
