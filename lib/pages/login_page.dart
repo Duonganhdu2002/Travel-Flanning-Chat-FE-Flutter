@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/forgot_password.dart';
 import 'package:flutter_app/pages/on_bording_page.dart';
 import 'package:flutter_app/pages/signup_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,7 +56,36 @@ class _LoginPageState extends State<LoginPage> {
 
             // Delele below code (SizeBox)
             const SizedBox(
-              height: 700,
+              height: 500,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPassword()),
+                      );
+                    },
+                    child: Text(
+                      "Forgot password",
+                      style: GoogleFonts.roboto(
+                        fontSize: 16,
+                        color: Colors.yellow[600],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+
+            const SizedBox(
+              height: 200,
             ),
 
             Row(
