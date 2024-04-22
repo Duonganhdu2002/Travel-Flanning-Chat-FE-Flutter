@@ -25,6 +25,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       body: Center(
         child: Column(
           children: [
+            const SizedBox(
+              height: 40,
+            ),
             Text(
               "Forgot password",
               style: GoogleFonts.roboto(
@@ -38,12 +41,73 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Text(
               "Enter your email account to reset your password",
               style: GoogleFonts.roboto(
-                fontSize: 16, 
+                fontSize: 16,
                 color: Colors.black45,
               ),
             ),
-
-            // Orther coponents here
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+              child: TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(14.0),
+                  ),
+                  hintText: 'Your Email',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: ElevatedButton(
+                onPressed: (){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(image: AssetImage('lib/images/Icon_checkEmail.png')),
+                            Text("Check Your Email"),
+                          ],
+                        ),
+                        content: const Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                           Text("We have send password recovery instruction to your email.",
+                           textAlign: TextAlign.center,)
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child:  const Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.yellow[600], // Background color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  minimumSize: const Size(355.0, 56.0), // Button size
+                ),
+                child: const Text(
+                  'Forgot Password',
+                  style: TextStyle(fontSize: 18,  color: Colors.white), // Text style
+                ),
+              ),
+            )
+            // Other components here
             //Your code...
           ],
         ),
