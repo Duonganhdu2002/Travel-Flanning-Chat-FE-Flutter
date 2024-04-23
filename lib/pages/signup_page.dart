@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+Color textFieldBackgroundColor = const Color(0xFFF7F7F9);
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -43,13 +45,99 @@ class _SignUpPageState extends State<SignUpPage> {
                 color: Colors.black45,
               ),
             ),
-
+            const SizedBox(
+              height: 40,
+            ),
             // Orther coponents here
             //Your code...
-
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40.0,),
+            child: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: textFieldBackgroundColor,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(14.0),
+                    ),
+                    hintText: 'Enter username ',
+                  ),
+                ),
+                const SizedBox(height: 24), // Khoảng cách giữa hai TextField
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: textFieldBackgroundColor,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(14.0),
+                    ),
+                    hintText: 'Enter Email ',
+                  ),
+                ),
+                const SizedBox(height: 24), // Khoảng cách giữa hai TextField
+                TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: textFieldBackgroundColor,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(14.0),
+                    ),
+                    hintText: 'Enter password ',
+                  ),
+                ),
+              ],
+            ),
+          ),
             // Delele below code (SizeBox)
             const SizedBox(
-              height: 700,
+              height: 5,
+            ),
+
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Password must be 8 character",
+                  style: TextStyle(color: Colors.grey),)
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            //Button
+             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(onPressed: () {
+                   
+                },
+                style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                foregroundColor: Colors.white, backgroundColor: Colors.yellow[600],
+                ),
+                child: const SizedBox(
+                  width: 335.0,
+                  height: 56.0,
+                  child: Center(
+                    child: Text("Sign up"),
+
+                  ),
+                )
+                
+                )
+              ],
+            ),
+
+            const SizedBox(
+              height: 40,
             ),
 
             Row(
@@ -70,7 +158,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   },
                   child: Text(
-                    "Sign in",
+                    "Sign up",
                     style: GoogleFonts.roboto(
                       fontSize: 16,
                       color: Colors.yellow[600],
@@ -78,7 +166,27 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 )
               ],
-            )
+            ),
+            const SizedBox(
+                  height:15,
+            ),
+                Text(
+                  "Or connect ",
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                  ),
+                ),
+            const SizedBox(
+                  height: 100,
+                ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoFB.png')),
+                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoInsta.png')),
+                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoChimXanh.png'))
+              ],
+            ),     
           ],
         ),
       ),
