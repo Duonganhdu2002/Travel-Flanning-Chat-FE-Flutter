@@ -29,7 +29,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               height: 40,
             ),
             Text(
-              "Forgot password",
+              "Forgot jhhjbpassword",
               style: GoogleFonts.roboto(
                 fontSize: 35,
                 fontWeight: FontWeight.w400,
