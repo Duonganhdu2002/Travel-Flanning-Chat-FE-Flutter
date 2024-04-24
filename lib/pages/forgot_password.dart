@@ -29,7 +29,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               height: 40,
             ),
             Text(
-              "Forgot jhhjbpassword",
+              "Forgot password",
               style: GoogleFonts.roboto(
                 fontSize: 35,
                 fontWeight: FontWeight.w400,
@@ -62,7 +62,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -70,7 +70,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         title: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image(image: AssetImage('lib/images/Icon_checkEmail.png')),
+                            Image(
+                                image: AssetImage(
+                                    'lib/images/Icon_checkEmail.png')),
                             Text("Check Your Email"),
                           ],
                         ),
@@ -78,8 +80,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                           Text("We have send password recovery instruction to your email.",
-                           textAlign: TextAlign.center,)
+                            Text(
+                              "We have send password recovery instruction to your email.",
+                              textAlign: TextAlign.center,
+                            )
                           ],
                         ),
                         actions: [
@@ -87,7 +91,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child:  const Text("OK"),
+                            child: const Text("OK"),
                           ),
                         ],
                       );
@@ -103,7 +107,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 child: const Text(
                   'Forgot Password',
-                  style: TextStyle(fontSize: 18,  color: Colors.white), // Text style
+                  style: TextStyle(
+                      fontSize: 18, color: Colors.white), // Text style
                 ),
               ),
             )
