@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
             // Forgot password
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -139,20 +139,25 @@ class _LoginPageState extends State<LoginPage> {
 
             // Button sign up
 
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.yellow[600],
                 ),
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.yellow[600],
-              ),
-              child: const SizedBox(
-                width: 335.0,
-                height: 56.0,
-                child: Center(
-                  child: Text("Sign in"),
+                child: const SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Center(
+                      child: Text("Sign in"),
+                    ),
+                  ),
                 ),
               ),
             ),

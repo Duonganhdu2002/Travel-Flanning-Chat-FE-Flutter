@@ -100,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: 20,
             ),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: EdgeInsets.symmetric(horizontal: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -114,26 +114,24 @@ class _SignUpPageState extends State<SignUpPage> {
             const SizedBox(
               height: 40,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.yellow[600],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const SizedBox(
-                      width: 335.0,
-                      height: 56.0,
-                      child: Center(
-                        child: Text("Sign up"),
-                      ),
-                    ))
-              ],
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.yellow[600],
+                  ),
+                  child: const SizedBox(
+                    width: double.infinity,
+                    height: 56.0,
+                    child: Center(
+                      child: Text("Sign up"),
+                    ),
+                  )),
             ),
             const SizedBox(
               height: 40,
