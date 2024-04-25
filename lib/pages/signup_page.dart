@@ -3,6 +3,7 @@ import 'package:flutter_app/pages/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Color textFieldBackgroundColor = const Color(0xFFF7F7F9);
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -14,6 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 12.0),
@@ -24,6 +26,9 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
+
+      // Body
+
       body: Center(
         child: Column(
           children: [
@@ -47,98 +52,92 @@ class _SignUpPageState extends State<SignUpPage> {
             const SizedBox(
               height: 40,
             ),
-            // Orther coponents here
-            //Your code...
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0,),
-            child: Column(
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: textFieldBackgroundColor,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(14.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 40.0,
+              ),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: textFieldBackgroundColor,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
+                      hintText: 'Enter username ',
                     ),
-                    hintText: 'Enter username ',
                   ),
-                ),
-                const SizedBox(height: 24), // Khoảng cách giữa hai TextField
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: textFieldBackgroundColor,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(14.0),
+                  const SizedBox(height: 24),
+                  TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: textFieldBackgroundColor,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
+                      hintText: 'Enter Email ',
                     ),
-                    hintText: 'Enter Email ',
                   ),
-                ),
-                const SizedBox(height: 24), // Khoảng cách giữa hai TextField
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: textFieldBackgroundColor,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(14.0),
+                  const SizedBox(height: 24),
+                  TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: textFieldBackgroundColor,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
+                      hintText: 'Enter password ',
                     ),
-                    hintText: 'Enter password ',
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-            // Delele below code (SizeBox)
             const SizedBox(
-              height: 5,
+              height: 20,
             ),
-
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Password must be 8 character",
-                  style: TextStyle(color: Colors.grey),)
+                  Text(
+                    "Password must be 8 character",
+                    style: TextStyle(color: Colors.grey),
+                  )
                 ],
               ),
             ),
             const SizedBox(
               height: 40,
             ),
-            //Button
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(onPressed: () {
-                   
-                },
-                style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                foregroundColor: Colors.white, backgroundColor: Colors.yellow[600],
-                ),
-                child: const SizedBox(
-                  width: 335.0,
-                  height: 56.0,
-                  child: Center(
-                    child: Text("Sign up"),
-
-                  ),
-                )
-                
-                )
+                ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.yellow[600],
+                    ),
+                    child: const SizedBox(
+                      width: 335.0,
+                      height: 56.0,
+                      child: Center(
+                        child: Text("Sign up"),
+                      ),
+                    ))
               ],
             ),
-
             const SizedBox(
               height: 40,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -157,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   },
                   child: Text(
-                    "Sign up",
+                    "Sign in",
                     style: GoogleFonts.roboto(
                       fontSize: 16,
                       color: Colors.yellow[600],
@@ -167,25 +166,31 @@ class _SignUpPageState extends State<SignUpPage> {
               ],
             ),
             const SizedBox(
-                  height:15,
+              height: 15,
             ),
-                Text(
-                  "Or connect ",
-                  style: GoogleFonts.roboto(
-                    fontSize: 16,
-                  ),
-                ),
+            Text(
+              "Or connect ",
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+              ),
+            ),
             const SizedBox(
-                  height: 100,
-                ),
+              height: 100,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoFB.png')),
-                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoInsta.png')),
-                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoChimXanh.png'))
+                IconButton(
+                    onPressed: () {},
+                    icon: Image.asset('lib/images/LogoFB.png')),
+                IconButton(
+                    onPressed: () {},
+                    icon: Image.asset('lib/images/LogoInsta.png')),
+                IconButton(
+                    onPressed: () {},
+                    icon: Image.asset('lib/images/LogoChimXanh.png'))
               ],
-            ),     
+            ),
           ],
         ),
       ),
