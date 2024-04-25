@@ -216,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
             //Space
 
             const SizedBox(
-              height: 50,
+              height: 100,
             ),
 
             // Row of icons
