@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_app/pages/forgot_password.dart';
 
 Color textFieldBackgroundColor = const Color(0xFFF7F7F9);
 
@@ -20,12 +19,7 @@ class _VerificationPageState extends State<VerificationPage> {
           padding: const EdgeInsets.only(left: 12.0),
           child: BackButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ForgotPassword(),
-                ),
-              );
+              Navigator.pop(context);
             },
           ),
         ),
