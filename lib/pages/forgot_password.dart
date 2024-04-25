@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/verification_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -103,7 +104,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VerificationPage(),
+                                ),
+                              );
                             },
                             child: const Text("OK"),
                           ),

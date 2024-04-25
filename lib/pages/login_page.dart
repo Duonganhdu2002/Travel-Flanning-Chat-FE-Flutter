@@ -69,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
               child: Column(
                 children: [
+                  
                   // Input email
 
                   TextField(
