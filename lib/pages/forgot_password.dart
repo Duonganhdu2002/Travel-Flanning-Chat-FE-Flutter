@@ -12,6 +12,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 12.0),
@@ -36,7 +37,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 40,
             ),
             Text(
               "Enter your email account to reset your password",
@@ -45,8 +46,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 color: Colors.black45,
               ),
             ),
+            const SizedBox(
+              height: 40,
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: TextField(
                 decoration: InputDecoration(
                   filled: true,
@@ -59,8 +63,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 40,
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ElevatedButton(
                 onPressed: () {
                   showDialog(
@@ -71,8 +78,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image(
-                                image: AssetImage(
-                                    'lib/images/Icon_checkEmail.png')),
+                              image:
+                                  AssetImage('lib/images/Icon_checkEmail.png'),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                             Text("Check Your Email"),
                           ],
                         ),
@@ -81,8 +92,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "We have send password recovery instruction to your email.",
+                              "We have sent password recovery instructions to your email.",
                               textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
                             )
                           ],
                         ),
@@ -99,21 +113,21 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow[600], // Background color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  minimumSize: const Size(355.0, 56.0), // Button size
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.yellow[600],
                 ),
-                child: const Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                      fontSize: 18, color: Colors.white), // Text style
+                child: const SizedBox(
+                  width: double.infinity,
+                  height: 56.0,
+                  child: Center(
+                    child: Text("Send Reset Instructions"),
+                  ),
                 ),
               ),
-            )
-            // Other components here
-            //Your code...
+            ),
           ],
         ),
       ),

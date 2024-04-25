@@ -1,8 +1,5 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_app/pages/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/pages/forgot_password.dart';
 
