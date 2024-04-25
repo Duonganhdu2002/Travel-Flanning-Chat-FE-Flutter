@@ -5,6 +5,7 @@ import 'package:flutter_app/pages/signup_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Color textFieldBackgroundColor = const Color(0xFFF7F7F9);
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -16,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 12.0),
@@ -34,6 +36,8 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: Column(
           children: [
+            // Sign up now text
+
             const SizedBox(
               height: 40,
             ),
@@ -44,6 +48,9 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: FontWeight.w400,
               ),
             ),
+
+            // Please sign in to continue our app
+
             const SizedBox(
               height: 10,
             ),
@@ -55,42 +62,49 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            // Orther coponents here
-            
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
-            child: Column(
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: textFieldBackgroundColor,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(14.0),
+            // Form input
+
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+              child: Column(
+                children: [
+                  // Input email
+
+                  TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: textFieldBackgroundColor,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
+                      hintText: 'Enter your email ',
                     ),
-                    hintText: 'Nhập email ',
                   ),
-                ),
-                const SizedBox(height: 50), // Khoảng cách giữa hai TextField
-                TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: textFieldBackgroundColor,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(14.0),
+
+                  // Space between two inputs
+
+                  const SizedBox(height: 50),
+
+                  // Input password
+
+                  TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: textFieldBackgroundColor,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
+                      hintText: 'Enter your password ',
                     ),
-                    hintText: 'Nhập password ',
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-
-            // Delele below code (SizeBox)
-            
+            // Forgot password
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50.0),
@@ -117,38 +131,39 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
+            // Space Forgot password
+
             const SizedBox(
               height: 40,
             ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(onPressed: () {
-                   
-                },
-                style: ElevatedButton.styleFrom(
+            // Button sign up
+
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                foregroundColor: Colors.white, backgroundColor: Colors.yellow[600],
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.yellow[600],
+              ),
+              child: const SizedBox(
+                width: 335.0,
+                height: 56.0,
+                child: Center(
+                  child: Text("Sign in"),
                 ),
-                child: const SizedBox(
-                  width: 335.0,
-                  height: 56.0,
-                  child: Center(
-                    child: Text("Sign in"),
-
-                  ),
-                )
-                
-                )
-              ],
+              ),
             ),
+
+            // Space
 
             const SizedBox(
               height: 40,
             ),
+
+            // Don't have an account
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -175,30 +190,46 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-
-                
               ],
             ),
+
+            // Space
+
             const SizedBox(
-                  height:15,
-                ),
-                Text(
-                  "Or connect ",
-                  style: GoogleFonts.roboto(
-                    fontSize: 16,
-                  ),
-                ),
+              height: 15,
+            ),
+
+            // Or conncet
+
+            Text(
+              "Or connect ",
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+              ),
+            ),
+
+            //Space
+
             const SizedBox(
-                  height: 50,
-                ),
+              height: 50,
+            ),
+
+            // Row of icons
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoFB.png')),
-                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoInsta.png')),
-                IconButton(onPressed: (){}, icon: Image.asset('lib/images/LogoChimXanh.png'))
+                IconButton(
+                    onPressed: () {},
+                    icon: Image.asset('lib/images/LogoFB.png')),
+                IconButton(
+                    onPressed: () {},
+                    icon: Image.asset('lib/images/LogoInsta.png')),
+                IconButton(
+                    onPressed: () {},
+                    icon: Image.asset('lib/images/LogoChimXanh.png'))
               ],
-            ),     
+            ),
           ],
         ),
       ),
