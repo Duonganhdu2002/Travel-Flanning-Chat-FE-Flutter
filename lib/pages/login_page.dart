@@ -3,6 +3,7 @@ import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_request_model.dart';
 import 'package:flutter_app/pages/forgot_password.dart';
 import 'package:flutter_app/pages/home_page.dart';
+import 'package:flutter_app/pages/on_bording_page.dart';
 import 'package:flutter_app/pages/signup_page.dart';
 import 'package:flutter_app/services/api_service.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,7 +23,12 @@ class LoginPage extends StatelessWidget {
           padding: const EdgeInsets.only(left: 12.0),
           child: BackButton(
             onPressed: () {
-              Navigator.pop(context); // Go back to previous screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OnBordingPage(),
+                ),
+              );
             },
           ),
         ),
@@ -40,6 +46,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -235,7 +242,6 @@ class _LoginFormState extends State<LoginForm> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      // Validation passed, perform login
       setState(() {
         isApiAccess = true;
       });
@@ -255,7 +261,6 @@ class _LoginFormState extends State<LoginForm> {
           });
 
           if (response == true) {
-            // Login successful
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -263,7 +268,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
             );
           } else {
-            // Login failed
             FormHelper.showSimpleAlertDialog(
               context,
               Config.appName,
