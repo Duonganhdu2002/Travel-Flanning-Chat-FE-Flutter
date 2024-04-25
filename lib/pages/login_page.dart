@@ -46,12 +46,54 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isApiAccess = false;
+
+  void _login() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isApiAccess = true;
+      });
+
+      final email = emailController.text;
+      final password = passwordController.text;
+
+      LoginRequestModel model = LoginRequestModel(
+        email: email,
+        password: password,
+      );
+
+      APIService.login(model).then(
+        (response) {
+          setState(() {
+            isApiAccess = false;
+          });
+
+          if (response == true) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ),
+            );
+          } else {
+            FormHelper.showSimpleAlertDialog(
+              context,
+              Config.appName,
+              "Invalid Username/Password !!",
+              "OK",
+              () {
+                Navigator.of(context).pop();
+              },
+            );
+          }
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,48 +280,5 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ),
     );
-  }
-
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        isApiAccess = true;
-      });
-
-      final email = emailController.text;
-      final password = passwordController.text;
-
-      LoginRequestModel model = LoginRequestModel(
-        email: email,
-        password: password,
-      );
-
-      APIService.login(model).then(
-        (response) {
-          setState(() {
-            isApiAccess = false;
-          });
-
-          if (response == true) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            );
-          } else {
-            FormHelper.showSimpleAlertDialog(
-              context,
-              Config.appName,
-              "Invalid Username/Password !!",
-              "OK",
-              () {
-                Navigator.of(context).pop();
-              },
-            );
-          }
-        },
-      );
-    }
   }
 }
