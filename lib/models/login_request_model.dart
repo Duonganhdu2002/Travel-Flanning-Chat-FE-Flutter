@@ -6,14 +6,14 @@ class LoginRequestModel {
 
   factory LoginRequestModel.fromJson(Map<String, dynamic> json) {
     return LoginRequestModel(
-      email: json['username'],
+      email: json['email'],
       password: json['password'],
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {
-      'username': email,
+      'email': email,
       'password': password,
     };
     return data;

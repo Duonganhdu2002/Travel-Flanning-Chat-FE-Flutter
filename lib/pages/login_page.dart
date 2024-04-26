@@ -83,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
             FormHelper.showSimpleAlertDialog(
               context,
               Config.appName,
-              "Invalid Username/Password !!",
+              "Invalid Email/Password !!",
               "OK",
               () {
                 Navigator.of(context).pop();

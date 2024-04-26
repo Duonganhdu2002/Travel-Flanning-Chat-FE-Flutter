@@ -7,9 +7,8 @@ import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/pages/login_page.dart';
 
 class SharedService {
-
   // If you read this file, you should learn about cache on android phone.
-  // We work with APICacheManager method: 
+  // We work with APICacheManager method:
   // - addCacheData
   // - isAPICacheKeyExist
   // - getCacheData
