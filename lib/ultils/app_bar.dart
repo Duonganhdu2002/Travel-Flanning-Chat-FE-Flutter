@@ -16,6 +16,7 @@ class CustomBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
+      backgroundColor: Colors.grey[50],
       leadingWidth: double.infinity,
       leading: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
