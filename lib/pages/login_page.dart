@@ -6,6 +6,7 @@ import 'package:flutter_app/pages/home_page.dart';
 import 'package:flutter_app/pages/on_bording_page.dart';
 import 'package:flutter_app/pages/signup_page.dart';
 import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/shared_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 
@@ -97,6 +98,14 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    SharedService.isLoggedIn().then((isLoggedIn) {
+      if (isLoggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      }
+    });
     return Form(
       key: _formKey,
       child: Center(
