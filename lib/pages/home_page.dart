@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/home_component.dart';
 import 'package:flutter_app/components/image_username.dart';
 import 'package:flutter_app/components/notification_icon.dart';
@@ -31,10 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomBar(
-        leftWidget: ImageUsername(),
-        rightWidget: NotificationIcon(notificationExistence: true),
-      ),
+      appBar: buildCustomBar(selected),
       backgroundColor: Colors.grey[100],
       bottomNavigationBar: CustomBottomBar(
         onTabChange: (index) => navigateBottomBar(index),
@@ -42,5 +40,44 @@ class _HomePageState extends State<HomePage> {
       ),
       body: page[selected],
     );
+  }
+
+  PreferredSizeWidget buildCustomBar(int selected) {
+    switch (selected) {
+      case 0:
+        return const CustomBar(
+          leftWidget: ImageUsername(),
+          rightWidget: NotificationIcon(notificationExistence: true),
+        );
+      case 1:
+        return const CustomBar(
+          leftWidget: BackIcon(),
+          centerWidget: Text(
+            "Schedule",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          rightWidget: NotificationIcon(notificationExistence: false),
+        );
+      case 2:
+        return const CustomBar(
+          leftWidget: ImageUsername(),
+          rightWidget: NotificationIcon(notificationExistence: true),
+        );
+      case 3:
+        return const CustomBar(
+          leftWidget: ImageUsername(),
+          rightWidget: NotificationIcon(notificationExistence: true),
+        );
+      case 4:
+        return const CustomBar(
+          leftWidget: ImageUsername(),
+          rightWidget: NotificationIcon(notificationExistence: true),
+        );
+      default:
+        return const CustomBar(
+          leftWidget: ImageUsername(),
+          rightWidget: NotificationIcon(notificationExistence: false),
+        );
+    }
   }
 }
