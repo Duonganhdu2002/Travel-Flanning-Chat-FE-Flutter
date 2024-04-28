@@ -11,30 +11,27 @@ class BackIcon extends StatelessWidget {
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(40),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Stack(
-          children: [
-            IconButton(
-              icon: ImageFiltered(
-                imageFilter:
-                    const ColorFilter.mode(Colors.black87, BlendMode.srcATop),
-                child: SvgPicture.asset(
-                  "lib/images/direction_left.svg",
-                  width: 24,
-                  height: 24,
-                ),
+      child: Stack(
+        children: [
+          IconButton(
+            icon: ImageFiltered(
+              imageFilter:
+                  const ColorFilter.mode(Colors.black87, BlendMode.srcATop),
+              child: SvgPicture.asset(
+                "lib/images/direction_left.svg",
+                width: 20,
+                height: 20,
               ),
-              onPressed: () {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).pop();
-                } else {
-                  // Trang hiện tại là trang gốc, không thực hiện pop
-                }
-              },
-            )
-          ],
-        ),
+            ),
+            onPressed: () {
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              } else {
+                // Trang hiện tại là trang gốc, không thực hiện pop
+              }
+            },
+          )
+        ],
       ),
     );
   }
