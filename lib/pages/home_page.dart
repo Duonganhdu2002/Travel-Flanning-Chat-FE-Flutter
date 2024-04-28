@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
         rightWidget: NotificationIcon(notificationExistence: true),
       ),
       body: userProfile(),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[100],
     );
   }
 
@@ -28,8 +28,8 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(20.0),
       child: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

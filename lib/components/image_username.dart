@@ -11,7 +11,7 @@ class ImageUsername extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(40),
-        color: Colors.grey[100],
+        color: Colors.grey[200],
       ),
       child: Padding(
         padding: const EdgeInsets.only(right: 20.0),
