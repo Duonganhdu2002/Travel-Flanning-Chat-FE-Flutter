@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NotificationIcon extends StatelessWidget {
   final bool notificationExistence;
@@ -16,16 +17,20 @@ class NotificationIcon extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Stack(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(2.0),
-              child: Icon(
-                Icons.notifications_none_outlined,
-                color: Colors.black54,
-                size: 35,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ImageFiltered(
+                imageFilter:
+                    const ColorFilter.mode(Colors.black87, BlendMode.srcATop),
+                child: SvgPicture.asset(
+                  "lib/images/bell.svg",
+                  width: 28,
+                  height: 28,
+                ),
               ),
             ),
             Positioned(
-              right: 0,
+              right: 7,
               top: 0,
               child: Container(
                 padding: notificationExistence
