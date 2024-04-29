@@ -109,6 +109,34 @@ class HomeComponent extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Positioned(
+                              top: 12,
+                              right: 12,
+                              child: Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFF1B1E28)
+                                        .withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(40)),
+                                child: IconButton(
+                                  icon: ImageFiltered(
+                                    imageFilter: ColorFilter.mode(
+                                      Colors.grey.withOpacity(0.6),
+                                      BlendMode.srcATop,
+                                    ),
+                                    child: SvgPicture.asset(
+                                      "lib/images/fav_list.svg",
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // onPressed handler
+                                  },
+                                ),
+                              ),
+                            )
                           ],
                         ),
                         const SizedBox(
@@ -143,24 +171,26 @@ class HomeComponent extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
                                   SvgPicture.asset(
                                     "lib/images/Location.svg",
-                                    width: 24,
-                                    height: 24,
+                                    width: 22,
+                                    height: 22,
                                   ),
                                   const Text(
                                     " Tekergat, Sunamgnj",
                                     style: TextStyle(
-                                        color: Color(
-                                          0xFF7D848D,
-                                        ),
-                                        fontSize: 18),
-                                  )
+                                      color: Color(
+                                        0xFF7D848D,
+                                      ),
+                                      fontSize: 17,
+                                    ),
+                                  ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),
