@@ -85,7 +85,8 @@ class HomeComponent extends StatelessWidget {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.only(
+                        top: 10, right: 10, left: 10, bottom: 20),
                     child: Container(
                       width: 300,
                       margin: const EdgeInsets.only(right: 25.0),
@@ -95,15 +96,15 @@ class HomeComponent extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                               color: Colors.grey.withOpacity(0.08),
-                              spreadRadius: 3,
-                              blurRadius: 10,
-                              offset: const Offset(4, 4))
+                              spreadRadius: 2,
+                              blurRadius: 7,
+                              offset: const Offset(0, 7))
                         ],
                       ),
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: Stack(
                               children: [
                                 Container(
@@ -153,11 +154,8 @@ class HomeComponent extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
                           const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -188,7 +186,7 @@ class HomeComponent extends StatelessWidget {
                           ),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
