@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -24,12 +23,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         centerTitle:
             true, // Đặt thuộc tính centerTitle thành true để căn giữa tiêu đề
-        title: Text('Profile'), // Tiêu đề của AppBar
+        title: const Text('Profile'), // Tiêu đề của AppBar
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
             child: IconButton(
-              icon: Icon(Icons.edit), // Icon cho nút sửa thông tin
+              icon: const Icon(Icons.edit), // Icon cho nút sửa thông tin
               onPressed: () {
                 // Xử lý khi nút được nhấn
               },
@@ -47,20 +46,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 120,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image(
+                    child: const Image(
                       image: AssetImage('lib/images/dinosaur.png'),
                     ),
                   )),
               const SizedBox(height: 10),
-              Text(
+              const Text(
                 'Tên người dùng',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text(
+              const Text(
                 'Email',
                 style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment:
                     MainAxisAlignment.spaceEvenly, // Để căn giữa các cột
@@ -70,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       height: 50,
                       alignment: Alignment.center,
-                      child: Column(
+                      child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -99,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       height: 50,
                       alignment: Alignment.center,
-                      child: Column(
+                      child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -128,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Container(
                       height: 50,
                       alignment: Alignment.center,
-                      child: Column(
+                      child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -150,16 +149,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               //Menu
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 75,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             ImageIcon(
                               AssetImage('lib/images/user.png'),
@@ -172,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         IconButton(
-                          icon: Icon(Icons.navigate_next),
+                          icon: const Icon(Icons.navigate_next),
                           onPressed: () {
                             // Xử lý khi nút được nhấn để điều hướng sang trang khác
                           },
@@ -181,12 +180,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const Divider(),
-                  Container(
+                  SizedBox(
                     height: 75,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             ImageIcon(
                               AssetImage('lib/images/bookmark-white.png'),
@@ -199,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         IconButton(
-                          icon: Icon(Icons.navigate_next),
+                          icon: const Icon(Icons.navigate_next),
                           onPressed: () {
                             // Xử lý khi nút được nhấn để điều hướng sang trang khác
                           },
@@ -208,12 +207,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const Divider(),
-                  Container(
+                  SizedBox(
                     height: 75,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             ImageIcon(
                               AssetImage('lib/images/airplane.png'),
@@ -226,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         IconButton(
-                          icon: Icon(Icons.navigate_next),
+                          icon: const Icon(Icons.navigate_next),
                           onPressed: () {
                             // Xử lý khi nút được nhấn để điều hướng sang trang khác
                           },
@@ -235,12 +234,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const Divider(),
-                  Container(
+                  SizedBox(
                     height: 75,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             ImageIcon(
                               AssetImage('lib/images/settings.png'),
@@ -253,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         IconButton(
-                          icon: Icon(Icons.navigate_next),
+                          icon: const Icon(Icons.navigate_next),
                           onPressed: () {
                             // Xử lý khi nút được nhấn để điều hướng sang trang khác
                           },
@@ -262,12 +261,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const Divider(),
-                  Container(
+                  SizedBox(
                     height: 75,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             ImageIcon(
                               AssetImage('lib/images/merge.png'),
@@ -280,7 +279,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         IconButton(
-                          icon: Icon(Icons.navigate_next),
+                          icon: const Icon(Icons.navigate_next),
                           onPressed: () {
                             // Xử lý khi nút được nhấn để điều hướng sang trang khác
                           },

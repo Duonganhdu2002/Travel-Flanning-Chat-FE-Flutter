@@ -10,7 +10,7 @@ class NotificationIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: const Color(0xFFF7F7F9),
         borderRadius: BorderRadius.circular(40),
       ),
       child: Padding(

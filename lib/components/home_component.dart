@@ -85,7 +85,7 @@ class HomeComponent extends StatelessWidget {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Container(
                       width: 300,
                       margin: const EdgeInsets.only(right: 25.0),
@@ -94,66 +94,70 @@ class HomeComponent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.grey.withOpacity(0.1),
+                              color: Colors.grey.withOpacity(0.08),
                               spreadRadius: 3,
-                              blurRadius: 5,
+                              blurRadius: 10,
                               offset: const Offset(4, 4))
                         ],
                       ),
                       child: Column(
                         children: [
-                          Stack(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
-                                    "lib/images/image1.png",
-                                    width: double.infinity,
-                                    height: 380,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 12,
-                                right: 12,
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: double.infinity,
                                   decoration: BoxDecoration(
-                                      color: const Color(0xFF1B1E28)
-                                          .withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(40)),
-                                  child: IconButton(
-                                    icon: ImageFiltered(
-                                      imageFilter: ColorFilter.mode(
-                                        Colors.grey.withOpacity(0.6),
-                                        BlendMode.srcATop,
-                                      ),
-                                      child: SvgPicture.asset(
-                                        "lib/images/fav_list.svg",
-                                        width: 24,
-                                        height: 24,
-                                      ),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.asset(
+                                      "lib/images/image1.png",
+                                      width: double.infinity,
+                                      height: 340,
+                                      fit: BoxFit.cover,
                                     ),
-                                    onPressed: () {
-                                      // onPressed handler
-                                    },
                                   ),
                                 ),
-                              )
-                            ],
+                                Positioned(
+                                  top: 12,
+                                  right: 12,
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xFF1B1E28)
+                                            .withOpacity(0.3),
+                                        borderRadius:
+                                            BorderRadius.circular(40)),
+                                    child: IconButton(
+                                      icon: ImageFiltered(
+                                        imageFilter: ColorFilter.mode(
+                                          Colors.grey.withOpacity(0.6),
+                                          BlendMode.srcATop,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "lib/images/fav_list.svg",
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        // onPressed handler
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                           const SizedBox(
-                            height: 15,
+                            height: 10,
                           ),
                           const Padding(
-                            padding: EdgeInsets.all(10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -179,9 +183,12 @@ class HomeComponent extends StatelessWidget {
                               ],
                             ),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                                const EdgeInsets.symmetric(horizontal: 15.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
