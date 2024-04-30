@@ -14,7 +14,18 @@ class CustomBottomBar extends StatelessWidget {
       height: 100,
       child: Stack(
         children: [
-          Positioned.fill(
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 15,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
             child: SvgPicture.asset(
               'lib/images/nav_bottom.svg',
               height: 100,

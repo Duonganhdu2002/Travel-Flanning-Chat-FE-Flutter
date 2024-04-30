@@ -13,8 +13,8 @@ class HomeComponent extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
+        decoration: const BoxDecoration(
+          color: Color(0xFFFFFFFF),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,10 +85,13 @@ class HomeComponent extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: items.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    width: 300,
-                    margin: const EdgeInsets.only(right: 25.0),
-                    decoration: BoxDecoration(
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, right: 10, left: 10, bottom: 20),
+                    child: Container(
+                      width: 300,
+                      margin: const EdgeInsets.only(right: 25.0),
+                      decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20)),
                     child: Column(
@@ -143,22 +146,15 @@ class HomeComponent extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                      // Khi nhan vao thi chuyen qua Detail Page
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const DetailsPage()),
-                            );
-                          },
-                          child: const Row(
+                        const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 "Niladri Reservoir",
-                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold),
                               ),
                               Row(
                                 children: [
@@ -176,8 +172,6 @@ class HomeComponent extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
@@ -185,7 +179,6 @@ class HomeComponent extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  
                                   SvgPicture.asset(
                                     "lib/images/Location.svg",
                                     width: 22,

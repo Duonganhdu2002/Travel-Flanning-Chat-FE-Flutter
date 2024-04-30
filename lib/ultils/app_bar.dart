@@ -12,7 +12,7 @@ class CustomBar extends StatelessWidget implements PreferredSizeWidget {
     this.leftWidget,
     this.centerWidget,
     this.rightWidget,
-    this.backgroundColor = const Color(0xFFF5F5F5),
+    this.backgroundColor = const Color(0xFFFFFFFF),
     this.isTransparent = false,
   });
 

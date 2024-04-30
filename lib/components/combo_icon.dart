@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class BackIcon extends StatelessWidget {
-  const BackIcon({super.key});
+class ComboIcon extends StatelessWidget {
+  const ComboIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +18,12 @@ class BackIcon extends StatelessWidget {
               imageFilter:
                   const ColorFilter.mode(Colors.black12, BlendMode.srcATop),
               child: SvgPicture.asset(
-                "lib/images/direction_left.svg",
+                "lib/images/combo.svg",
                 width: 16,
                 height: 16,
               ),
             ),
-            onPressed: () {
-              if (Navigator.of(context).canPop()) {
-                Navigator.of(context).pop();
-              } else {
-                // Trang hiện tại là trang gốc, không thực hiện pop
-              }
-            },
+            onPressed: () {},
           )
         ],
       ),
