@@ -41,13 +41,13 @@ class _CheckAuthState extends State with WidgetsBindingObserver {
   void checkLoginStatus() async {
     bool isLoggedIn = await SharedService.isLoggedIn();
     if (isLoggedIn) {
-      Navigator.pushReplacement(
-        context,
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } else {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const OnBordingPage()));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const OnBordingPage()),
+      );
     }
   }
 

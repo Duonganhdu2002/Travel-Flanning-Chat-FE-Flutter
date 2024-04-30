@@ -22,16 +22,14 @@ class CustomBottomBar extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.1),
                   spreadRadius: 3,
                   blurRadius: 15,
-                  offset: const Offset(0, -2), // Điều chỉnh vị trí của bóng
+                  offset: const Offset(0, -2),
                 ),
               ],
             ),
-            child: Positioned.fill(
-              child: SvgPicture.asset(
-                'lib/images/nav_bottom.svg',
-                height: 100,
-                fit: BoxFit.cover,
-              ),
+            child: SvgPicture.asset(
+              'lib/images/nav_bottom.svg',
+              height: 100,
+              fit: BoxFit.cover,
             ),
           ),
           Row(

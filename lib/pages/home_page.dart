@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/back_icon.dart';
+import 'package:flutter_app/components/combo_icon.dart';
 import 'package:flutter_app/components/home_component.dart';
 import 'package:flutter_app/components/image_username.dart';
+import 'package:flutter_app/components/message.dart';
 import 'package:flutter_app/components/notification_icon.dart';
 import 'package:flutter_app/components/profile.dart';
 import 'package:flutter_app/ultils/app_bar.dart';
@@ -25,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     const HomeComponent(),
     const Text("Calendar"),
     const Text("Messages"),
-    const Text("Seacrh"),
+    const MessageComponent(),
     const ProfileUser(),
   ];
 
@@ -68,8 +71,12 @@ class _HomePageState extends State<HomePage> {
         );
       case 3:
         return const CustomBar(
-          leftWidget: ImageUsername(),
-          rightWidget: NotificationIcon(notificationExistence: true),
+          leftWidget: BackIcon(),
+          centerWidget: Text(
+            "Messages",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          rightWidget: ComboIcon(),
         );
       case 4:
         return const CustomBar(

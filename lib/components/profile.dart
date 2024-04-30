@@ -284,7 +284,7 @@ class ProfileUser extends StatelessWidget {
                       Color(0xFF7D848D), BlendMode.srcATop),
                   child: SvgPicture.asset(
                     "lib/images/next.svg",
-                    height: 20,
+                    height: 16,
                   ),
                 ),
               ),
