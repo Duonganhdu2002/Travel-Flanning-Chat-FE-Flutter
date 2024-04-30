@@ -35,6 +35,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   "Details",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+                rightWidget: Text("               "),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35,
