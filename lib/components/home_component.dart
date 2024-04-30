@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeComponent extends StatelessWidget {
@@ -142,15 +143,22 @@ class HomeComponent extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
+                      // Khi nhan vao thi chuyen qua Detail Page
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const DetailsPage()),
+                            );
+                          },
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 "Niladri Reservoir",
-                                style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
+                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                               ),
                               Row(
                                 children: [
@@ -168,6 +176,8 @@ class HomeComponent extends StatelessWidget {
                             ],
                           ),
                         ),
+                      ),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
@@ -175,6 +185,7 @@ class HomeComponent extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
+                                  
                                   SvgPicture.asset(
                                     "lib/images/Location.svg",
                                     width: 22,
