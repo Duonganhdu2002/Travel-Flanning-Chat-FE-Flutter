@@ -200,6 +200,7 @@ class HomeComponent extends StatelessWidget {
                         ),
                       ],
                     ),
+                  )
                   );
                 },
               ),
