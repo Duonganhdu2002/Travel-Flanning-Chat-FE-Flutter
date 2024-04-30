@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCustomBar(selected),
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color(0xFFFFFFFF),
       bottomNavigationBar: CustomBottomBar(
         onTabChange: (index) => navigateBottomBar(index),
         selectedIndex: selected,
