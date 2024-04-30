@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/combo_icon.dart';
 import 'package:flutter_app/components/home_component.dart';
 import 'package:flutter_app/components/image_username.dart';
@@ -71,7 +70,10 @@ class _HomePageState extends State<HomePage> {
         );
       case 3:
         return const CustomBar(
-          leftWidget: BackIcon(),
+          leftWidget: Text(
+            "          ",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           centerWidget: Text(
             "Messages",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
