@@ -78,7 +78,6 @@ class _HomePageState extends State<HomePage> {
             "Messages",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          centerWidget2: Text("data"),
           rightWidget: ComboIcon(),
         );
       case 4:
