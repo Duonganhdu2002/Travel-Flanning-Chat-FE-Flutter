@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/home_component.dart';
 import 'package:flutter_app/components/image_username.dart';
 import 'package:flutter_app/components/notification_icon.dart';
+import 'package:flutter_app/components/profile.dart';
 import 'package:flutter_app/ultils/app_bar.dart';
 import 'package:flutter_app/ultils/nav_bar.dart';
 
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     const Text("Calendar"),
     const Text("Messages"),
     const Text("Seacrh"),
-    const Text("Profile"),
+    const ProfileUser(),
   ];
 
   @override
@@ -51,7 +51,10 @@ class _HomePageState extends State<HomePage> {
         );
       case 1:
         return const CustomBar(
-          leftWidget: BackIcon(),
+          leftWidget: Text(
+            "          ",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           centerWidget: Text(
             "Schedule",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -70,8 +73,10 @@ class _HomePageState extends State<HomePage> {
         );
       case 4:
         return const CustomBar(
-          leftWidget: ImageUsername(),
-          rightWidget: NotificationIcon(notificationExistence: true),
+          centerWidget: Text(
+            "Profile",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         );
       default:
         return const CustomBar(
