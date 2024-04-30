@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/edit_profile.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileUser extends StatelessWidget {
   const ProfileUser({super.key});
+
+  void changeWidgets(BuildContext context, Widget newWidget) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => newWidget),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +210,7 @@ class ProfileUser extends StatelessWidget {
                             "lib/images/User.svg",
                             "Profile",
                             () {
-                              // Xử lý hành động khi hình ảnh được nhấn vào
+                              changeWidgets(context, const EditProfile());
                             },
                           ),
                           itemColumnList(
@@ -250,36 +258,36 @@ class ProfileUser extends StatelessWidget {
   }
 
   Widget itemColumnList(String iconName, String itemName, Function() onTap) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: 30,
-                    child: ImageFiltered(
-                      imageFilter: const ColorFilter.mode(
-                          Color(0xFF7D848D), BlendMode.srcATop),
-                      child: SvgPicture.asset(
-                        iconName,
-                        width: 28,
-                        height: 28,
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 30,
+                      child: ImageFiltered(
+                        imageFilter: const ColorFilter.mode(
+                            Color(0xFF7D848D), BlendMode.srcATop),
+                        child: SvgPicture.asset(
+                          iconName,
+                          width: 28,
+                          height: 28,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(itemName),
-                ],
-              ),
-              GestureDetector(
-                onTap: onTap,
-                child: ImageFiltered(
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(itemName),
+                  ],
+                ),
+                ImageFiltered(
                   imageFilter: const ColorFilter.mode(
                       Color(0xFF7D848D), BlendMode.srcATop),
                   child: SvgPicture.asset(
@@ -287,18 +295,18 @@ class ProfileUser extends StatelessWidget {
                     height: 16,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        SizedBox(
-          height: 2,
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(color: Colors.grey[100]),
+          SizedBox(
+            height: 2,
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(color: Colors.grey[100]),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
