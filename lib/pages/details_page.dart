@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/components/back_icon.dart';
-import 'package:flutter_app/models/content_model.dart';
 import 'package:flutter_app/ultils/app_bar.dart';
 import 'package:readmore/readmore.dart';
 
