@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
             "          ",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          centerWidget: Text(
+          centerWidget1: Text(
             "Schedule",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
@@ -74,15 +74,16 @@ class _HomePageState extends State<HomePage> {
             "          ",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          centerWidget: Text(
+          centerWidget1: Text(
             "Messages",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
+          centerWidget2: Text("data"),
           rightWidget: ComboIcon(),
         );
       case 4:
         return const CustomBar(
-          centerWidget: Text(
+          centerWidget1: Text(
             "Profile",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),

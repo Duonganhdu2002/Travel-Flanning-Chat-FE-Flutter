@@ -31,7 +31,7 @@ class _DetailsPageState extends State<DetailsPage> {
               const CustomBar(
                 isTransparent: true,
                 leftWidget: BackIcon(),
-                centerWidget: Text(
+                centerWidget1: Text(
                   "Details",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),

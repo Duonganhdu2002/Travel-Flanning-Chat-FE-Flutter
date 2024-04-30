@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class CustomBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leftWidget;
-  final Widget? centerWidget;
+  final Widget? centerWidget1;
+  final Widget? centerWidget2;
   final Widget? rightWidget;
   final Color? backgroundColor;
   final bool isTransparent;
@@ -10,7 +11,8 @@ class CustomBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomBar({
     super.key,
     this.leftWidget,
-    this.centerWidget,
+    this.centerWidget1,
+    this.centerWidget2,
     this.rightWidget,
     this.backgroundColor = const Color(0xFFFFFFFF),
     this.isTransparent = false,
@@ -28,7 +30,15 @@ class CustomBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             leftWidget ?? const SizedBox(),
-            centerWidget ?? const SizedBox(),
+            if (centerWidget2 == null)
+              centerWidget1 ?? const SizedBox()
+            else
+              Column(
+                children: [
+                  centerWidget1 ?? const SizedBox(),
+                  centerWidget2 ?? const SizedBox(),
+                ],
+              ),
             rightWidget ?? const SizedBox(),
           ],
         ),
