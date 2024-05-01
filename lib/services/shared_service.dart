@@ -51,4 +51,30 @@ class SharedService {
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
+
+  static Future<void> updateUser(LoginResponseModel updatedModel) async {
+    var isKeyExist =
+        await APICacheManager().isAPICacheKeyExist("login_details");
+
+    if (isKeyExist) {
+      var cacheData = await APICacheManager().getCacheData("login_details");
+
+      // Parse dữ liệu cache thành đối tượng LoginResponseModel
+      LoginResponseModel currentModel = loginResponseJson(cacheData.syncData);
+
+      // Cập nhật thông tin mới vào đối tượng LoginResponseModel
+      currentModel.fullname = updatedModel.fullname;
+      currentModel.email = updatedModel.email;
+      currentModel.location = updatedModel.location;
+      currentModel.phone = updatedModel.phone;
+
+      // Cập nhật cache với thông tin mới
+      String updatedData = jsonEncode(currentModel.toJson());
+      APICacheDBModel updatedCache = APICacheDBModel(
+        key: "login_details",
+        syncData: updatedData,
+      );
+      await APICacheManager().addCacheData(updatedCache);
+    }
+  }
 }
