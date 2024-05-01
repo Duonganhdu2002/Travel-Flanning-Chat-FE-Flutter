@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/components/combo_icon.dart';
 import 'package:flutter_app/components/home_component.dart';
 import 'package:flutter_app/components/image_username.dart';
+import 'package:flutter_app/components/logout_icon.dart';
 import 'package:flutter_app/components/message.dart';
 import 'package:flutter_app/components/notification_icon.dart';
 import 'package:flutter_app/components/profile.dart';
@@ -86,6 +87,7 @@ class _HomePageState extends State<HomePage> {
             "Profile",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
+          rightWidget: LogoutComponent(),
         );
       default:
         return const CustomBar(

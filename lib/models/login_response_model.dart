@@ -5,31 +5,44 @@ LoginResponseModel loginResponseJson(String str) =>
 
 class LoginResponseModel {
   String? id;
+  String? fullname;
   String? username;
   String? email;
+  String? location;
+  String? phone;
   List<String>? roles;
-  String? accessToken;
 
-  LoginResponseModel(
-      {this.id, this.username, this.email, this.roles, this.accessToken});
+  LoginResponseModel({
+    this.id,
+    this.username,
+    this.fullname,
+    this.email,
+    this.location,
+    this.roles,
+    this.phone,
+  });
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
       id: json['id'],
+      fullname: json['fullname'] ?? "",
       username: json['username'],
       email: json['email'],
+      phone: json['phone'] ?? "",
+      location: json["location"] ?? "",
       roles: List<String>.from(json['roles'] ?? []),
-      accessToken: json['accessToken'],
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {
       'id': id,
+      'fullname': fullname,
       'username': username,
       'email': email,
+      'phone': phone,
+      'location': location,
       'roles': roles,
-      'accessToken': accessToken,
     };
     return data;
   }

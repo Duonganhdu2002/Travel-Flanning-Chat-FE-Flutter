@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_request_model.dart';
 import 'package:flutter_app/models/login_response_model.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_app/models/register_request_model.dart';
 import 'package:flutter_app/models/register_response_model.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class APIService {
   // Send request to server. It recive object containing data
@@ -22,16 +22,16 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
-    debugPrint('____________________________________________');
-    debugPrint('Response status code: ${response.statusCode}');
-    debugPrint('Response body: ${response.body}');
-
     if (response.statusCode == 200) {
+      // Parse the response body to get the token string
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+      String accessToken = responseData['accessToken'];
+      Map<String, dynamic> tokenData = JwtDecoder.decode(accessToken);
+      // Process the decoded token data as needed
       await SharedService.setLoginDetails(
-        loginResponseJson(
-          response.body,
-        ),
+        loginResponseJson(jsonEncode(tokenData)),
       );
+
       return true;
     } else {
       return false;
@@ -53,28 +53,5 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
     return registerResponseJson(response.body);
-  }
-
-  static Future<String> getUserProfile() async {
-    var loginDetails = await SharedService.loginDetails();
-
-    Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
-      'x-access-token': '${loginDetails!.accessToken}',
-    };
-
-    var url = Uri.parse(
-        '${Config.apiURL}${Config.userProfileAPI}/${loginDetails.id}');
-
-    var response = await http.get(
-      url,
-      headers: requestHeaders,
-    );
-
-    if (response.statusCode == 200) {
-      return response.body;
-    } else {
-      return "";
-    }
   }
 }

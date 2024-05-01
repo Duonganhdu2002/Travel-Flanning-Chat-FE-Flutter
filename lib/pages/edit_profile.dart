@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/back_icon.dart';
+import 'package:flutter_app/models/login_response_model.dart';
+import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_app/ultils/app_bar.dart';
 
 class EditProfile extends StatefulWidget {
@@ -10,6 +12,37 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  LoginResponseModel? loginDetails;
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLoginDetails();
+  }
+
+  void _loadLoginDetails() async {
+    loginDetails = await SharedService.loginDetails();
+    fullNameController.text = loginDetails?.fullname ?? "";
+    emailController.text = loginDetails?.email ?? "";
+    locationController.text = loginDetails?.location ?? "";
+    phoneController.text = loginDetails?.phone ?? "";
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    // Giải phóng bộ nhớ cho các TextEditingController
+    fullNameController.dispose();
+    emailController.dispose();
+    locationController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,40 +94,44 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                   children: [
                     customTextField(
-                        "Full Name",
-                        const Color(0xFFF7F7F9),
-                        true,
-                        BorderSide.none,
-                        BorderRadius.circular(14),
-                        "Leonardo",
-                        true),
+                      "Full Name",
+                      const Color(0xFFF7F7F9),
+                      true,
+                      BorderSide.none,
+                      BorderRadius.circular(14),
+                      fullNameController,
+                      true,
+                    ),
                     customTextField(
-                        "Email",
-                        const Color(0xFFF7F7F9),
-                        true,
-                        BorderSide.none,
-                        BorderRadius.circular(14),
-                        "Leonardo",
-                        true),
+                      "Email",
+                      const Color(0xFFF7F7F9),
+                      true,
+                      BorderSide.none,
+                      BorderRadius.circular(14),
+                      emailController,
+                      true,
+                    ),
                     customTextField(
-                        "Location",
-                        const Color(0xFFF7F7F9),
-                        true,
-                        BorderSide.none,
-                        BorderRadius.circular(14),
-                        "Leonardo",
-                        true),
+                      "Location",
+                      const Color(0xFFF7F7F9),
+                      true,
+                      BorderSide.none,
+                      BorderRadius.circular(14),
+                      locationController,
+                      true,
+                    ),
                     customTextField(
-                        "Mobile Number",
-                        const Color(0xFFF7F7F9),
-                        true,
-                        BorderSide.none,
-                        BorderRadius.circular(14),
-                        "Leonardo",
-                        false),
+                      "Mobile Number",
+                      const Color(0xFFF7F7F9),
+                      true,
+                      BorderSide.none,
+                      BorderRadius.circular(14),
+                      phoneController,
+                      false,
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -108,7 +145,7 @@ class _EditProfileState extends State<EditProfile> {
       bool filled,
       BorderSide borderSide,
       BorderRadius borderRadius,
-      String hintText,
+      TextEditingController controller,
       bool isCorrect) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,6 +158,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         TextFormField(
+          controller: controller,
           decoration: InputDecoration(
             filled: filled,
             fillColor: color,
@@ -128,7 +166,6 @@ class _EditProfileState extends State<EditProfile> {
               borderSide: borderSide,
               borderRadius: borderRadius,
             ),
-            hintText: hintText,
             suffixIcon: Icon(
               Icons.check,
               color: isCorrect ? Colors.green : Colors.red,
