@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_request_model.dart';
 import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/models/register_request_model.dart';
 import 'package:flutter_app/models/register_response_model.dart';
+import 'package:flutter_app/models/update_request_model.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -22,6 +24,10 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
+    debugPrint('------------------------------------------------------');
+    debugPrint('Error updating user: ${response.statusCode}');
+    debugPrint('Error updating user: ${response.body}');
+
     if (response.statusCode == 200) {
       // Parse the response body to get the token string
       Map<String, dynamic> responseData = jsonDecode(response.body);
@@ -31,6 +37,8 @@ class APIService {
       await SharedService.setLoginDetails(
         loginResponseJson(jsonEncode(tokenData)),
       );
+
+      debugPrint('Error updating user: $tokenData');
 
       return true;
     } else {
@@ -53,5 +61,35 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
     return registerResponseJson(response.body);
+  }
+
+  // Send a request to update user information
+  static Future<bool> updateUser(UpdateUserRequestModel model) async {
+    try {
+      final url = Uri.parse('${Config.apiURL}${Config.updateUserApi}');
+
+      debugPrint('Error updating user: $url');
+
+      final response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(model.toJson()),
+      );
+
+      debugPrint('------------------------------------------------------');
+      debugPrint('Error updating user: ${response.statusCode}');
+      debugPrint('Error updating user: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Error updating user: $e');
+      return false;
+    }
   }
 }
