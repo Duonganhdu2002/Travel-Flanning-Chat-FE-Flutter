@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  bottom_bar_with_sheet:
-    dependency: "direct main"
-    description:
-      name: bottom_bar_with_sheet
-      sha256: c9a43e90cb6886d1e012be661693a8b847d1b1879c81176b74d72a29eb4bf644
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.0"
   characters:
     dependency: transitive
     description:
@@ -89,14 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
-  curved_labeled_navigation_bar:
-    dependency: "direct main"
-    description:
-      name: curved_labeled_navigation_bar
-      sha256: "2404496badcadcb94b6bd0d3a49bfa11a7b952c41c1b2ab917ec8d1450d132e9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   fake_async:
     dependency: transitive
     description:
@@ -209,13 +193,13 @@ packages:
     source: hosted
     version: "4.0.2"
   image_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_picker
-      sha256: fe9ee64ccb8d599a5dfb0e21cc6652232c610bcf667af4e79b9eb175cc30a7a5
+      sha256: "33974eca2e87e8b4e3727f1b94fa3abcb25afe80b6bc2c4d449a0e150aedf720"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   image_picker_android:
     dependency: transitive
     description:

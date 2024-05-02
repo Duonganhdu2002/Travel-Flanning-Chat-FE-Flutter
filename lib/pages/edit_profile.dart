@@ -1,14 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/back_icon.dart';
-import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_response_model.dart';
-import 'package:flutter_app/models/update_request_model.dart';
-import 'package:flutter_app/services/api_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
-import 'package:flutter_app/ultils/app_bar.dart';
-import 'package:snippet_coder_utils/FormHelper.dart';
+import 'package:flutter_app/components/app_bar.dart';
+import 'package:flutter_app/services/user_service.dart';
+import 'package:flutter_app/ultils/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -18,6 +20,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  Uint8List? imagePicker;
   LoginResponseModel? loginDetails;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -48,64 +51,25 @@ class _EditProfileState extends State<EditProfile> {
     super.dispose();
   }
 
-  void _updateUser() async {
-    // Lấy thông tin mới từ các trường nhập liệu
-    String newFullName = fullNameController.text;
-    String newEmail = emailController.text;
-    String newLocation = locationController.text;
-    String newPhone = phoneController.text;
-
-    // Tạo một đối tượng UpdateUserRequestModel mới
-    UpdateUserRequestModel model = UpdateUserRequestModel(
-      id: loginDetails?.id,
-      fullname: newFullName,
-      email: newEmail,
-      location: newLocation,
-      phone: newPhone,
+  void _updateUser(BuildContext context) {
+    UserService.updateUser(
+      loginDetails,
+      fullNameController,
+      emailController,
+      locationController,
+      phoneController,
+      context,
     );
+  }
 
-    // Gửi yêu cầu cập nhật thông tin người dùng lên máy chủ
-    bool updateSuccess = await APIService.updateUser(model);
-
-    if (updateSuccess) {
-      // Tạo một đối tượng LoginResponseModel từ UpdateUserRequestModel
-      LoginResponseModel loginModel = LoginResponseModel(
-        id: loginDetails?.id,
-        fullname: newFullName,
-        email: newEmail,
-        location: newLocation,
-        phone: newPhone,
-      );
-
-      // Gọi hàm updateUser để cập nhật dữ liệu trong cache
-      await SharedService.updateUser(loginModel);
-
-      // Gọi setState để rebuild giao diện với dữ liệu mới
-      setState(() {});
-
-      // Nếu cập nhật thành công, hiển thị thông báo hoặc thực hiện các hành động khác
-      // Ví dụ: Hiển thị thông báo cập nhật thành công
-      FormHelper.showSimpleAlertDialog(
-        context,
-        Config.appName,
-        "User details updated successfully",
-        "OK",
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+  void _selectImage() async {
+    Uint8List? img = await pickCustomImage(ImageSource.gallery);
+    if (img != null) {
+      setState(() {
+        imagePicker = img;
+      });
     } else {
-      // Nếu cập nhật không thành công, hiển thị thông báo hoặc thực hiện các hành động khác
-      // Ví dụ: Hiển thị thông báo cập nhật không thành công
-      FormHelper.showSimpleAlertDialog(
-        context,
-        Config.appName,
-        "Update fail",
-        "OK",
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+      // Xử lý trường hợp không chọn được ảnh
     }
   }
 
@@ -113,7 +77,6 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     String? avatar = loginDetails?.avatar;
     String? fullname = loginDetails?.fullname;
-
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -124,7 +87,7 @@ class _EditProfileState extends State<EditProfile> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         rightWidget: InkWell(
-          onTap: _updateUser,
+          onTap: () => _updateUser(context),
           child: const Text(
             "Done",
             style: TextStyle(
@@ -139,16 +102,25 @@ class _EditProfileState extends State<EditProfile> {
             children: [
               Column(
                 children: [
-                  ClipOval(
-                    child: Image.asset(
-                      avatar != null
-                          ? 'lib/images/${loginDetails?.avatar}'
-                          : 'lib/images/User_img.png',
-                      width: 120,
+                  if (imagePicker != null)
+                    SizedBox(
                       height: 120,
-                      fit: BoxFit.cover,
+                      width: 120,
+                      child: CircleAvatar(
+                        backgroundImage: MemoryImage(imagePicker!),
+                      ),
+                    )
+                  else
+                    ClipOval(
+                      child: Image.asset(
+                        avatar != null
+                            ? 'lib/images/${loginDetails?.avatar}'
+                            : 'lib/images/User_img.png',
+                        width: 120,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -159,9 +131,12 @@ class _EditProfileState extends State<EditProfile> {
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  const Text(
-                    "Change Profile Picture",
-                    style: TextStyle(fontSize: 18, color: Colors.amber),
+                  InkWell(
+                    onTap: _selectImage,
+                    child: const Text(
+                      "Change Profile Picture",
+                      style: TextStyle(fontSize: 18, color: Colors.amber),
+                    ),
                   ),
                   const SizedBox(
                     height: 30,

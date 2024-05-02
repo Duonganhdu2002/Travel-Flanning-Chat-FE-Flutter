@@ -6,8 +6,8 @@ import 'package:flutter_app/components/logout_icon.dart';
 import 'package:flutter_app/components/message.dart';
 import 'package:flutter_app/components/notification_icon.dart';
 import 'package:flutter_app/components/profile.dart';
-import 'package:flutter_app/ultils/app_bar.dart';
-import 'package:flutter_app/ultils/nav_bar.dart';
+import 'package:flutter_app/components/app_bar.dart';
+import 'package:flutter_app/components/nav_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

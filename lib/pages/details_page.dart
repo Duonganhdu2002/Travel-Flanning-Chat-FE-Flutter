@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/back_icon.dart';
-import 'package:flutter_app/ultils/app_bar.dart';
+import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
 
