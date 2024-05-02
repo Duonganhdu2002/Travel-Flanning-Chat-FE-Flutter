@@ -9,7 +9,6 @@ import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/services/user_service.dart';
-import 'package:flutter_app/ultils/image_picker.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
@@ -51,8 +50,8 @@ class _EditProfileState extends State<EditProfile> {
     super.dispose();
   }
 
-  void _updateUser(BuildContext context) {
-    UserService.updateUser(
+  void _updateUser(BuildContext context) async {
+    await UserService.updateUser(
       loginDetails,
       fullNameController,
       emailController,
@@ -60,10 +59,14 @@ class _EditProfileState extends State<EditProfile> {
       phoneController,
       context,
     );
+
+    // Refresh login details
+    _loadLoginDetails();
   }
 
-  void _selectImage() async {
-    Uint8List? img = await pickCustomImage(ImageSource.gallery);
+  void _selectImage(BuildContext context) async {
+    Uint8List? img =
+        await UserService.pickCustomImage(ImageSource.gallery, context);
     if (img != null) {
       setState(() {
         imagePicker = img;
@@ -132,7 +135,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   InkWell(
-                    onTap: _selectImage,
+                    onTap: () => _selectImage(context),
                     child: const Text(
                       "Change Profile Picture",
                       style: TextStyle(fontSize: 18, color: Colors.amber),

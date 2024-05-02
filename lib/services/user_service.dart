@@ -7,9 +7,12 @@ import 'package:flutter_app/models/update_request_model.dart';
 import 'package:flutter_app/services/api_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
+import 'dart:typed_data';
+import 'package:image_picker/image_picker.dart';
 
 class UserService {
-  
+  static bool isImagePickerActive = false;
+
   static Future<void> updateUser(
       LoginResponseModel? loginDetails,
       TextEditingController fullNameController,
@@ -70,6 +73,32 @@ class UserService {
           Navigator.of(context).pop();
         },
       );
+    }
+  }
+
+  static Future<Uint8List?> pickCustomImage(
+    ImageSource source,
+    BuildContext context,
+  ) async {
+    if (isImagePickerActive) {
+      return null;
+    }
+
+    isImagePickerActive = true;
+
+    try {
+      final ImagePicker imagePicker = ImagePicker();
+      XFile? file = await imagePicker.pickImage(source: source);
+      if (file != null) {
+        return await file.readAsBytes();
+      } else {
+        debugPrint("No image selected!");
+        return null;
+      }
+    } catch (e) {
+      return null;
+    } finally {
+      isImagePickerActive = false;
     }
   }
 }
