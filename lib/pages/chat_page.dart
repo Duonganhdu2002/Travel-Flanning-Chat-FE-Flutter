@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/app_bar.dart';
+import 'package:flutter_app/components/back_icon.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -11,7 +13,13 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.amber,
+      appBar: CustomBar(
+        leftWidget: BackIcon(),
+        centerWidget1: Text("Aloha"),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        ),
     );
   }
 }

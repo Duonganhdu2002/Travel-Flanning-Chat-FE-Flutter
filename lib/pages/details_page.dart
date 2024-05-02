@@ -44,13 +44,13 @@ class _DetailsPageState extends State<DetailsPage> {
           DraggableScrollableSheet(
                 initialChildSize: 0.5,
                 minChildSize: 0.5,
-                maxChildSize: 0.8,
+                maxChildSize: 1,
                 builder: (BuildContext context, ScrollController scrollController) {
                   return Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(50),
+                      borderRadius: BorderRadius.circular(38),
                     ),
                     child:  Padding(
                       padding: const EdgeInsets.all(20),
@@ -253,7 +253,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,7 +269,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                   height: 10,
                                 ),
                                 const ReadMoreText(
-                                  "You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC , You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC. You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC , You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC. You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC , You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC. You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC , You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC. You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC , You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC. You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC , You will get a complete travel package on the beaches. Packages in the form of airline tickets, recommended Hotel rooms, Transportation, Have you ever been on holiday to the Greek ETC.",
+                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
                                   trimMode: TrimMode.Line,
                                   trimLines: 3,
                                   colorClickableText: Colors.deepOrangeAccent,
@@ -277,7 +277,64 @@ class _DetailsPageState extends State<DetailsPage> {
                                   trimExpandedText: "Show Less",
                                 ),
                                 const SizedBox(
-                                  height: 40,
+                                  height: 10,
+                                ),
+                                 const Text(
+                                  'About Eating',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF1B1E28),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const ReadMoreText(
+                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                                  trimMode: TrimMode.Line,
+                                  trimLines: 3,
+                                  colorClickableText: Colors.deepOrangeAccent,
+                                  trimCollapsedText: "Read More",
+                                  trimExpandedText: "Show Less",
+                                ),
+                                 const Text(
+                                  'About Playing',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF1B1E28),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const ReadMoreText(
+                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                                  trimMode: TrimMode.Line,
+                                  trimLines: 3,
+                                  colorClickableText: Colors.deepOrangeAccent,
+                                  trimCollapsedText: "Read More",
+                                  trimExpandedText: "Show Less",
+                                ),
+                                 const Text(
+                                  'About Staying',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF1B1E28),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const ReadMoreText(
+                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                                  trimMode: TrimMode.Line,
+                                  trimLines: 3,
+                                  colorClickableText: Colors.deepOrangeAccent,
+                                  trimCollapsedText: "Read More",
+                                  trimExpandedText: "Show Less",
+                                ),
+                                const SizedBox(
+                                  height: 10,
                                 ),
                                 ElevatedButton(
                                   onPressed: () {},

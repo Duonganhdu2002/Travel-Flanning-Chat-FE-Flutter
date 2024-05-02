@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/chat_page.dart';
 import 'package:flutter_app/pages/home_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -105,7 +106,7 @@ class MessageComponent extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const ChatPage()),
           );
         },
         child: Row(
