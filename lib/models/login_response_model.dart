@@ -10,6 +10,7 @@ class LoginResponseModel {
   String? email;
   String? location;
   String? phone;
+  String? avatar;
   List<String>? roles;
 
   LoginResponseModel({
@@ -18,6 +19,7 @@ class LoginResponseModel {
     this.fullname,
     this.email,
     this.location,
+    this.avatar,
     this.roles,
     this.phone,
   });
@@ -30,6 +32,7 @@ class LoginResponseModel {
       email: json['email'],
       phone: json['phone'] ?? "",
       location: json["location"] ?? "",
+      avatar: json["avatar"] ?? "",
       roles: List<String>.from(json['roles'] ?? []),
     );
   }
@@ -42,6 +45,7 @@ class LoginResponseModel {
       'email': email,
       'phone': phone,
       'location': location,
+      'avatar': avatar,
       'roles': roles,
     };
     return data;

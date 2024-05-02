@@ -111,6 +111,9 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    String? avatar = loginDetails?.avatar;
+    String? fullname = loginDetails?.fullname;
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -138,17 +141,19 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      'lib/images/image1.png',
+                      avatar != null
+                          ? 'lib/images/${loginDetails?.avatar}'
+                          : 'lib/images/User_img.png',
                       width: 120,
                       height: 120,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Leonardo",
-                      style: TextStyle(
+                      fullname ?? '',
+                      style: const TextStyle(
                           color: Color(0xFF1B1E28),
                           fontSize: 28,
                           fontWeight: FontWeight.w400),

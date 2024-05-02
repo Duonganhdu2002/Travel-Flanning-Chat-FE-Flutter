@@ -24,6 +24,10 @@ class APIService {
       body: jsonEncode(model.toJson()),
     );
 
+    debugPrint('------------------------------------------------------');
+    debugPrint('Error updating user: ${response.statusCode}');
+    debugPrint('Error updating user: ${response.body}');
+
     if (response.statusCode == 200) {
       // Parse the response body to get the token string
       Map<String, dynamic> responseData = jsonDecode(response.body);
@@ -33,6 +37,8 @@ class APIService {
       await SharedService.setLoginDetails(
         loginResponseJson(jsonEncode(tokenData)),
       );
+
+      debugPrint('Error updating user: $tokenData');
 
       return true;
     } else {
