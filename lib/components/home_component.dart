@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/details_page.dart';
+import 'package:flutter_app/pages/popular_places.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeComponent extends StatelessWidget {
@@ -57,24 +58,35 @@ class HomeComponent extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "Best Destination",
                   style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text(
-                  "View all",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.amber,
-                    fontWeight: FontWeight.w500,
+                 GestureDetector(
+                  onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PopularPlacesPage(),
+                          ),
+                        );
+                  },
+                  child: Text(
+                    "View all",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.amber,
+                        fontWeight: FontWeight.w500,
+                      ),
                   ),
                 ),
+                
               ],
             ),
             const SizedBox(
