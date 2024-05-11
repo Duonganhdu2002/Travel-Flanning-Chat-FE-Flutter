@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/components/app_bar.dart';
@@ -48,14 +49,154 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
             Expanded(
               child: GridView.builder(
                 itemCount: 10,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), 
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, 
+                  mainAxisExtent: 320,
+                  ), 
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    
+                    padding: const EdgeInsets.all(12.0),
                     child: Container(
-                      width: 50,
-                      height: 50,
-                      color: Colors.blue,
+                      width: 300,
+                      margin: const EdgeInsets.only(right: 1.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: const Offset(4, 4)
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.asset(
+                                      "lib/images/Detail_img4.jpg",
+                                      width: double.infinity,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 9,
+                                  right: 9, 
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF1B1E28)
+                                          .withOpacity(0.3),
+                                      borderRadius:
+                                        BorderRadius.circular(40)
+                                    ),
+                                    child: IconButton(
+                                      icon: const Icon(Icons.favorite_outline_outlined, color: Colors.white,
+                                      ), 
+                                      iconSize: 18,
+                                      onPressed: () { 
+
+                                       },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("Casa Las Tirtugas",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.location_on_outlined),
+                                Text("Casa Las Tirtugas",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF7D848D),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.star,color: Colors.yellow,),
+                                Icon(Icons.star,color: Colors.yellow,),
+                                Icon(Icons.star,color: Colors.yellow,),
+                                
+                                Text("4.8",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(Icons.attach_money,),
+                                Text("857/Persons",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF7D848D),
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
