@@ -77,7 +77,7 @@ class HomeComponent extends StatelessWidget {
                           ),
                         );
                   },
-                  child: Text(
+                  child: const Text(
                     "View all",
                       style: TextStyle(
                         fontSize: 16,
