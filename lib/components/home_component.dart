@@ -58,7 +58,7 @@ class HomeComponent extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
@@ -68,25 +68,24 @@ class HomeComponent extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                 GestureDetector(
+                GestureDetector(
                   onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PopularPlacesPage(),
-                          ),
-                        );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PopularPlacesPage(),
+                      ),
+                    );
                   },
                   child: const Text(
                     "View all",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.amber,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.amber,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-                
               ],
             ),
             const SizedBox(

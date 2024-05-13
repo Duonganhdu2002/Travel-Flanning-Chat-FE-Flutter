@@ -1,7 +1,4 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/back_icon.dart';
 
@@ -15,198 +12,193 @@ class PopularPlacesPage extends StatefulWidget {
 class _PopularPlacesPageState extends State<PopularPlacesPage> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const CustomBar(
         isTransparent: false,
         leftWidget: BackIcon(),
         centerWidget1: Text(
           "Popular Places",
-          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         rightWidget: Text("               "),
       ),
-      
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             const SizedBox(
-              height: 20,
+            const SizedBox(
+              height: 15,
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                 Text(
-                  "All Popular Places",
-                  style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold
-                  ),
-                 )
-              ],
-            ),   
+            const Text(
+              "All Popular Places",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             Expanded(
               child: GridView.builder(
-                itemCount: 10,
+                itemCount: 8,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, 
+                  crossAxisCount: 2,
                   mainAxisExtent: 320,
-                  ), 
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                ),
                 itemBuilder: (context, index) {
-                  return Padding(
-                    
-                    padding: const EdgeInsets.all(12.0),
-                    child: Container(
-                      width: 300,
-                      margin: const EdgeInsets.only(right: 1.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: const Offset(4, 4)
-                          )
-                        ],
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.07),
+                          spreadRadius: 5,
+                          blurRadius: 9,
+                          offset: const Offset(-4, 8),
+                        )
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 20,
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.asset(
-                                      "lib/images/Detail_img4.jpg",
-                                      width: double.infinity,
-                                      height: 120,
-                                      fit: BoxFit.cover,
-                                    ),
+                          Stack(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.asset(
+                                    "lib/images/Detail_img4.jpg",
+                                    width: double.infinity,
+                                    height: 140,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                Positioned(
-                                  top: 9,
-                                  right: 9, 
-                                  child: Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF1B1E28)
-                                          .withOpacity(0.3),
-                                      borderRadius:
-                                        BorderRadius.circular(40)
-                                    ),
-                                    child: IconButton(
-                                      icon: const Icon(Icons.favorite_outline_outlined, color: Colors.white,
-                                      ), 
-                                      iconSize: 18,
-                                      onPressed: () { 
-
-                                       },
-                                    ),
+                              ),
+                              Positioned(
+                                top: 9,
+                                right: 9,
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF1B1E28)
+                                        .withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
-                                )
-                              ],
-                            ),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.favorite_outline_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    iconSize: 18,
+                                    onPressed: () {},
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 15,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("Casa Las Tirtugas",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                
-                              ],
+                          const Text(
+                            "Casa Las ",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              overflow: TextOverflow.ellipsis,
                             ),
+                            maxLines: 1,
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(Icons.location_on_outlined),
-                                Text("Casa Las Tirtugas",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF7D848D),
-                                  ),
+                          const Row(
+                            children: [
+                              Icon(
+                                Icons.location_on_outlined,
+                                size: 20,
+                              ),
+                              Text(
+                                "Casa Las Tirtugas",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Color(0xFF7D848D),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 8,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(Icons.star,color: Colors.yellow,),
-                                Icon(Icons.star,color: Colors.yellow,),
-                                Icon(Icons.star,color: Colors.yellow,),
-                                
-                                Text("4.8",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                          const Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                                size: 18,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                                size: 18,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                                size: 18,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "4.8",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
-                            height: 8,
+                            height: 12,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(Icons.attach_money,),
-                                Text("857/Persons",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF7D848D),
-                                    fontWeight: FontWeight.bold
-                                  ),
+                          const Row(
+                            children: [
+                              Icon(
+                                Icons.attach_money,
+                                size: 18,
+                              ),
+                              Text(
+                                "857/Persons",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF7D848D),
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   );
                 },
-              )
-            )
+              ),
+            ),
           ],
         ),
       ),
-      
-        
     );
   }
 }

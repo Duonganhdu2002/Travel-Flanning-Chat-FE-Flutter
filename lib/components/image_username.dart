@@ -1,8 +1,29 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/login_response_model.dart';
+import 'package:flutter_app/services/shared_service.dart';
 
-class ImageUsername extends StatelessWidget {
+class ImageUsername extends StatefulWidget {
   const ImageUsername({super.key});
+
+  @override
+  State<ImageUsername> createState() => _ImageUsernameState();
+}
+
+class _ImageUsernameState extends State<ImageUsername> {
+  LoginResponseModel? loginDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLoginDetails();
+  }
+
+  void _loadLoginDetails() async {
+    final details = await SharedService.loginDetails();
+    setState(() {
+      loginDetails = details;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +48,7 @@ class ImageUsername extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
+            Text('Hi ${loginDetails?.username ?? 'Loading...'}'),
           ],
         ),
       ),
