@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/chat_page.dart';
+import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MessageComponent extends StatelessWidget {
@@ -8,8 +9,10 @@ class MessageComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        
         child: Column(
           children: [
             const SizedBox(
@@ -25,14 +28,23 @@ class MessageComponent extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                ImageFiltered(
-                  imageFilter: const ColorFilter.mode(
-                      Color(0xFF1B1E28), BlendMode.srcATop),
-                  child: SvgPicture.asset(
-                    "lib/images/writer.svg",
-                    height: 24,
-                  ),
-                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context, MaterialPageRoute(builder: (context)=> const DetailsPage(),));
+                  },
+                  style:   ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white70,
+                  ), 
+                  
+                  child: ImageFiltered(
+                    imageFilter: const ColorFilter.mode(
+                        Color(0xFF1B1E28), BlendMode.srcATop),
+                    child: SvgPicture.asset(
+                      "lib/images/writer.svg",
+                      height: 24,
+                    ),
+                  ),),
               ],
             ),
             const SizedBox(
