@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class TextInput extends StatelessWidget {
-  const TextInput({super.key});
+class TextInput extends StatefulWidget {
+  final Function(String) onSendMessage;
+
+  const TextInput({super.key, required this.onSendMessage});
+
+  @override
+  State<TextInput> createState() => _TextInputState();
+}
+
+class _TextInputState extends State<TextInput> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _sendMessage() {
+    if (_controller.text.isNotEmpty) {
+      widget.onSendMessage(_controller.text);
+      _controller.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +38,18 @@ class TextInput extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Type you message',
+                        controller: _controller,
+                        decoration: const InputDecoration(
+                          hintText: 'Type your message',
                           hintStyle: TextStyle(
                               color: Color(0xFF7D848D),
                               fontSize: 17,
                               fontWeight: FontWeight.w400),
                           border: InputBorder.none,
                         ),
+                        onSubmitted: (_) => _sendMessage(),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -70,9 +88,7 @@ class TextInput extends StatelessWidget {
                         height: 24,
                       ),
                     ),
-                    onPressed: () {
-                      //
-                    },
+                    onPressed: _sendMessage,
                   )
                 ],
               ),
