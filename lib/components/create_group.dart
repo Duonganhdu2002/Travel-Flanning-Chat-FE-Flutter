@@ -89,42 +89,45 @@ class _CreateGroupState extends State<CreateGroup> {
 
                     return Padding(
                       padding: const EdgeInsets.only(right: 15.0),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              friend.imagePath,
-                              width: 60,
-                              height: 60,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(40),
+                      child: SizedBox(
+                        width: 70,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(40),
+                              child: Image.asset(
+                                friend.imagePath,
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.cover,
                               ),
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                icon: SvgPicture.asset(
-                                  "lib/images/delete.svg",
-                                  width: 16,
-                                  height: 16,
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(40),
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    selectedFriends.removeAt(index);
-                                  });
-                                },
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: SvgPicture.asset(
+                                    "lib/images/delete.svg",
+                                    width: 16,
+                                    height: 16,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedFriends.removeAt(index);
+                                    });
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -148,8 +151,8 @@ class _CreateGroupState extends State<CreateGroup> {
                       onTap: () => toggleSelection(friend.userId),
                       child: Row(
                         children: [
-                          SizedBox(
-                            width: 60,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(40),
                             child: Image.asset(
                               friend.imagePath,
                               width: 60,
@@ -185,13 +188,14 @@ class _CreateGroupState extends State<CreateGroup> {
                                 width: 2,
                               ),
                               color: isSelected
-                                  ? Colors.blueAccent
+                                  ? const Color(0xFFFFD521)
                                   : Colors.transparent,
                             ),
                             child: isSelected
                                 ? const Icon(
                                     Icons.check,
                                     color: Colors.white,
+                                    size: 18,
                                   )
                                 : null,
                           ),
