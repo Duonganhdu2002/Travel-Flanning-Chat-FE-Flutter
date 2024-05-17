@@ -116,6 +116,8 @@ class CreateMessage extends StatelessWidget {
                   "lib/images/User_img.png",
                   "Tom Liebt Dich",
                 ),
+                itemGroupMessage(context, "lib/images/User_img.png","lib/images/User_img.png",
+                    "Group name", "Nanh, Wyd Anh Du, Tom")
               ],
             ))
           ],
@@ -179,6 +181,107 @@ class CreateMessage extends StatelessWidget {
                         ),
                       ],
                     ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget itemGroupMessage(
+    BuildContext context,
+    String userImage,
+    String friendImage,
+    String groupName,
+    String membersName,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 25.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DetailsPage()),
+          );
+        },
+        child: Row(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: Stack(children: [
+                      Positioned(
+                        child: SizedBox(
+                          width: 55,
+                          child: Image.asset(
+                            userImage,
+                            width: 55,
+                            height: 55,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 20,
+                        left: 20,
+                        child: SizedBox(
+                          width: 40,
+                          child: Container(
+                            decoration:  BoxDecoration(
+                              border: Border.all( color: Colors.white70),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Image.asset(
+                              friendImage,
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              groupName,
+                              style: const TextStyle(
+                                  color: Color(0xFF1B1E28),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const ImageFiltered(
+                              imageFilter: ColorFilter.mode(
+                                Color(0xFF7D848D),
+                                BlendMode.srcATop,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          membersName,
+                          style: const TextStyle(color: Color(0xFF7D848D)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SvgPicture.asset(
+                    "lib/images/RightArrow.svg",
                   )
                 ],
               ),
