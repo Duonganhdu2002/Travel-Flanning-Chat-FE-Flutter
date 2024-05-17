@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/create_message.dart';
+import 'package:flutter_app/components/search_input.dart';
 import 'package:flutter_app/pages/chat_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,42 +50,7 @@ class MessageComponent extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF7F7F9),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Row(
-                children: [
-                  ImageFiltered(
-                    imageFilter: const ColorFilter.mode(
-                      Color(0xFF7D848D),
-                      BlendMode.srcATop,
-                    ),
-                    child: SvgPicture.asset(
-                      "lib/images/Search.svg",
-                      width: 28,
-                      height: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search for chats & messages',
-                        hintStyle: TextStyle(
-                            color: Color(0xFF7D848D),
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const SearchInput(),
             const SizedBox(
               height: 20,
             ),
