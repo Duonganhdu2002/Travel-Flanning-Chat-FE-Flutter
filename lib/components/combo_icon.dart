@@ -4,16 +4,29 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ComboIcon extends StatelessWidget {
   const ComboIcon({super.key});
 
+  void _onSelected(BuildContext context, String choice) {
+    switch (choice) {
+      case "1":
+        // Handle thêm bạn action here
+        break;
+      case '2':
+        // Handle xem danh sách nhóm action here
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.grey[100],
         borderRadius: BorderRadius.circular(40),
       ),
       child: Stack(
         children: [
-          IconButton(
+          PopupMenuButton<String>(
+            color: Colors.white,
+            shadowColor: Colors.grey[50],
             icon: ImageFiltered(
               imageFilter:
                   const ColorFilter.mode(Colors.black12, BlendMode.srcATop),
@@ -23,8 +36,34 @@ class ComboIcon extends StatelessWidget {
                 height: 16,
               ),
             ),
-            onPressed: () {},
-          )
+            onSelected: (String choice) {
+              _onSelected(context, choice);
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem<String>(
+                  value: '1',
+                  child: Row(
+                    children: [
+                      Icon(Icons.person_add),
+                      SizedBox(width: 8),
+                      Text('List friend'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: '2',
+                  child: Row(
+                    children: [
+                      Icon(Icons.group),
+                      SizedBox(width: 8),
+                      Text('List group'),
+                    ],
+                  ),
+                ),
+              ];
+            },
+          ),
         ],
       ),
     );

@@ -28,7 +28,7 @@ class CreateMessage extends StatelessWidget {
           children: [
             const SearchInput(),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             InkWell(
               onTap: () {
@@ -88,38 +88,43 @@ class CreateMessage extends StatelessWidget {
             ),
             const Text(
               "Suggested",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             Expanded(
-                child: ListView(
-              children: [
-                itemMessage(
-                  context,
-                  "lib/images/User_img.png",
-                  "Tom Liebt Dich",
-                ),
-                itemMessage(
-                  context,
-                  "lib/images/User_img.png",
-                  "Tom Liebt Dich",
-                ),
-                itemMessage(
-                  context,
-                  "lib/images/User_img.png",
-                  "Tom Liebt Dich",
-                ),
-                itemMessage(
-                  context,
-                  "lib/images/User_img.png",
-                  "Tom Liebt Dich",
-                ),
-                itemGroupMessage(context, "lib/images/User_img.png","lib/images/User_img.png",
-                    "Group name", "Nanh, Wyd Anh Du, Tom")
-              ],
-            ))
+              child: ListView(
+                children: [
+                  itemMessage(
+                    context,
+                    "lib/images/User_img.png",
+                    "Tom Liebt Dich",
+                  ),
+                  itemMessage(
+                    context,
+                    "lib/images/User_img.png",
+                    "Tom Liebt Dich",
+                  ),
+                  itemMessage(
+                    context,
+                    "lib/images/User_img.png",
+                    "Tom Liebt Dich",
+                  ),
+                  itemMessage(
+                    context,
+                    "lib/images/User_img.png",
+                    "Tom Liebt Dich",
+                  ),
+                  itemGroupMessage(
+                      context,
+                      "lib/images/User_img.png",
+                      "lib/images/User_img.png",
+                      "Group name",
+                      "Nanh, Wyd Anh Du, Tom")
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -168,7 +173,7 @@ class CreateMessage extends StatelessWidget {
                               nameUser,
                               style: const TextStyle(
                                   color: Color(0xFF1B1E28),
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w500),
                             ),
                             const ImageFiltered(
@@ -233,8 +238,8 @@ class CreateMessage extends StatelessWidget {
                         child: SizedBox(
                           width: 40,
                           child: Container(
-                            decoration:  BoxDecoration(
-                              border: Border.all( color: Colors.white70),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white70),
                               borderRadius: BorderRadius.circular(100),
                             ),
                             child: Image.asset(

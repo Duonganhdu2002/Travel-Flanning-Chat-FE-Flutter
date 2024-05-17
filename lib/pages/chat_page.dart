@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/call_icon.dart';
+import 'package:flutter_app/components/text_input.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -13,8 +14,9 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomBar(
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: const CustomBar(
         leftWidget: BackIcon(),
         centerWidget1: Text("Aloha",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -25,9 +27,27 @@ class _ChatPageState extends State<ChatPage> {
                 color: Colors.green)),
         rightWidget: CallIcon(),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: ListView(
+                  // Add your chat messages here
+                  ),
+            ),
+          ),
+          const SafeArea(
+            child: TextInput(),
+          ),
+        ],
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: ChatPage(),
+  ));
 }
