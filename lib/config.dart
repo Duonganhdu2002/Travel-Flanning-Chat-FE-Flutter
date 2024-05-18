@@ -4,4 +4,5 @@ class Config {
   static const String loginApi = "api/auth/signin";
   static const String registerApi = "api/auth/signup";
   static const String updateUserApi = "api/test/user_update";
+  static const String userList = "api/user/all_user";
 }

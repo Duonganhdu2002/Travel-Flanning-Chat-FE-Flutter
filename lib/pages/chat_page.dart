@@ -39,7 +39,7 @@ class _ChatPageState extends State<ChatPage> {
     socket.connect();
 
     socket.on('connect', (_) {
-      print('connected');
+      debugPrint('connected');
     });
 
     socket.on('message', (data) {

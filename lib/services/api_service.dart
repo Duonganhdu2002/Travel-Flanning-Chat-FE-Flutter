@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:api_cache_manager/api_cache_manager.dart';
+import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_request_model.dart';
@@ -6,11 +8,43 @@ import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/models/register_request_model.dart';
 import 'package:flutter_app/models/register_response_model.dart';
 import 'package:flutter_app/models/update_request_model.dart';
+import 'package:flutter_app/models/user_model.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class APIService {
+  static Future<List<User>> getAllUsers() async {
+    var cacheKey = 'all_users';
+    var url = Uri.parse('${Config.apiURL}${Config.userList}');
+
+    // Check if the data is already cached
+    bool isCacheExist = await APICacheManager().isAPICacheKeyExist(cacheKey);
+
+    if (isCacheExist) {
+      var cacheData = await APICacheManager().getCacheData(cacheKey);
+      return responseAllUsers(cacheData.syncData);
+    } else {
+      var response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json"},
+      );
+
+      if (response.statusCode == 200) {
+        var jsonResponse = response.body;
+        // Cache the response
+        APICacheDBModel cacheModel =
+            APICacheDBModel(key: cacheKey, syncData: jsonResponse);
+        await APICacheManager().addCacheData(cacheModel);
+
+        // Parse and return the response
+        return responseAllUsers(jsonResponse);
+      } else {
+        return [];
+      }
+    }
+  }
+
   // Send request to server. It recive object containing data
   // (User's information to login) from LoginRequestModel.
   static Future<bool?> login(LoginRequestModel model) async {
