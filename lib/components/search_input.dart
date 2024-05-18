@@ -38,6 +38,18 @@ class SearchInput extends StatelessWidget {
                 border: InputBorder.none,
               ),
             ),
+            
+          ),
+          ImageFiltered(
+            imageFilter: const ColorFilter.mode(
+              Color(0xFF7D848D),
+              BlendMode.srcATop,
+            ),
+            child: SvgPicture.asset(
+              "lib/images/RightArrow.svg",
+              width: 28,
+              height: 28,
+            ),
           ),
         ],
       ),

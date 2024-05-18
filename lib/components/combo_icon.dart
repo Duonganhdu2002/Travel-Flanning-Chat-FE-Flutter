@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/add_friend_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ComboIcon extends StatelessWidget {
@@ -7,7 +8,10 @@ class ComboIcon extends StatelessWidget {
   void _onSelected(BuildContext context, String choice) {
     switch (choice) {
       case "1":
-        // Handle thêm bạn action here
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AddFriendPage()),
+        );
         break;
       case '2':
         // Handle xem danh sách nhóm action here
@@ -47,7 +51,7 @@ class ComboIcon extends StatelessWidget {
                     children: [
                       Icon(Icons.person_add),
                       SizedBox(width: 8),
-                      Text('List friend'),
+                      Text('Add friend'),
                     ],
                   ),
                 ),
