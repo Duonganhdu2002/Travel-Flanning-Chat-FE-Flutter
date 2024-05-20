@@ -15,6 +15,22 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class APIService {
   static const String cacheKey = 'all_users';
+  static Future<ResponseWaitingListRequest?> getWaitingList(
+      String userId) async {
+    var url = Uri.parse('${Config.apiURL}${Config.getWaitingListApi}$userId');
+    final response = await http.get(
+      url,
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      return ResponseWaitingListRequest.fromJson(jsonDecode(response.body));
+    } else {
+      debugPrint('Error fetching waiting list: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
+      return null;
+    }
+  }
 
   static Future<ResponseCheckWaitingListStatus?> checkWaitingListStatus(
       String userId1, String userId2) async {
@@ -27,13 +43,11 @@ class APIService {
               .toJson()),
     );
 
-    debugPrint('------------------------------------------------------');
-    debugPrint('Error updating user: ${response.statusCode}');
-    debugPrint('Error updating user: ${response.body}');
-
     if (response.statusCode == 200) {
       return ResponseCheckWaitingListStatus.fromJson(jsonDecode(response.body));
     } else {
+      debugPrint('Error checking waiting list status: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
       return null;
     }
   }
@@ -49,14 +63,11 @@ class APIService {
       body: jsonEncode(request.toJson()),
     );
 
-    debugPrint('------------------------------------------------------');
-    debugPrint('Error updating user: ${response.statusCode}');
-    debugPrint('Error updating user: ${response.body}');
-
     if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      return ResponseFriendSending.fromJson(responseData);
+      return ResponseFriendSending.fromJson(jsonDecode(response.body));
     } else {
+      debugPrint('Error sending friend request: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
       throw Exception('Failed to send friend request');
     }
   }
@@ -71,13 +82,11 @@ class APIService {
           RequestCheckFriend(userId1: userId1, userId2: userId2).toJson()),
     );
 
-    debugPrint('------------------------------------------------------');
-    debugPrint('Error updating user: ${response.statusCode}');
-    debugPrint('Error updating user: ${response.body}');
-
     if (response.statusCode == 200) {
       return ResponseCheckFriend.fromJson(jsonDecode(response.body));
     } else {
+      debugPrint('Error checking friend status: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
       return null;
     }
   }
@@ -96,15 +105,14 @@ class APIService {
     );
 
     if (response.statusCode == 200) {
-      var jsonResponse = response.body;
-      // Parse and return the response
-      return ResponseUserDetail.fromJson(jsonDecode(jsonResponse));
+      return ResponseUserDetail.fromJson(jsonDecode(response.body));
     } else {
+      debugPrint('Error fetching user details: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
       return null;
     }
   }
 
-  // Hàm gọi API và lưu dữ liệu vào cache
   static Future<void> fetchAndCacheAllUsers() async {
     var url = Uri.parse('${Config.apiURL}${Config.userList}');
     var response = await http.get(
@@ -114,16 +122,16 @@ class APIService {
 
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
-      // Cache the response
       APICacheDBModel cacheModel =
           APICacheDBModel(key: cacheKey, syncData: jsonResponse);
       await APICacheManager().addCacheData(cacheModel);
     } else {
+      debugPrint('Error fetching all users: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
       throw Exception('Failed to fetch users from API');
     }
   }
 
-  // Hàm lấy dữ liệu từ cache
   static Future<List<User>> getCachedUsers() async {
     bool isCacheExist = await APICacheManager().isAPICacheKeyExist(cacheKey);
 
@@ -135,80 +143,62 @@ class APIService {
     }
   }
 
-  // Send request to server. It recive object containing data
-  // (User's information to login) from LoginRequestModel.
   static Future<bool?> login(LoginRequestModel model) async {
-    Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
-    };
     var url = Uri.parse('${Config.apiURL}${Config.loginApi}');
     var response = await http.post(
       url,
-      headers: requestHeaders,
+      headers: {'Content-Type': 'application/json'},
       body: jsonEncode(model.toJson()),
     );
 
-    debugPrint('------------------------------------------------------');
-    debugPrint('Error updating user: ${response.statusCode}');
-    debugPrint('Error updating user: ${response.body}');
-
     if (response.statusCode == 200) {
-      // Parse the response body to get the token string
       Map<String, dynamic> responseData = jsonDecode(response.body);
       String accessToken = responseData['accessToken'];
       Map<String, dynamic> tokenData = JwtDecoder.decode(accessToken);
-      // Process the decoded token data as needed
       await SharedService.setLoginDetails(
         loginResponseJson(jsonEncode(tokenData)),
       );
-
-      debugPrint('Error updating user: $tokenData');
-
       return true;
     } else {
+      debugPrint('Error logging in: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
       return false;
     }
   }
 
-  // Send request to server. It recive object containing data
-  // (User's information to register) from LoginRequestModel.
   static Future<RegisterResponseModel> register(
     RegisterRequestModel model,
   ) async {
-    Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
-    };
     var url = Uri.parse('${Config.apiURL}${Config.registerApi}');
     var response = await http.post(
       url,
-      headers: requestHeaders,
+      headers: {'Content-Type': 'application/json'},
       body: jsonEncode(model.toJson()),
     );
-    return registerResponseJson(response.body);
+
+    if (response.statusCode == 200) {
+      return registerResponseJson(response.body);
+    } else {
+      debugPrint('Error registering user: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
+      throw Exception('Failed to register user');
+    }
   }
 
-  // Send a request to update user information
   static Future<bool> updateUser(UpdateUserRequestModel model) async {
     try {
       final url = Uri.parse('${Config.apiURL}${Config.updateUserApi}');
-
-      debugPrint('Error updating user: $url');
-
       final response = await http.patch(
         url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode(model.toJson()),
       );
-
-      debugPrint('------------------------------------------------------');
-      debugPrint('Error updating user: ${response.statusCode}');
-      debugPrint('Error updating user: ${response.body}');
 
       if (response.statusCode == 200) {
         return true;
       } else {
+        debugPrint('Error updating user: ${response.statusCode}');
+        debugPrint('Error body: ${response.body}');
         return false;
       }
     } catch (e) {

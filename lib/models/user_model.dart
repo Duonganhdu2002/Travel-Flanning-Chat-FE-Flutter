@@ -260,3 +260,47 @@ class ResponseCheckWaitingListStatus {
     return data;
   }
 }
+
+class ResponseWaitingListRequest {
+  List<WaitingList>? waitingList;
+
+  ResponseWaitingListRequest({this.waitingList});
+
+  factory ResponseWaitingListRequest.fromJson(Map<String, dynamic> json) {
+    return ResponseWaitingListRequest(
+      waitingList: json['waiting_list'] != null
+          ? (json['waiting_list'] as List)
+              .map((v) => WaitingList.fromJson(v))
+              .toList()
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (waitingList != null)
+        'waiting_list': waitingList!.map((v) => v.toJson()).toList(),
+    };
+  }
+}
+
+class WaitingList {
+  String? sId;
+  String? username;
+
+  WaitingList({this.sId, this.username});
+
+  factory WaitingList.fromJson(Map<String, dynamic> json) {
+    return WaitingList(
+      sId: json['_id'],
+      username: json['username'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': sId,
+      'username': username,
+    };
+  }
+}

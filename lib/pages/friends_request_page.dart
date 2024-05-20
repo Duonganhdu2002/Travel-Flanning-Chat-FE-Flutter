@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
+import 'package:flutter_app/models/login_response_model.dart';
+import 'package:flutter_app/models/user_model.dart';
+import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/shared_service.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class FriendsRequestPage extends StatefulWidget {
   const FriendsRequestPage({super.key});
@@ -9,6 +14,102 @@ class FriendsRequestPage extends StatefulWidget {
 }
 
 class _FriendsRequestPageState extends State<FriendsRequestPage> {
+  io.Socket? socket;
+  List<Map<String, String>> friendRequests = [];
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserIdAndFetchData();
+  }
+
+  void loadUserIdAndFetchData() async {
+    LoginResponseModel? loginResponse = await SharedService.loginDetails();
+    if (loginResponse != null) {
+      userId = loginResponse
+          .id; // Assuming `userId` is a field in LoginResponseModel
+      fetchFriendRequests();
+      connectToSocket();
+    } else {
+      // Handle the case where user is not logged in
+      // You might want to redirect to the login page
+    }
+  }
+
+  void fetchFriendRequests() async {
+    if (userId != null) {
+      ResponseWaitingListRequest? response =
+          await APIService.getWaitingList(userId!);
+      if (response != null && response.waitingList != null) {
+        setState(() {
+          friendRequests = response.waitingList!
+              .map((request) => {
+                    'userId': request.sId ?? 'Unknown',
+                    'username': request.username ?? 'Unknown'
+                  })
+              .toList();
+        });
+      }
+    }
+  }
+
+  void connectToSocket() {
+    socket = io.io('http://10.0.2.2:8080', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+
+    socket?.connect();
+
+    socket?.on('connect', (_) {});
+
+    socket?.on('receive_friend_request', (data) {
+      setState(() {
+        friendRequests.add({
+          'userId': data['senderId'],
+          'username': data['senderUsername'] ?? 'Unknown'
+        });
+      });
+    });
+
+    socket?.on('friend_request_accepted', (data) {
+      // Xử lý logic khi yêu cầu kết bạn được chấp nhận
+    });
+
+    socket?.on('disconnect', (_) {});
+  }
+
+  void acceptFriendRequest(String senderId) {
+    socket?.emit('accept_friend_request', {
+      'senderId': senderId,
+      'receiverId': userId, // Thay thế bằng userId của bạn
+    });
+
+    // Xóa yêu cầu khỏi danh sách hiển thị
+    setState(() {
+      friendRequests.removeWhere((request) => request['userId'] == senderId);
+    });
+  }
+
+  void rejectFriendRequest(String senderId) {
+    socket?.emit('reject_friend_request', {
+      'senderId': senderId,
+      'receiverId': userId, // Thay thế bằng userId của bạn
+    });
+
+    // Xóa yêu cầu khỏi danh sách hiển thị
+    setState(() {
+      friendRequests.removeWhere((request) => request['userId'] == senderId);
+    });
+  }
+
+  @override
+  void dispose() {
+    socket?.disconnect();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,43 +129,25 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 15,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             const Text(
               "Friends request",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             Expanded(
-              child: ListView(
-                children: [
-                  itemMessage(
+              child: ListView.builder(
+                itemCount: friendRequests.length,
+                itemBuilder: (context, index) {
+                  return itemMessage(
                     context,
                     "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                  itemMessage(
-                    context,
-                    "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                  itemMessage(
-                    context,
-                    "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                  itemMessage(
-                    context,
-                    "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                ],
+                    friendRequests[index]['userId']!,
+                    friendRequests[index]
+                        ['username']!, // Hiển thị tên người gửi yêu cầu kết bạn
+                  );
+                },
               ),
             ),
           ],
@@ -76,7 +159,8 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
   Widget itemMessage(
     BuildContext context,
     String pathImage,
-    String nameUser,
+    String senderId,
+    String username,
   ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 25.0),
@@ -94,9 +178,7 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,25 +187,25 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            nameUser,
+                            username,
                             style: const TextStyle(
-                                color: Color(0xFF1B1E28),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          const ImageFiltered(
-                            imageFilter: ColorFilter.mode(
-                              Color(0xFF7D848D),
-                              BlendMode.srcATop,
+                              color: Color(0xFF1B1E28),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(
-                            width: 50,
+                          IconButton(
+                            onPressed: () {
+                              acceptFriendRequest(senderId);
+                            },
+                            icon: const Icon(Icons.done),
                           ),
                           IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.done)),
-                          IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.do_not_disturb))
+                            onPressed: () {
+                              rejectFriendRequest(senderId);
+                            },
+                            icon: const Icon(Icons.do_not_disturb),
+                          ),
                         ],
                       ),
                     ],
