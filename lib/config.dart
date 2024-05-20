@@ -5,5 +5,6 @@ class Config {
   static const String registerApi = "api/auth/signup";
   static const String updateUserApi = "api/test/user_update";
   static const String userList = "api/user/all_user";
+  static const String checkFriend = "api/user/check-friend-status";
   static const String sendFriendRequest = "api/user/send-friend-request";
 }

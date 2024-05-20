@@ -152,3 +152,76 @@ class ResponseUserDetail {
     };
   }
 }
+
+class RequestFriendSending {
+  String? userId1;
+  String? userId2;
+
+  RequestFriendSending({this.userId1, this.userId2});
+
+  RequestFriendSending.fromJson(Map<String, dynamic> json) {
+    userId1 = json['userId1'];
+    userId2 = json['userId2'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId1'] = userId1;
+    data['userId2'] = userId2;
+    return data;
+  }
+}
+
+class ResponseFriendSending {
+  bool? success;
+  bool? result;
+
+  ResponseFriendSending({this.success, this.result});
+
+  ResponseFriendSending.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    result = json['result'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['result'] = result;
+    return data;
+  }
+}
+
+class RequestCheckFriend {
+  String? userId1;
+  String? userId2;
+
+  RequestCheckFriend({this.userId1, this.userId2});
+
+  RequestCheckFriend.fromJson(Map<String, dynamic> json) {
+    userId1 = json['userId1'];
+    userId2 = json['userId2'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId1'] = userId1;
+    data['userId2'] = userId2;
+    return data;
+  }
+}
+
+class ResponseCheckFriend {
+  bool? areFriends;
+
+  ResponseCheckFriend({this.areFriends});
+
+  ResponseCheckFriend.fromJson(Map<String, dynamic> json) {
+    areFriends = json['areFriends'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['areFriends'] = areFriends;
+    return data;
+  }
+}
