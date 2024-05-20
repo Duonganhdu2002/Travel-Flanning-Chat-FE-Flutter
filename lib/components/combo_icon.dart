@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/add_friend_page.dart';
+import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_app/services/api_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,6 +19,14 @@ class ComboIcon extends StatelessWidget {
         break;
       case '2':
         // Handle xem danh sách nhóm action here
+        break;
+      case '3':
+        // Handle xem danh sách nhóm action here
+        Navigator.push(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: (context) => const DetailsPage()),
+        );
         break;
     }
   }
@@ -69,7 +78,7 @@ class ComboIcon extends StatelessWidget {
                   ),
                 ),
                 const PopupMenuItem<String>(
-                  value: '2',
+                  value: '3',
                   child: Row(
                     children: [
                       Icon(Icons.group_add),
