@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           centerWidget1: Text(
-            "Schedule",
+            "Planning",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           rightWidget: NotificationIcon(notificationExistence: false),
