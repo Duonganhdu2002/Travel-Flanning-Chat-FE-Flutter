@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/add_friend_page.dart';
-import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_app/pages/friends_request_page.dart';
 import 'package:flutter_app/services/api_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';

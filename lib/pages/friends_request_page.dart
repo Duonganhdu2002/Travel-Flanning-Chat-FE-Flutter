@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
-import 'package:flutter_app/components/create_group.dart';
-import 'package:flutter_app/components/search_input.dart';
-import 'package:flutter_app/pages/details_page.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class FriendsRequestPage extends StatefulWidget {
   const FriendsRequestPage({super.key});
