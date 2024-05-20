@@ -14,34 +14,58 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class APIService {
-  static Future<List<User>> getAllUsers() async {
-    var cacheKey = 'all_users';
-    var url = Uri.parse('${Config.apiURL}${Config.userList}');
+  static const String cacheKey = 'all_users';
 
-    // Check if the data is already cached
+  static Future<void> removeCache(BuildContext context, String cacheKey) async {
+    await APICacheManager().deleteCache(cacheKey);
+  }
+
+  static Future<ResponseUserDetail?> getUserDetail(
+      BuildContext context, String userId) async {
+    var url = Uri.parse('${Config.apiURL}api/user/user_detail/$userId');
+
+    var response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = response.body;
+      // Parse and return the response
+      return ResponseUserDetail.fromJson(jsonDecode(jsonResponse));
+    } else {
+      return null;
+    }
+  }
+
+  // Hàm gọi API và lưu dữ liệu vào cache
+  static Future<void> fetchAndCacheAllUsers() async {
+    var url = Uri.parse('${Config.apiURL}${Config.userList}');
+    var response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = response.body;
+      // Cache the response
+      APICacheDBModel cacheModel =
+          APICacheDBModel(key: cacheKey, syncData: jsonResponse);
+      await APICacheManager().addCacheData(cacheModel);
+    } else {
+      throw Exception('Failed to fetch users from API');
+    }
+  }
+
+  // Hàm lấy dữ liệu từ cache
+  static Future<List<User>> getCachedUsers() async {
     bool isCacheExist = await APICacheManager().isAPICacheKeyExist(cacheKey);
 
     if (isCacheExist) {
       var cacheData = await APICacheManager().getCacheData(cacheKey);
       return responseAllUsers(cacheData.syncData);
     } else {
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        var jsonResponse = response.body;
-        // Cache the response
-        APICacheDBModel cacheModel =
-            APICacheDBModel(key: cacheKey, syncData: jsonResponse);
-        await APICacheManager().addCacheData(cacheModel);
-
-        // Parse and return the response
-        return responseAllUsers(jsonResponse);
-      } else {
-        return [];
-      }
+      throw Exception('No cached data found');
     }
   }
 

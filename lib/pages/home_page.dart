@@ -8,7 +8,6 @@ import 'package:flutter_app/components/notification_icon.dart';
 import 'package:flutter_app/components/profile.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/nav_bar.dart';
-import 'package:flutter_app/pages/aaaa.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> page = [
     const HomeComponent(),
-    const UserListScreen(),
+    const Text("Messages"),
     const Text("Messages"),
     const MessageComponent(),
     const ProfileUser(),

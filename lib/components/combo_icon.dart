@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/add_friend_page.dart';
+import 'package:flutter_app/services/api_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ComboIcon extends StatelessWidget {
   const ComboIcon({super.key});
 
-  void _onSelected(BuildContext context, String choice) {
+  void _onSelected(BuildContext context, String choice) async {
     switch (choice) {
       case "1":
+        await APIService.fetchAndCacheAllUsers();
         Navigator.push(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const AddFriendPage()),
         );

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
-import 'package:flutter_app/components/search_username.dart';
-import 'package:flutter_app/models/list_friend_suggest_model.dart';
-import 'package:flutter_app/pages/details_page.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/models/user_model.dart';
+import 'package:flutter_app/pages/user_detail_page.dart';
+import 'package:flutter_app/services/api_service.dart';
 
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({super.key});
@@ -13,16 +12,46 @@ class AddFriendPage extends StatefulWidget {
 }
 
 class _AddFriendPageState extends State<AddFriendPage> {
-  List<String> selectedFriends = [];
+  Future<List<User>>? futureUsers;
+  List<User>? allUsers;
+  List<User>? filteredUsers;
+  TextEditingController searchController = TextEditingController();
 
-  void toggleSelection(String friendId) {
-    setState(() {
-      if (selectedFriends.contains(friendId)) {
-        selectedFriends.remove(friendId);
-      } else {
-        selectedFriends.add(friendId);
-      }
+  @override
+  void initState() {
+    super.initState();
+    futureUsers = APIService.getCachedUsers();
+    futureUsers?.then((users) {
+      setState(() {
+        allUsers = users;
+        filteredUsers = []; // Initialize with an empty list
+      });
     });
+    searchController.addListener(() {
+      filterUsers();
+    });
+  }
+
+  void filterUsers() {
+    List<User>? users = allUsers;
+    String query = searchController.text.toLowerCase();
+    if (query.isNotEmpty && users != null) {
+      setState(() {
+        filteredUsers = users.where((user) {
+          return user.username!.toLowerCase().contains(query);
+        }).toList();
+      });
+    } else {
+      setState(() {
+        filteredUsers = [];
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    APIService.removeCache(context, "all_users");
   }
 
   @override
@@ -39,169 +68,107 @@ class _AddFriendPageState extends State<AddFriendPage> {
         ),
         rightWidget: Text("               "),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const DetailsPage()),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFD521), // Background color
-              borderRadius: BorderRadius.circular(12), // BorderRadius
-            ),
-            height: 55,
-            width: double.infinity,
-            child: const Center(
-              child: Text(
-                'Add friend',
-                style: TextStyle(
-                  color: Colors.white, // Text color
-                  fontSize: 17,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
       backgroundColor: const Color(0xFFFFFFFF),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SearchUsername(),
-            const SizedBox(height: 15),
-            if (selectedFriends.isNotEmpty)
-              SizedBox(
-                height: 80,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: selectedFriends.length,
-                  itemBuilder: (context, index) {
-                    final selectedFriendId = selectedFriends[index];
-                    final friend = listFriendSuggestModel.firstWhere(
-                        (friend) => friend.userId == selectedFriendId);
-
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: SizedBox(
-                        width: 70,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(40),
-                              child: Image.asset(
-                                friend.imagePath,
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF7F7F9),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: searchController,
+                            decoration: const InputDecoration(
+                              hintText: 'Search friends name',
+                              hintStyle: TextStyle(
+                                color: Color(0xFF7D848D),
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
                               ),
+                              border: InputBorder.none,
                             ),
-                            Positioned(
-                              right: 0,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  icon: SvgPicture.asset(
-                                    "lib/images/delete.svg",
-                                    width: 16,
-                                    height: 16,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedFriends.removeAt(index);
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                        const SizedBox(width: 10),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            const SizedBox(height: 10),
-            const Text(
-              "Suggested",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ],
             ),
             const SizedBox(height: 15),
             Expanded(
-              child: ListView.builder(
-                itemCount: listFriendSuggestModel.length,
-                itemBuilder: (context, index) {
-                  final friend = listFriendSuggestModel[index];
-                  final isSelected = selectedFriends.contains(friend.userId);
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 25.0),
-                    child: InkWell(
-                      onTap: () => toggleSelection(friend.userId),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(40),
-                            child: Image.asset(
-                              friend.imagePath,
-                              width: 60,
-                              height: 60,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+              child: FutureBuilder<List<User>>(
+                future: futureUsers,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error: ${snapshot.error}"));
+                  } else {
+                    return ListView.builder(
+                      itemCount: filteredUsers!.length,
+                      itemBuilder: (context, index) {
+                        User user = filteredUsers![index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 25.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserDetailPage(
+                                      userId: user.id.toString()),
+                                ),
+                              );
+                            },
+                            child: Row(
                               children: [
-                                Text(
-                                  friend.userName,
-                                  style: const TextStyle(
-                                    color: Color(0xFF1B1E28),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(40),
+                                  child: Image.asset(
+                                    "lib/images/Detail_img4.jpg",
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        user.username ?? "No username",
+                                        style: const TextStyle(
+                                          color: Color(0xFF1B1E28),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Container(
-                            width: 25,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: isSelected
-                                    ? Colors.transparent
-                                    : Colors.grey,
-                                width: 2,
-                              ),
-                              color: isSelected
-                                  ? const Color(0xFFFFD521)
-                                  : Colors.transparent,
-                            ),
-                            child: isSelected
-                                ? const Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                    size: 18,
-                                  )
-                                : null,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ),
