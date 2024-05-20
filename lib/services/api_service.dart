@@ -16,6 +16,50 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class APIService {
   static const String cacheKey = 'all_users';
 
+  static Future<ResponseFriendSending?> sendFriendRequest(
+      RequestFriendSending request) async {
+    var url = Uri.parse('${Config.apiURL}${Config.sendFriendRequest}');
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(request.toJson()),
+    );
+
+    debugPrint('------------------------------------------------------');
+    debugPrint('Error updating user: ${response.statusCode}');
+    debugPrint('Error updating user: ${response.body}');
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      return ResponseFriendSending.fromJson(responseData);
+    } else {
+      throw Exception('Failed to send friend request');
+    }
+  }
+
+  static Future<ResponseCheckFriend?> checkFriendshipStatus(
+      String userId1, String userId2) async {
+    var url = Uri.parse('${Config.apiURL}${Config.checkFriend}');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(
+          RequestCheckFriend(userId1: userId1, userId2: userId2).toJson()),
+    );
+
+    debugPrint('------------------------------------------------------');
+    debugPrint('Error updating user: ${response.statusCode}');
+    debugPrint('Error updating user: ${response.body}');
+
+    if (response.statusCode == 200) {
+      return ResponseCheckFriend.fromJson(jsonDecode(response.body));
+    } else {
+      return null;
+    }
+  }
+
   static Future<void> removeCache(BuildContext context, String cacheKey) async {
     await APICacheManager().deleteCache(cacheKey);
   }
