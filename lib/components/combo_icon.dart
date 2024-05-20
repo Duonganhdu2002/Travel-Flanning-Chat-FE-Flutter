@@ -68,6 +68,16 @@ class ComboIcon extends StatelessWidget {
                     ],
                   ),
                 ),
+                const PopupMenuItem<String>(
+                  value: '2',
+                  child: Row(
+                    children: [
+                      Icon(Icons.group_add),
+                      SizedBox(width: 8),
+                      Text('Friend Requests'),
+                    ],
+                  ),
+                ),
               ];
             },
           ),

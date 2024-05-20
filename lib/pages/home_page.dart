@@ -5,6 +5,7 @@ import 'package:flutter_app/components/image_username.dart';
 import 'package:flutter_app/components/logout_icon.dart';
 import 'package:flutter_app/components/message.dart';
 import 'package:flutter_app/components/notification_icon.dart';
+import 'package:flutter_app/components/planning_component.dart';
 import 'package:flutter_app/components/profile.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/nav_bar.dart';
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> page = [
     const HomeComponent(),
-    const Text("Messages"),
+    const PlanningComponent(),
     const Text("Messages"),
     const MessageComponent(),
     const ProfileUser(),
