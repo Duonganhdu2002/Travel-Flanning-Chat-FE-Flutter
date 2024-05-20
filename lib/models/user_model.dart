@@ -29,19 +29,25 @@ class DataResponseAllUser {
 class User {
   String? id;
   String? username;
+  String? fullname;
   String? email;
+  String? phone;
   List<dynamic>? waitingList;
   List<dynamic>? listFriend;
   List<dynamic>? bookMarkList;
+  List<dynamic>? inviteList;
   List<String>? roles;
 
   User({
     this.id,
     this.username,
+    this.fullname,
     this.email,
+    this.phone,
     this.waitingList,
     this.listFriend,
     this.bookMarkList,
+    this.inviteList,
     this.roles,
   });
 
@@ -49,7 +55,9 @@ class User {
     return User(
       id: json['_id'],
       username: json['username'],
+      fullname: json['fullname'],
       email: json['email'],
+      phone: json['phone'],
       waitingList: json['waiting_list'] != null
           ? List<dynamic>.from(json['waiting_list'])
           : null,
@@ -59,6 +67,9 @@ class User {
       bookMarkList: json['book_mark_list'] != null
           ? List<dynamic>.from(json['book_mark_list'])
           : null,
+      inviteList: json['invite_list'] != null
+          ? List<dynamic>.from(json['invite_list'])
+          : null,
       roles: json['roles'] != null ? List<String>.from(json['roles']) : null,
     );
   }
@@ -67,10 +78,13 @@ class User {
     return {
       '_id': id,
       'username': username,
+      'fullname': fullname,
       'email': email,
+      'phone': phone,
       'waiting_list': waitingList,
       'list_friend': listFriend,
       'book_mark_list': bookMarkList,
+      'invite_list': inviteList,
       'roles': roles,
     };
   }
@@ -80,18 +94,23 @@ class ResponseUserDetail {
   List<dynamic>? waitingList;
   List<dynamic>? listFriend;
   List<dynamic>? bookMarkList;
+  String? phone;
+  String? fullname;
+  List<dynamic>? inviteList;
   String? id;
   String? username;
   String? email;
   List<String>? roles;
-
   ResponseUserDetail({
     this.waitingList,
     this.listFriend,
     this.bookMarkList,
     this.id,
+    this.fullname,
     this.username,
     this.email,
+    this.phone,
+    this.inviteList,
     this.roles,
   });
 
@@ -100,6 +119,8 @@ class ResponseUserDetail {
       id: json['_id'],
       username: json['username'],
       email: json['email'],
+      fullname: json['fullname'],
+      phone: json['phone'],
       waitingList: json['waiting_list'] != null
           ? List<dynamic>.from(json['waiting_list'])
           : null,
@@ -109,6 +130,9 @@ class ResponseUserDetail {
       bookMarkList: json['book_mark_list'] != null
           ? List<dynamic>.from(json['book_mark_list'])
           : null,
+      inviteList: json['invite_list'] != null
+          ? List<dynamic>.from(json['invite_list'])
+          : null,
       roles: json['roles'] != null ? List<String>.from(json['roles']) : null,
     );
   }
@@ -117,10 +141,13 @@ class ResponseUserDetail {
     return {
       '_id': id,
       'username': username,
+      'fullname': fullname,
       'email': email,
+      'phone': phone,
       'waiting_list': waitingList,
       'list_friend': listFriend,
       'book_mark_list': bookMarkList,
+      'invite_list': inviteList,
       'roles': roles,
     };
   }
