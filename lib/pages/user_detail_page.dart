@@ -18,6 +18,7 @@ class UserDetailPage extends StatefulWidget {
 class _UserDetailPageState extends State<UserDetailPage> {
   Future<ResponseUserDetail?>? futureUserDetail;
   bool? areFriends;
+  bool isRequestPending = false;
 
   @override
   void initState() {
@@ -33,6 +34,22 @@ class _UserDetailPageState extends State<UserDetailPage> {
             .then((response) {
           setState(() {
             areFriends = response?.areFriends;
+            if (areFriends == false) {
+              _checkPendingRequest();
+            }
+          });
+        });
+      }
+    });
+  }
+
+  void _checkPendingRequest() {
+    SharedService.loginDetails().then((userInfo) {
+      if (userInfo != null) {
+        APIService.checkWaitingListStatus(userInfo.id.toString(), widget.userId)
+            .then((response) {
+          setState(() {
+            isRequestPending = response?.isInWaitingList ?? false;
           });
         });
       }
@@ -50,12 +67,14 @@ class _UserDetailPageState extends State<UserDetailPage> {
         // Call the API to send the friend request
         APIService.sendFriendRequest(request).then((response) {
           if (response != null && response.success == true) {
+            setState(() {
+              isRequestPending = true;
+            });
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Friend request sent successfully!'),
               ),
             );
-            // Optionally, you can update the UI here after the request is sent successfully.
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -152,8 +171,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
                           ),
                         ),
                         const SizedBox(width: 20),
-                        if (areFriends ==
-                            false) // Only show the add friend button if not friends
+                        if (areFriends == false && !isRequestPending)
                           Container(
                             decoration: BoxDecoration(
                               color: const Color(0xFFFFD521),
@@ -172,6 +190,26 @@ class _UserDetailPageState extends State<UserDetailPage> {
                               onPressed: () {
                                 _sendFriendRequest(userDetail.id.toString());
                               },
+                            ),
+                          ),
+                        if (isRequestPending)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFD521),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: IconButton(
+                              icon: ImageFiltered(
+                                imageFilter: const ColorFilter.mode(
+                                    Colors.white, BlendMode.srcATop),
+                                child: SvgPicture.asset(
+                                  "lib/images/pending-request.svg",
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                              onPressed:
+                                  null, // Disable button when request is pending
                             ),
                           ),
                       ],

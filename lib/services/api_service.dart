@@ -16,6 +16,28 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class APIService {
   static const String cacheKey = 'all_users';
 
+  static Future<ResponseCheckWaitingListStatus?> checkWaitingListStatus(
+      String userId1, String userId2) async {
+    var url = Uri.parse('${Config.apiURL}${Config.checkWaitingListStatus}');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(
+          RequestCheckWaitingListStatus(userId1: userId1, userId2: userId2)
+              .toJson()),
+    );
+
+    debugPrint('------------------------------------------------------');
+    debugPrint('Error updating user: ${response.statusCode}');
+    debugPrint('Error updating user: ${response.body}');
+
+    if (response.statusCode == 200) {
+      return ResponseCheckWaitingListStatus.fromJson(jsonDecode(response.body));
+    } else {
+      return null;
+    }
+  }
+
   static Future<ResponseFriendSending?> sendFriendRequest(
       RequestFriendSending request) async {
     var url = Uri.parse('${Config.apiURL}${Config.sendFriendRequest}');

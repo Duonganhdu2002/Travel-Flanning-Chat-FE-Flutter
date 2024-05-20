@@ -7,4 +7,5 @@ class Config {
   static const String userList = "api/user/all_user";
   static const String checkFriend = "api/user/check-friend-status";
   static const String sendFriendRequest = "api/user/send-friend-request";
+  static const String checkWaitingListStatus = "api/user/check-wating-list";
 }
