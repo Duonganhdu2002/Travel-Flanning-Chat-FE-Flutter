@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/register_request_model.dart';
 import 'package:flutter_app/pages/login_page.dart';
+import 'package:flutter_app/pages/verification_page.dart';
 import 'package:flutter_app/services/api_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
-
-Color textFieldBackgroundColor = const Color(0xFFF7F7F9);
+import 'package:flutter_app/config.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -67,17 +66,21 @@ class _SingUpFormState extends State<SingUpForm> {
             isApiAccess = false;
           });
 
-          if (response.data != null) {
+          if (response.message == "OTP sent to email. Please verify to complete registration.") {
             FormHelper.showSimpleAlertDialog(
               context,
               Config.appName,
-              "Registration Successful. Please login to the account",
+              response.message.toString(),
               "OK",
               () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
+                    builder: (context) => VerificationPage(
+                      email: email,
+                      password: password,
+                      username: username,
+                    ),
                   ),
                 );
               },
@@ -142,7 +145,7 @@ class _SingUpFormState extends State<SingUpForm> {
                       },
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: textFieldBackgroundColor,
+                        fillColor: Colors.grey[100],
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(14.0),
@@ -161,7 +164,7 @@ class _SingUpFormState extends State<SingUpForm> {
                       },
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: textFieldBackgroundColor,
+                        fillColor: Colors.grey[100],
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(14.0),
@@ -180,7 +183,7 @@ class _SingUpFormState extends State<SingUpForm> {
                       },
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: textFieldBackgroundColor,
+                        fillColor: Colors.grey[100],
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(14.0),

@@ -1,6 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/verification_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_app/services/api_service.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -10,6 +12,77 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  void _sendResetInstructions() async {
+    final email = emailController.text;
+    final newPassword = newPasswordController.text;
+    final confirmPassword = confirmPasswordController.text;
+
+    if (newPassword != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Passwords do not match. Please try again."),
+        ),
+      );
+      return;
+    }
+
+    bool success = await APIService.resetPassword(email, newPassword);
+
+    if (success) {
+      showDialog(
+        // ignore: duplicate_ignore
+        // ignore: use_build_context_synchronously
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('lib/images/Icon_checkEmail.png'),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text("Check Your Email"),
+              ],
+            ),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "We have sent password recovery instructions to your email.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                )
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {},
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to reset password. Please try again."),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +126,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -65,60 +139,50 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ),
             const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: TextFormField(
+                controller: newPasswordController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(14.0),
+                  ),
+                  hintText: 'New Password',
+                ),
+                obscureText: true,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: TextFormField(
+                controller: confirmPasswordController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(14.0),
+                  ),
+                  hintText: 'Confirm New Password',
+                ),
+                obscureText: true,
+              ),
+            ),
+            const SizedBox(
               height: 40,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image(
-                              image:
-                                  AssetImage('lib/images/Icon_checkEmail.png'),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text("Check Your Email"),
-                          ],
-                        ),
-                        content: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "We have sent password recovery instructions to your email.",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            )
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const VerificationPage(),
-                                ),
-                              );
-                            },
-                            child: const Text("OK"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
+                onPressed: _sendResetInstructions,
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),

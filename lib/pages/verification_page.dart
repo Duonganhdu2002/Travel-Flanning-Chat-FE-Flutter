@@ -1,17 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/login_page.dart';
+import 'package:flutter_app/services/api_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Color textFieldBackgroundColor = const Color(0xFFF7F7F9);
-
 class VerificationPage extends StatefulWidget {
-  const VerificationPage({super.key});
+  final String email;
+  final String username;
+  final String password;
+
+  const VerificationPage(
+      {required this.email,
+      required this.username,
+      required this.password,
+      super.key});
 
   @override
   State<VerificationPage> createState() => _VerificationPageState();
 }
 
 class _VerificationPageState extends State<VerificationPage> {
+  final TextEditingController otpController = TextEditingController();
+
+  void _verifyOTP() async {
+    final otp = otpController.text;
+
+    if (otp.isNotEmpty) {
+      bool success = await APIService.verifyOTP(
+          widget.email, otp, widget.username, widget.password);
+
+      if (success && mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+        );
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Invalid OTP. Please try again."),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +77,7 @@ class _VerificationPageState extends State<VerificationPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: Text(
-                "Please check your email www.uihut@gmail.com to see the verification code",
+                "Please check your email ${widget.email} to see the verification code",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: 16,
@@ -70,112 +103,39 @@ class _VerificationPageState extends State<VerificationPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    height: 56,
-                    width: 70,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: textFieldBackgroundColor,
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(14)),
-                      ),
-                    ),
+              child: TextField(
+                controller: otpController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  SizedBox(
-                    height: 56,
-                    width: 70,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: textFieldBackgroundColor,
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(14)),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 56,
-                    width: 70,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: textFieldBackgroundColor,
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(14)),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 56,
-                    width: 70,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: textFieldBackgroundColor,
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(14)),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
             const SizedBox(
               height: 40,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.yellow[600],
+                onPressed: _verifyOTP,
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const SizedBox(
-                    width: double.infinity,
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Text("Verify"),
-                      ),
-                    ),
-                  )),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Resend code to",
-                    style: TextStyle(color: Colors.grey),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.yellow[600],
+                ),
+                child: const SizedBox(
+                  width: double.infinity,
+                  height: 56.0,
+                  child: Center(
+                    child: Text("Verify OTP"),
                   ),
-                  Text(
-                    "01:36",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
+                ),
               ),
             ),
           ],

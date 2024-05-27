@@ -9,4 +9,5 @@ class Config {
   static const String sendFriendRequest = "api/user/send-friend-request";
   static const String checkWaitingListStatus = "api/user/check-wating-list";
   static const String getWaitingListApi = "api/user/waiting_list/";
+  static const String otp = "api/auth/verify-otp";
 }

@@ -15,6 +15,68 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class APIService {
   static const String cacheKey = 'all_users';
+
+  static Future<bool> resetPassword(String email, String newPassword) async {
+    var url = Uri.parse('${Config.apiURL}api/auth/forgot-password');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': email,
+        'newPassword': newPassword,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      debugPrint('Error resetting password: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
+      return false;
+    }
+  }
+
+
+  static Future<bool> verifyOTP(String email, String otp, String username, String password) async {
+    var url = Uri.parse('${Config.apiURL}api/auth/verify-signup-otp');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': email,
+        'otp': otp,
+        'username': username,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      debugPrint('Error verifying OTP: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
+      return false;
+    }
+  }
+
+  static Future<Map<String, dynamic>> sendResetOTP(String email) async {
+    var url = Uri.parse('${Config.apiURL}api/auth/send-reset-otp');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email}),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      debugPrint('Error sending OTP: ${response.statusCode}');
+      debugPrint('Error body: ${response.body}');
+      return {};
+    }
+  }
+
+
   static Future<ResponseWaitingListRequest?> getWaitingList(
       String userId) async {
     var url = Uri.parse('${Config.apiURL}${Config.getWaitingListApi}$userId');
@@ -167,8 +229,7 @@ class APIService {
   }
 
   static Future<RegisterResponseModel> register(
-    RegisterRequestModel model,
-  ) async {
+      RegisterRequestModel model) async {
     var url = Uri.parse('${Config.apiURL}${Config.registerApi}');
     var response = await http.post(
       url,
@@ -181,7 +242,7 @@ class APIService {
     } else {
       debugPrint('Error registering user: ${response.statusCode}');
       debugPrint('Error body: ${response.body}');
-      throw Exception('Failed to register user');
+      throw Exception('Failed to register user: ${response.body}');
     }
   }
 
