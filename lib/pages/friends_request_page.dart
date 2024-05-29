@@ -60,6 +60,9 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
     socket?.connect();
 
     socket?.on('connect', (_) {
+      if (userId != null) {
+        socket?.emit('join', userId);
+      }
       debugPrint('connected to websocket');
     });
 
