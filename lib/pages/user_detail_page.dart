@@ -21,96 +21,41 @@ class _UserDetailPageState extends State<UserDetailPage> {
   bool? areFriends;
   bool isRequestPending = false;
   io.Socket? socket;
+  String? currentUserId;
+  String? currentUsername;
 
   @override
   void initState() {
     super.initState();
     futureUserDetail = APIService.getUserDetail(context, widget.userId);
-    _checkFriendStatus();
-    _connectToSocket();
-  }
 
-  void _connectToSocket() {
-    socket = io.io('http://10.0.2.2:8080', <String, dynamic>{
+    // Load current user details from cache
+    _loadCurrentUser();
+
+    // Initialize socket connection
+    socket = io.io('http://localhost:8080', <String, dynamic>{
       'transports': ['websocket'],
-      'autoConnect': false,
     });
 
-    socket?.connect();
+    socket?.on('connect', (_) {
+      print('connected to websocket');
+    });
+
+    socket?.on('receive_friend_request', (data) {
+      print('Friend request received: $data');
+      // Handle friend request received
+    });
 
     socket?.on('disconnect', (_) {
       print('disconnected from websocket');
     });
-
-    socket?.on('receive_friend_request', (data) {
-      setState(() {
-        isRequestPending = true;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Friend request sent successfully!'),
-        ),
-      );
-    });
-
-    socket?.on('friend_request_failed', (data) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to send friend request.'),
-        ),
-      );
-    });
-
-    socket?.on('friend_request_sent', (_) {
-      setState(() {
-        isRequestPending = true;
-      });
-    });
   }
 
-  void _checkFriendStatus() {
-    SharedService.loginDetails().then((userInfo) {
-      if (userInfo != null) {
-        APIService.checkFriendshipStatus(userInfo.id.toString(), widget.userId)
-            .then((response) {
-          setState(() {
-            areFriends = response?.areFriends;
-            if (areFriends == false) {
-              _checkPendingRequest();
-            }
-          });
-        });
-      }
-    });
-  }
-
-  void _checkPendingRequest() {
-    SharedService.loginDetails().then((userInfo) {
-      if (userInfo != null) {
-        APIService.checkWaitingListStatus(userInfo.id.toString(), widget.userId)
-            .then((response) {
-          setState(() {
-            isRequestPending = response?.isInWaitingList ?? false;
-          });
-        });
-      }
-    });
-  }
-
-  void _sendFriendRequest(String receiverId) {
-    SharedService.loginDetails().then((userInfo) {
-      if (userInfo != null) {
-        socket?.emit('send_friend_request', {
-          'senderId': userInfo.id.toString(),
-          'receiverId': receiverId,
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to send friend request. User not logged in.'),
-          ),
-        );
-      }
+  void _loadCurrentUser() async {
+    final details = await SharedService.loginDetails();
+    setState(() {
+      currentUserId = details?.id;
+      currentUsername = details?.fullname;
     });
   }
 
@@ -118,6 +63,18 @@ class _UserDetailPageState extends State<UserDetailPage> {
   void dispose() {
     socket?.disconnect();
     super.dispose();
+  }
+
+  void _sendFriendRequest(String receiverId) {
+    if (currentUserId == null || currentUsername == null) return;
+    setState(() {
+      isRequestPending = true;
+    });
+    socket?.emit('send_friend_request', {
+      'senderId': currentUserId,
+      'receiverId': receiverId,
+      'username': currentUsername,
+    });
   }
 
   @override
