@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/models/login_response_model.dart';
-import 'package:flutter_app/models/user_model.dart';
 import 'package:flutter_app/services/api_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -27,8 +26,7 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
   void loadUserIdAndFetchData() async {
     LoginResponseModel? loginResponse = await SharedService.loginDetails();
     if (loginResponse != null) {
-      userId = loginResponse
-          .id; // Assuming `userId` is a field in LoginResponseModel
+      userId = loginResponse.id;
       fetchFriendRequests();
       connectToSocket();
     } else {
@@ -39,8 +37,7 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
 
   void fetchFriendRequests() async {
     if (userId != null) {
-      ResponseWaitingListRequest? response =
-          await APIService.getWaitingList(userId!);
+      var response = await APIService.getWaitingList(userId!);
       if (response != null && response.waitingList != null) {
         setState(() {
           friendRequests = response.waitingList!
@@ -62,7 +59,9 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
 
     socket?.connect();
 
-    socket?.on('connect', (_) {});
+    socket?.on('connect', (_) {
+      debugPrint('connected to websocket');
+    });
 
     socket?.on('receive_friend_request', (data) {
       setState(() {
@@ -74,34 +73,47 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
     });
 
     socket?.on('friend_request_accepted', (data) {
-      // Xử lý logic khi yêu cầu kết bạn được chấp nhận
+      // Handle logic when friend request is accepted
     });
 
-    socket?.on('disconnect', (_) {});
+    socket?.on('disconnect', (_) {
+      debugPrint('disconnected from websocket');
+    });
+  }
+
+  void sendFriendRequest(String receiverId) {
+    if (userId != null) {
+      socket?.emit('send_friend_request', {
+        'senderId': userId,
+        'receiverId': receiverId,
+      });
+    }
   }
 
   void acceptFriendRequest(String senderId) {
-    socket?.emit('accept_friend_request', {
-      'senderId': senderId,
-      'receiverId': userId, // Thay thế bằng userId của bạn
-    });
+    if (userId != null) {
+      socket?.emit('accept_friend_request', {
+        'senderId': senderId,
+        'receiverId': userId,
+      });
 
-    // Xóa yêu cầu khỏi danh sách hiển thị
-    setState(() {
-      friendRequests.removeWhere((request) => request['userId'] == senderId);
-    });
+      setState(() {
+        friendRequests.removeWhere((request) => request['userId'] == senderId);
+      });
+    }
   }
 
   void rejectFriendRequest(String senderId) {
-    socket?.emit('reject_friend_request', {
-      'senderId': senderId,
-      'receiverId': userId, // Thay thế bằng userId của bạn
-    });
+    if (userId != null) {
+      socket?.emit('reject_friend_request', {
+        'senderId': senderId,
+        'receiverId': userId,
+      });
 
-    // Xóa yêu cầu khỏi danh sách hiển thị
-    setState(() {
-      friendRequests.removeWhere((request) => request['userId'] == senderId);
-    });
+      setState(() {
+        friendRequests.removeWhere((request) => request['userId'] == senderId);
+      });
+    }
   }
 
   @override
@@ -144,8 +156,7 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
                     context,
                     "lib/images/User_img.png",
                     friendRequests[index]['userId']!,
-                    friendRequests[index]
-                        ['username']!, // Hiển thị tên người gửi yêu cầu kết bạn
+                    friendRequests[index]['username']!,
                   );
                 },
               ),
