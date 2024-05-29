@@ -38,15 +38,6 @@ class _UserDetailPageState extends State<UserDetailPage> {
 
     socket?.connect();
 
-    socket?.on('connect', (_) {
-      SharedService.loginDetails().then((userInfo) {
-        if (userInfo != null) {
-          socket?.emit('join', userInfo.id.toString());
-        }
-      });
-      print('connected to websocket');
-    });
-
     socket?.on('disconnect', (_) {
       print('disconnected from websocket');
     });
@@ -68,6 +59,12 @@ class _UserDetailPageState extends State<UserDetailPage> {
           content: Text('Failed to send friend request.'),
         ),
       );
+    });
+
+    socket?.on('friend_request_sent', (_) {
+      setState(() {
+        isRequestPending = true;
+      });
     });
   }
 
