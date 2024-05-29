@@ -38,9 +38,37 @@ class _UserDetailPageState extends State<UserDetailPage> {
 
     socket?.connect();
 
-    socket?.on('connect', (_) {});
+    socket?.on('connect', (_) {
+      SharedService.loginDetails().then((userInfo) {
+        if (userInfo != null) {
+          socket?.emit('join', userInfo.id.toString());
+        }
+      });
+      print('connected to websocket');
+    });
 
-    socket?.on('disconnect', (_) {});
+    socket?.on('disconnect', (_) {
+      print('disconnected from websocket');
+    });
+
+    socket?.on('receive_friend_request', (data) {
+      setState(() {
+        isRequestPending = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Friend request sent successfully!'),
+        ),
+      );
+    });
+
+    socket?.on('friend_request_failed', (data) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to send friend request.'),
+        ),
+      );
+    });
   }
 
   void _checkFriendStatus() {
@@ -78,25 +106,6 @@ class _UserDetailPageState extends State<UserDetailPage> {
         socket?.emit('send_friend_request', {
           'senderId': userInfo.id.toString(),
           'receiverId': receiverId,
-        });
-
-        socket?.on('receive_friend_request', (data) {
-          setState(() {
-            isRequestPending = true;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Friend request sent successfully!'),
-            ),
-          );
-        });
-
-        socket?.on('friend_request_failed', (data) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to send friend request.'),
-            ),
-          );
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
