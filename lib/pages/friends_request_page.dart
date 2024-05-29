@@ -20,14 +20,13 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
   @override
   void initState() {
     super.initState();
-    loadUserIdAndFetchData();
+    loadUserId();
   }
 
-  void loadUserIdAndFetchData() async {
+  void loadUserId() async {
     LoginResponseModel? loginResponse = await SharedService.loginDetails();
     if (loginResponse != null) {
       userId = loginResponse.id;
-      fetchFriendRequests();
       connectToSocket();
     } else {
       // Handle the case where user is not logged in
