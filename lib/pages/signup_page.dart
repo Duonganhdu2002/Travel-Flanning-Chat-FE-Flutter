@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/register_request_model.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import 'package:flutter_app/pages/verification_page.dart';
-import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:flutter_app/config.dart';
@@ -60,7 +60,7 @@ class _SingUpFormState extends State<SingUpForm> {
         password: password,
       );
 
-      APIService.register(model).then(
+      AuthService.register(model).then(
         (response) {
           setState(() {
             isApiAccess = false;

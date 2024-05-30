@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/models/update_request_model.dart';
-import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/auth_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'dart:typed_data';
@@ -36,7 +36,7 @@ class UserService {
     );
 
     // Gửi yêu cầu cập nhật thông tin người dùng lên máy chủ
-    bool updateSuccess = await APIService.updateUser(model);
+    bool updateSuccess = await AuthService.updateUser(model);
 
     if (updateSuccess) {
       // Tạo một đối tượng LoginResponseModel từ UpdateUserRequestModel

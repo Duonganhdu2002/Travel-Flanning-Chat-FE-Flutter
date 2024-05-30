@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:flutter_app/services/friend_service.dart';
+import 'package:flutter_app/services/websocket_service.dart';
+import 'package:flutter_app/services/shared_service.dart';
 
 class FriendsRequestPage extends StatefulWidget {
   const FriendsRequestPage({super.key});
@@ -10,40 +12,106 @@ class FriendsRequestPage extends StatefulWidget {
 }
 
 class _FriendsRequestPageState extends State<FriendsRequestPage> {
-  io.Socket? socket;
+  WebSocketService? webSocketService;
   List<Map<String, String>> friendRequests = [];
+  String? currentUserId;
 
   @override
   void initState() {
     super.initState();
+    _loadCurrentUser();
+  }
 
-    // Initialize socket connection
-    socket = io.io('http://localhost:8080', <String, dynamic>{
-      'transports': ['websocket'],
+  void _loadCurrentUser() async {
+    final details = await SharedService.loginDetails();
+    setState(() {
+      currentUserId = details?.id;
     });
 
-    socket?.on('connect', (_) {
-      print('connected to websocket');
-    });
+    // Initialize WebSocket connection
+    _initializeWebSocket(details?.id);
 
-    socket?.on('receive_friend_request', (data) {
-      print('Friend request received: $data');
+    // Fetch friend requests via API
+    _fetchFriendRequests(details?.id);
+  }
+
+  void _initializeWebSocket(String? userId) {
+    if (userId == null) return;
+
+    webSocketService = WebSocketService();
+    webSocketService?.connect(
+      userId,
+      _handleInitialFriendRequests,
+      _handleFriendRequestReceived,
+      _handleFriendRequestAccepted,
+      _handleFriendRequestRejected,
+    );
+  }
+
+  void _fetchFriendRequests(String? userId) async {
+    if (userId == null) return;
+
+    try {
+      final requests = await FriendService.getFriendRequests(userId);
       setState(() {
-        friendRequests.add({
-          'userId': data['senderId'],
-          'username': data['username'],
-        });
+        friendRequests = requests.map((request) {
+          return {
+            'userId': request['userId']!,
+            'username': request['username']!,
+          };
+        }).toList();
+      });
+    } catch (e) {
+      debugPrint('Error fetching friend requests: $e');
+    }
+  }
+
+  void _handleInitialFriendRequests(List<Map<String, String>> requests) {
+    setState(() {
+      friendRequests = requests;
+    });
+  }
+
+  void _handleFriendRequestReceived(Map<String, String> data) {
+    setState(() {
+      friendRequests.add({
+        'userId': data['userId']!,
+        'username': data['username']!,
       });
     });
+  }
 
-    socket?.on('disconnect', (_) {
-      print('disconnected from websocket');
+  void _handleFriendRequestAccepted(Map<String, String> data) {
+    setState(() {
+      friendRequests
+          .removeWhere((request) => request['userId'] == data['friendId']);
     });
+  }
+
+  void _handleFriendRequestRejected(Map<String, String> data) {
+    setState(() {
+      friendRequests
+          .removeWhere((request) => request['userId'] == data['friendId']);
+    });
+  }
+
+  void _acceptFriendRequest(String friendId) {
+    if (currentUserId == null) return;
+
+    debugPrint('Accepting friend request from $friendId');
+    webSocketService?.acceptFriendRequest(currentUserId!, friendId);
+  }
+
+  void _rejectFriendRequest(String friendId) {
+    if (currentUserId == null) return;
+
+    debugPrint('Rejecting friend request from $friendId');
+    webSocketService?.rejectFriendRequest(currentUserId!, friendId);
   }
 
   @override
   void dispose() {
-    socket?.disconnect();
+    webSocketService?.disconnect();
     super.dispose();
   }
 
@@ -67,7 +135,6 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 15),
-            const SizedBox(height: 10),
             const Text(
               "Friends request",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -122,22 +189,21 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
                     Text(
                       username,
                       style: const TextStyle(
-                        color: Color(0xFF1B1E28),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
+                          color: Color(0xFF1B1E28),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
                     ),
                     Row(
                       children: [
                         IconButton(
                           onPressed: () {
-                            // Handle accept friend request
+                            _acceptFriendRequest(senderId);
                           },
                           icon: const Icon(Icons.done),
                         ),
                         IconButton(
                           onPressed: () {
-                            // Handle reject friend request
+                            _rejectFriendRequest(senderId);
                           },
                           icon: const Icon(Icons.do_not_disturb),
                         ),

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/auth_service.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -31,7 +31,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       return;
     }
 
-    bool success = await APIService.resetPassword(email, newPassword);
+    bool success = await AuthService.resetPassword(email, newPassword);
 
     if (success) {
       showDialog(

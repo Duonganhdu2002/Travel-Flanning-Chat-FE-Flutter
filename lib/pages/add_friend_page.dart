@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/models/user_model.dart';
 import 'package:flutter_app/pages/user_detail_page.dart';
-import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/auth_service.dart';
 
 class AddFriendPage extends StatefulWidget {
   const AddFriendPage({super.key});
@@ -20,7 +20,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
   @override
   void initState() {
     super.initState();
-    futureUsers = APIService.getCachedUsers();
+    futureUsers = AuthService.getCachedUsers();
     futureUsers?.then((users) {
       setState(() {
         allUsers = users;
@@ -51,7 +51,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
   @override
   void dispose() {
     super.dispose();
-    APIService.removeCache(context, "all_users");
+    AuthService.removeCache(context, "all_users");
   }
 
   @override

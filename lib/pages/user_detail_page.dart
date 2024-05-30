@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/models/user_model.dart';
-import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/auth_service.dart';
+import 'package:flutter_app/services/friend_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_app/services/shared_service.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:flutter_app/services/websocket_service.dart';
 
 class UserDetailPage extends StatefulWidget {
   final String userId;
@@ -20,61 +21,93 @@ class _UserDetailPageState extends State<UserDetailPage> {
   Future<ResponseUserDetail?>? futureUserDetail;
   bool? areFriends;
   bool isRequestPending = false;
-  io.Socket? socket;
+  late WebSocketService webSocketService;
   String? currentUserId;
   String? currentUsername;
 
   @override
   void initState() {
     super.initState();
-    futureUserDetail = APIService.getUserDetail(context, widget.userId);
+    futureUserDetail = AuthService.getUserDetail(context, widget.userId);
 
     // Load current user details from cache
     _loadCurrentUser();
-
-    // Initialize socket connection
-    socket = io.io('http://localhost:8080', <String, dynamic>{
-      'transports': ['websocket'],
-    });
-
-    socket?.on('connect', (_) {
-      print('connected to websocket');
-    });
-
-    socket?.on('receive_friend_request', (data) {
-      print('Friend request received: $data');
-      // Handle friend request received
-    });
-
-    socket?.on('disconnect', (_) {
-      print('disconnected from websocket');
-    });
   }
 
   void _loadCurrentUser() async {
     final details = await SharedService.loginDetails();
     setState(() {
       currentUserId = details?.id;
-      currentUsername = details?.fullname;
+      currentUsername = details?.username;
     });
+
+    // Check friend status after loading user details
+    if (currentUserId != null) {
+      _checkFriendStatus(currentUserId!, widget.userId);
+    }
+
+    // Initialize WebSocketService after loading user details
+    webSocketService = WebSocketService();
+    webSocketService.connect(
+      currentUserId!,
+      (requests) => {}, // Handle initial friend requests if needed
+      (data) {
+        // Handle friend request received
+        debugPrint('Friend request received: $data');
+      },
+      (data) {
+        // Handle friend request accepted
+        debugPrint('Friend request accepted: $data');
+      },
+      (data) {
+        // Handle friend request rejected
+        debugPrint('Friend request rejected: $data');
+      },
+    );
+  }
+
+  void _checkFriendStatus(String currentUserId, String otherUserId) async {
+    final response =
+        await FriendService.checkFriendStatus(currentUserId, otherUserId);
+    if (response != null && response['status'] == 'friends') {
+      setState(() {
+        areFriends = true;
+      });
+    } else if (response != null && response['status'] == 'pending') {
+      setState(() {
+        areFriends = false;
+        isRequestPending = true;
+      });
+    } else {
+      setState(() {
+        areFriends = false;
+      });
+    }
   }
 
   @override
   void dispose() {
-    socket?.disconnect();
+    webSocketService.disconnect();
     super.dispose();
   }
 
-  void _sendFriendRequest(String receiverId) {
+  void _sendFriendRequest(String receiverId) async {
     if (currentUserId == null || currentUsername == null) return;
     setState(() {
       isRequestPending = true;
     });
-    socket?.emit('send_friend_request', {
-      'senderId': currentUserId,
-      'receiverId': receiverId,
-      'username': currentUsername,
-    });
+
+    try {
+      debugPrint('Sending friend request from $currentUserId to $receiverId');
+      await FriendService.sendFriendRequest(currentUserId!, receiverId);
+      webSocketService.sendFriendRequest(
+          currentUserId!, receiverId, currentUsername!);
+    } catch (e) {
+      debugPrint('Error sending friend request: $e');
+      setState(() {
+        isRequestPending = false;
+      });
+    }
   }
 
   @override

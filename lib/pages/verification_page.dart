@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/login_page.dart';
-import 'package:flutter_app/services/api_service.dart';
+import 'package:flutter_app/services/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class VerificationPage extends StatefulWidget {
@@ -25,7 +25,7 @@ class _VerificationPageState extends State<VerificationPage> {
     final otp = otpController.text;
 
     if (otp.isNotEmpty) {
-      bool success = await APIService.verifyOTP(
+      bool success = await AuthService.verifyOTP(
           widget.email, otp, widget.username, widget.password);
 
       if (success && mounted) {
