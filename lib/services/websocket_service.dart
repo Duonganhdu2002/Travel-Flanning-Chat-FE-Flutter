@@ -17,8 +17,9 @@ class WebSocketService {
     Function(List<Map<String, String>>) onInitialRequests,
     Function(Map<String, String>) onFriendRequestReceived,
     Function(Map<String, String>) onFriendRequestAccepted,
-    Function(Map<String, String>) onFriendRequestRejected,
-  ) {
+    Function(Map<String, String>) onFriendRequestRejected, {
+    Function(Map<String, String>)? handleUnfriend,
+  }) {
     socket.connect();
 
     socket.onConnect((_) {
@@ -88,6 +89,16 @@ class WebSocketService {
         debugPrint('Error handling rejected friend request: $e');
       }
     });
+
+    socket.on('unfriend', (data) {
+      debugPrint('Unfriend: $data');
+      if (handleUnfriend != null) {
+        handleUnfriend({
+          'userId': data['userId'],
+          'friendId': data['friendId'],
+        });
+      }
+    });
   }
 
   void sendFriendRequest(String senderId, String receiverId, String username) {
@@ -125,6 +136,13 @@ class WebSocketService {
     } catch (e) {
       debugPrint('Error rejecting friend request: $e');
     }
+  }
+
+  void unfriend(String userId, String friendId) {
+    socket.emit('unfriend', {
+      'userId': userId,
+      'friendId': friendId,
+    });
   }
 
   void disconnect() {

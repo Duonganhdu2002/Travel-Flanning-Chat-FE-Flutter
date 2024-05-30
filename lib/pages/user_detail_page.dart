@@ -110,6 +110,21 @@ class _UserDetailPageState extends State<UserDetailPage> {
     }
   }
 
+  void _unfriend(String friendId) async {
+    if (currentUserId == null) return;
+
+    try {
+      debugPrint('Unfriending $friendId');
+      await FriendService.unfriendUser(currentUserId!, friendId);
+      webSocketService.unfriend(currentUserId!, friendId);
+      setState(() {
+        areFriends = false;
+      });
+    } catch (e) {
+      debugPrint('Error unfriending: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,6 +242,27 @@ class _UserDetailPageState extends State<UserDetailPage> {
                               ),
                               onPressed:
                                   null, // Disable button when request is pending
+                            ),
+                          ),
+                        if (areFriends == true)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFD521),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: IconButton(
+                              icon: ImageFiltered(
+                                imageFilter: const ColorFilter.mode(
+                                    Colors.white, BlendMode.srcATop),
+                                child: SvgPicture.asset(
+                                  "lib/images/remove-friend.svg",
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                              onPressed: () {
+                                _unfriend(userDetail.id.toString());
+                              },
                             ),
                           ),
                       ],

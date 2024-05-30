@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/add_friend_page.dart';
+import 'package:flutter_app/pages/friend_list_page.dart';
 import 'package:flutter_app/pages/friends_request_page.dart';
 import 'package:flutter_app/services/auth_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,11 +22,17 @@ class ComboIcon extends StatelessWidget {
         // Handle xem danh sách nhóm action here
         break;
       case '3':
-        // Handle xem danh sách nhóm action here
         Navigator.push(
           // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const FriendsRequestPage()),
+        );
+        break;
+      case '4':
+        Navigator.push(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: (context) => const FriendListPage()),
         );
         break;
     }
@@ -84,6 +91,16 @@ class ComboIcon extends StatelessWidget {
                       Icon(Icons.group_add),
                       SizedBox(width: 8),
                       Text('Friend Requests'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: '4',
+                  child: Row(
+                    children: [
+                      Icon(Icons.list),
+                      SizedBox(width: 8),
+                      Text('Friends List'),
                     ],
                   ),
                 ),

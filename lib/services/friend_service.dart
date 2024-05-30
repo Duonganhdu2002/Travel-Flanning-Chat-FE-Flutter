@@ -4,6 +4,44 @@ import 'package:flutter_app/config.dart';
 import 'package:http/http.dart' as http;
 
 class FriendService {
+  static Future<void> unfriendUser(String userId, String friendId) async {
+    final url = Uri.parse('${Config.apiURL}api/user/unfriend');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'userId': userId, 'friendId': friendId}),
+    );
+
+    debugPrint("Unfriend response status: ${response.statusCode}");
+    debugPrint("Unfriend response body: ${response.body}");
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to unfriend user');
+    }
+  }
+
+  static Future<List<Map<String, String>>> getFriendList(String userId) async {
+    final url = Uri.parse('${Config.apiURL}api/user/friends/$userId');
+    final response = await http.get(url);
+
+    debugPrint("Get friend list response status: ${response.statusCode}");
+    debugPrint("Get friend list response body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data =
+          json.decode(response.body); // Parse the response as a map
+      List<dynamic> friends = data['friends']; // Extract the list of friends
+      return friends.map((item) {
+        return {
+          'userId': item['_id'].toString(),
+          'username': item['username'].toString(),
+        };
+      }).toList();
+    } else {
+      throw Exception('Failed to load friend list');
+    }
+  }
+
   static Future<void> sendFriendRequest(
       String senderId, String receiverId) async {
     final url = Uri.parse('${Config.apiURL}api/user/send-friend-request');
