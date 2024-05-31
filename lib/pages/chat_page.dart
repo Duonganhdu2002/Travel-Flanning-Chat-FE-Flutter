@@ -50,8 +50,9 @@ class _ChatPageState extends State<ChatPage> {
     socket.connect();
 
     socket.on('connect', (_) {
-      debugPrint('Connected to WebSocket');
-      socket.emit('join', {'userId': widget.userId});
+      debugPrint('connected');
+      socket
+          .emit('join', {'userId': widget.userId, 'friendId': widget.friendId});
     });
 
     socket.on('initial_messages', (data) {
@@ -116,9 +117,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      }
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     });
   }
 
@@ -169,7 +168,7 @@ class _ChatPageState extends State<ChatPage> {
             focusNode: _focusNode,
           ),
         ],
-      ), 
+      ),
     );
   }
 }
