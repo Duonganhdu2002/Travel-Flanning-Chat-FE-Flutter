@@ -6,10 +6,10 @@ class SearchInput extends StatelessWidget {
   final Function(String) onSearch;
 
   const SearchInput({
-    Key? key,
+    super.key,
     this.hintText = 'Search for chats & messages',
     required this.onSearch,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
