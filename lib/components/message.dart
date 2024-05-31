@@ -92,7 +92,12 @@ class _MessageComponentState extends State<MessageComponent> {
                       : 'No messages yet';
                   final friend = conversation['participants'].firstWhere(
                     (participant) => participant['_id'] != userId,
+                    orElse: () => null,
                   );
+
+                  if (friend == null) {
+                    return Container(); // or handle the empty case as needed
+                  }
 
                   return itemMessage(
                     context,
