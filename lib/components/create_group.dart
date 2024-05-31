@@ -74,7 +74,7 @@ class _CreateGroupState extends State<CreateGroup> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SearchInput(),
+            // const SearchInput(),
             const SizedBox(height: 15),
             if (selectedFriends.isNotEmpty)
               SizedBox(

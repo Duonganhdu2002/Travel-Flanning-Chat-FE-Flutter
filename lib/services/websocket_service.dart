@@ -3,9 +3,9 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class WebSocketService {
   late io.Socket socket;
+  late String userId;
 
   WebSocketService() {
-    // Initialize the socket
     socket = io.io('http://10.0.2.2:8080', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -18,8 +18,10 @@ class WebSocketService {
     Function(Map<String, String>) onFriendRequestReceived,
     Function(Map<String, String>) onFriendRequestAccepted,
     Function(Map<String, String>) onFriendRequestRejected, {
+    Function(Map<String, String>)? onReceiveMessage,
     Function(Map<String, String>)? handleUnfriend,
   }) {
+    this.userId = userId;
     socket.connect();
 
     socket.onConnect((_) {
@@ -99,6 +101,26 @@ class WebSocketService {
         });
       }
     });
+
+    socket.on('receive_message', (data) {
+      debugPrint('Received message: $data');
+      if (onReceiveMessage != null) {
+        onReceiveMessage({
+          'senderId': data['senderId'],
+          'receiverId': data['receiverId'],
+          'message': data['message'],
+        });
+      }
+    });
+  }
+
+  void sendMessage(String senderId, String receiverId, String message) {
+    final msg = {
+      'senderId': senderId,
+      'receiverId': receiverId,
+      'message': message,
+    };
+    socket.emit('send_message', msg);
   }
 
   void sendFriendRequest(String senderId, String receiverId, String username) {

@@ -3,8 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class TextInput extends StatefulWidget {
   final Function(String) onSendMessage;
+  final FocusNode? focusNode;
 
-  const TextInput({super.key, required this.onSendMessage});
+  const TextInput({super.key, required this.onSendMessage, this.focusNode});
 
   @override
   State<TextInput> createState() => _TextInputState();
@@ -41,6 +42,7 @@ class _TextInputState extends State<TextInput> {
                     Expanded(
                       child: TextField(
                         controller: _controller,
+                        focusNode: widget.focusNode,
                         decoration: const InputDecoration(
                           hintText: 'Type your message',
                           hintStyle: TextStyle(

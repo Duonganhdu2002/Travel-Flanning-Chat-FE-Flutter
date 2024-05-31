@@ -8,26 +8,37 @@ import 'package:flutter_app/components/receiver_message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  final String userId;
+  final String friendId;
+  final String friendUsername;
+
+  const ChatPage({
+    super.key,
+    required this.userId,
+    required this.friendId,
+    required this.friendUsername,
+  });
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final List<Map<String, String>> messages = [
-    {"type": "sender", "message": "Hello!"},
-    {"type": "receiver", "message": "Hi there!"},
-    {"type": "sender", "message": "How are you?"},
-    {"type": "receiver", "message": "I'm good, thank you!"},
-  ];
-
+  final List<Map<String, String>> messages = [];
   late io.Socket socket;
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     connectToServer();
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _scrollToBottom();
+      }
+    });
   }
 
   void connectToServer() {
@@ -40,37 +51,98 @@ class _ChatPageState extends State<ChatPage> {
 
     socket.on('connect', (_) {
       debugPrint('connected');
+      socket
+          .emit('join', {'userId': widget.userId, 'friendId': widget.friendId});
     });
 
-    socket.on('message', (data) {
-      setState(() {
-        messages.add(data);
-      });
+    socket.on('initial_messages', (data) {
+      try {
+        List<Map<String, String>> fetchedMessages =
+            (data as List).map((message) {
+          return {
+            'type':
+                message['senderId'] == widget.userId ? 'sender' : 'receiver',
+            'message': message['message'].toString(),
+          };
+        }).toList();
+
+        setState(() {
+          messages.clear();
+          messages.addAll(fetchedMessages);
+        });
+
+        _scrollToBottom();
+      } catch (e) {
+        debugPrint('Error parsing initial messages: $e');
+      }
+    });
+
+    socket.on('receive_message', (data) {
+      try {
+        setState(() {
+          messages.add({
+            'type': data['senderId'] == widget.userId ? 'sender' : 'receiver',
+            'message': data['message'].toString(),
+          });
+        });
+
+        _scrollToBottom();
+      } catch (e) {
+        debugPrint('Error receiving message: $e');
+      }
+    });
+
+    socket.on('connect_error', (data) {
+      debugPrint('Connection Error: $data');
+    });
+
+    socket.on('disconnect', (_) {
+      debugPrint('Disconnected');
     });
   }
 
   void sendMessage(String message) {
-    final msg = {'type': 'sender', 'message': message};
-    socket.emit('message', msg);
+    final msg = {
+      'senderId': widget.userId,
+      'receiverId': widget.friendId,
+      'message': message,
+    };
+    socket.emit('send_message', msg);
     setState(() {
-      messages.add(msg);
+      messages.add({'type': 'sender', 'message': message});
     });
+
+    _scrollToBottom();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
+  }
+
+  @override
+  void dispose() {
+    socket.disconnect();
+    _scrollController.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: const CustomBar(
-        leftWidget: BackIcon(),
-        centerWidget1: Text("Aloha",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        centerWidget2: Text("Active now",
+      appBar: CustomBar(
+        leftWidget: const BackIcon(),
+        centerWidget1: Text(widget.friendUsername,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        centerWidget2: const Text("Active now",
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Colors.green)),
-        rightWidget: CallIcon(),
+        rightWidget: const CallIcon(),
       ),
       body: Column(
         children: [
@@ -78,6 +150,7 @@ class _ChatPageState extends State<ChatPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView.builder(
+                controller: _scrollController,
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
                   final message = messages[index];
@@ -90,17 +163,12 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
           ),
-          SafeArea(
-            child: TextInput(onSendMessage: sendMessage),
+          TextInput(
+            onSendMessage: sendMessage,
+            focusNode: _focusNode,
           ),
         ],
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: ChatPage(),
-  ));
 }

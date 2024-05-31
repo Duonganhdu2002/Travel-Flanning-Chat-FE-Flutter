@@ -1,11 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/create_message.dart';
-import 'package:flutter_app/components/search_input.dart';
 import 'package:flutter_app/pages/chat_page.dart';
+import 'package:flutter_app/services/conversation_service.dart';
+import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class MessageComponent extends StatelessWidget {
+class MessageComponent extends StatefulWidget {
   const MessageComponent({super.key});
+
+  @override
+  State<MessageComponent> createState() => _MessageComponentState();
+}
+
+class _MessageComponentState extends State<MessageComponent> {
+  List<Map<String, dynamic>> conversations = [];
+  String userId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchConversations();
+  }
+
+  Future<void> _fetchConversations() async {
+    try {
+      final details = await SharedService.loginDetails();
+      userId = details?.id ?? '';
+      List<Map<String, dynamic>> fetchedConversations =
+          await ConversationService.getConversations(userId);
+      setState(() {
+        conversations = fetchedConversations;
+      });
+    } catch (e) {
+      debugPrint('Error fetching conversations: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +79,35 @@ class MessageComponent extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const SearchInput(),
             const SizedBox(
               height: 20,
             ),
             Expanded(
-              child: ListView(
-                children: [
-                  itemMessage(context, "lib/images/User_img.png", "HAHAHAHA",
-                      "aaaaaaaa", 1, "07:76"),
-                ],
+              child: ListView.builder(
+                itemCount: conversations.length,
+                itemBuilder: (context, index) {
+                  final conversation = conversations[index];
+                  final latestMessage = conversation['messages'].isNotEmpty
+                      ? conversation['messages'][0]['message']
+                      : 'No messages yet';
+                  final friend = conversation['participants'].firstWhere(
+                    (participant) => participant['_id'] != userId,
+                  );
+
+                  return itemMessage(
+                    context,
+                    friend['avatar'] != null
+                        ? "lib/images/${friend['avatar']}"
+                        : "lib/images/default_avatar.png",
+                    friend['username'],
+                    latestMessage,
+                    1, // Replace with actual status if available
+                    '07:76', // Replace with actual time if available
+                    friend['_id'],
+                  );
+                },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -75,6 +121,7 @@ class MessageComponent extends StatelessWidget {
     String showMessage,
     int statusMessage,
     String timeSend,
+    String friendId,
   ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 25.0),
@@ -82,7 +129,13 @@ class MessageComponent extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ChatPage()),
+            MaterialPageRoute(
+              builder: (context) => ChatPage(
+                userId: userId, // Use the actual user ID
+                friendId: friendId,
+                friendUsername: nameUser,
+              ),
+            ),
           );
         },
         child: Row(
@@ -147,7 +200,6 @@ class MessageComponent extends StatelessWidget {
               width: 60,
               child: Text(
                 timeSend,
-                textAlign: TextAlign.end,
                 style: const TextStyle(
                   color: Color(0xFF7D848D),
                 ),

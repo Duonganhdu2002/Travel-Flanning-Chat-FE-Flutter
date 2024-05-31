@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchInput extends StatelessWidget {
-  const SearchInput({super.key});
+  final String hintText;
+  final Function(String) onSearch;
+
+  const SearchInput({
+    Key? key,
+    this.hintText = 'Search for chats & messages',
+    required this.onSearch,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +34,19 @@ class SearchInput extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          const Expanded(
+          Expanded(
             child: TextField(
+              onChanged: onSearch,
               decoration: InputDecoration(
-                hintText: 'Search for chats & messages',
-                hintStyle: TextStyle(
-                    color: Color(0xFF7D848D),
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400),
+                hintText: hintText,
+                hintStyle: const TextStyle(
+                  color: Color(0xFF7D848D),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                ),
                 border: InputBorder.none,
               ),
             ),
-            
           ),
           ImageFiltered(
             imageFilter: const ColorFilter.mode(

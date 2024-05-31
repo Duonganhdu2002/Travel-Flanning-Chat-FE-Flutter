@@ -3,11 +3,72 @@ import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/create_group.dart';
 import 'package:flutter_app/components/search_input.dart';
+import 'package:flutter_app/pages/chat_page.dart';
 import 'package:flutter_app/pages/details_page.dart';
+import 'package:flutter_app/services/friend_service.dart';
+import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CreateMessage extends StatelessWidget {
+class CreateMessage extends StatefulWidget {
   const CreateMessage({super.key});
+
+  @override
+  State<CreateMessage> createState() => _CreateMessageState();
+}
+
+class _CreateMessageState extends State<CreateMessage> {
+  List<Map<String, String>> friends = [];
+  List<Map<String, String>> filteredFriends = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchFriends();
+  }
+
+  void _fetchFriends() async {
+    try {
+      final details = await SharedService.loginDetails();
+      String userId = details?.id ?? '';
+      if (userId.isNotEmpty) {
+        List<Map<String, String>> fetchedFriends =
+            await FriendService.getFriendList(userId);
+        setState(() {
+          friends = fetchedFriends;
+          filteredFriends = fetchedFriends;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error fetching friends: $e');
+    }
+  }
+
+  void _handleSearch(String query) {
+    setState(() {
+      filteredFriends = friends
+          .where((friend) =>
+              friend['username']!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
+  void _navigateToChat(
+      BuildContext context, String friendId, String username) async {
+    final details = await SharedService.loginDetails();
+    String userId = details?.id ?? '';
+    if (userId.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatPage(
+            userId: userId,
+            friendId: friendId,
+            friendUsername: username,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +77,7 @@ class CreateMessage extends StatelessWidget {
       appBar: const CustomBar(
         leftWidget: BackIcon(),
         centerWidget1: Text(
-          "New Messsages",
+          "New Messages",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         rightWidget: Text("           "),
@@ -26,10 +87,11 @@ class CreateMessage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SearchInput(),
-            const SizedBox(
-              height: 15,
+            SearchInput(
+              hintText: 'Search friends',
+              onSearch: _handleSearch,
             ),
+            const SizedBox(height: 15),
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -67,62 +129,35 @@ class CreateMessage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   const Text(
                     "Create a group chat",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(
-                    width: 200,
-                  ),
+                  const SizedBox(width: 200),
                   SvgPicture.asset(
                     "lib/images/RightArrow.svg",
                   )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             const Text(
               "Suggested",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             Expanded(
-              child: ListView(
-                children: [
-                  itemMessage(
+              child: ListView.builder(
+                itemCount: filteredFriends.length,
+                itemBuilder: (context, index) {
+                  return itemMessage(
                     context,
-                    "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                  itemMessage(
-                    context,
-                    "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                  itemMessage(
-                    context,
-                    "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                  itemMessage(
-                    context,
-                    "lib/images/User_img.png",
-                    "Tom Liebt Dich",
-                  ),
-                  itemGroupMessage(
-                      context,
-                      "lib/images/User_img.png",
-                      "lib/images/User_img.png",
-                      "Group name",
-                      "Nanh, Wyd Anh Du, Tom")
-                ],
+                    'lib/images/${filteredFriends[index]['avatar']}',
+                    filteredFriends[index]['username']!,
+                    filteredFriends[index]['userId']!,
+                  );
+                },
               ),
             ),
           ],
@@ -135,15 +170,13 @@ class CreateMessage extends StatelessWidget {
     BuildContext context,
     String pathImage,
     String nameUser,
+    String userId,
   ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 25.0),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const DetailsPage()),
-          );
+          _navigateToChat(context, userId, nameUser);
         },
         child: Row(
           children: [
@@ -159,9 +192,7 @@ class CreateMessage extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,7 +217,7 @@ class CreateMessage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -253,9 +284,7 @@ class CreateMessage extends StatelessWidget {
                       ),
                     ]),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

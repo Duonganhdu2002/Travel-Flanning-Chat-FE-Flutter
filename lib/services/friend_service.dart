@@ -35,6 +35,7 @@ class FriendService {
         return {
           'userId': item['_id'].toString(),
           'username': item['username'].toString(),
+          'avatar': item['avatar'].toString(),
         };
       }).toList();
     } else {
@@ -96,6 +97,27 @@ class FriendService {
       }).toList();
     } else {
       throw Exception('Failed to load friend requests');
+    }
+  }
+
+  static Future<List<Map<String, String>>> fetchMessages(
+      String userId, String friendId) async {
+    final url = Uri.parse('${Config.apiURL}api/messages/$userId/$friendId');
+    final response = await http.get(url);
+
+    debugPrint("Fetch messages response status: ${response.statusCode}");
+    debugPrint("Fetch messages response body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.map((message) {
+        return {
+          'type': message['senderId'] == userId ? 'sender' : 'receiver',
+          'message': message['message'].toString(),
+        };
+      }).toList();
+    } else {
+      throw Exception('Failed to fetch messages');
     }
   }
 }
