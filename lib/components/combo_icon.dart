@@ -48,6 +48,8 @@ class ComboIcon extends StatelessWidget {
       child: Stack(
         children: [
           PopupMenuButton<String>(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0)),
             color: Colors.white,
             shadowColor: Colors.grey[50],
             icon: ImageFiltered(
