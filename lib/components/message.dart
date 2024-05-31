@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/create_message.dart';
 import 'package:flutter_app/pages/chat_page.dart';
+import 'package:flutter_app/components/search_input.dart';
 import 'package:flutter_app/services/conversation_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ class MessageComponent extends StatefulWidget {
 
 class _MessageComponentState extends State<MessageComponent> {
   List<Map<String, dynamic>> conversations = [];
+  List<Map<String, dynamic>> filteredConversations = [];
   String userId = '';
 
   @override
@@ -30,10 +32,24 @@ class _MessageComponentState extends State<MessageComponent> {
           await ConversationService.getConversations(userId);
       setState(() {
         conversations = fetchedConversations;
+        filteredConversations = fetchedConversations;
       });
     } catch (e) {
       debugPrint('Error fetching conversations: $e');
     }
+  }
+
+  void _searchConversations(String query) {
+    setState(() {
+      filteredConversations = conversations
+          .where((conversation) => conversation['participants'].any(
+              (participant) =>
+                  participant['username']
+                      .toLowerCase()
+                      .contains(query.toLowerCase()) &&
+                  participant['_id'] != userId))
+          .toList();
+    });
   }
 
   @override
@@ -44,9 +60,7 @@ class _MessageComponentState extends State<MessageComponent> {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -76,17 +90,14 @@ class _MessageComponentState extends State<MessageComponent> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
+            SearchInput(onSearch: _searchConversations),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: conversations.length,
+                itemCount: filteredConversations.length,
                 itemBuilder: (context, index) {
-                  final conversation = conversations[index];
+                  final conversation = filteredConversations[index];
                   final latestMessage = conversation['messages'].isNotEmpty
                       ? conversation['messages'][0]['message']
                       : 'No messages yet';
@@ -157,9 +168,7 @@ class _MessageComponentState extends State<MessageComponent> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
