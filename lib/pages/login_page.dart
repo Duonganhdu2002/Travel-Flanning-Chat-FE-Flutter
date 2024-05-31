@@ -272,7 +272,10 @@ class _LoginFormState extends State<LoginForm> {
                       icon: Image.asset('lib/images/LogoInsta.png')),
                   IconButton(
                       onPressed: () {},
-                      icon: Image.asset('lib/images/LogoChimXanh.png'))
+                      icon: Image.asset('lib/images/LogoChimXanh.png')),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Image.asset('lib/images/LogoGoogle.png'))
                 ],
               ),
             ],

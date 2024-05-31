@@ -49,27 +49,43 @@ class _FriendListPageState extends State<FriendListPage> {
       appBar: AppBar(
         title: const Text('Friend List'),
       ),
-      body: ListView.builder(
-        itemCount: friendList.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(
-              child: Text(friendList[index]['username']![0].toUpperCase()),
-            ),
-            title: Text(friendList[index]['username']!),
-            onTap: () {
-              // Navigate to UserDetailPage
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserDetailPage(
-                    userId: friendList[index]['userId']!,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: friendList.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child:
+                          Text(friendList[index]['username']![0].toUpperCase()),
+                    ),
+                    title: Text(
+                      friendList[index]['username']!,
+                      style: const TextStyle(
+                          color: Color(0xFF1B1E28),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    onTap: () {
+                      // Navigate to UserDetailPage
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserDetailPage(
+                            userId: friendList[index]['userId']!,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              );
-            },
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
