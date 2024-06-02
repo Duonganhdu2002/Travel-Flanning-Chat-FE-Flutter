@@ -118,6 +118,7 @@ class _FriendsRequestPageState extends State<FriendsRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const CustomBar(
         leftWidget: BackButton(),
         centerWidget1: Text(

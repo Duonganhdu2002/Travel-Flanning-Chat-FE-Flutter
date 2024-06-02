@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/services/friend_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_app/pages/user_detail_page.dart';
@@ -51,42 +54,48 @@ class _FriendListPageState extends State<FriendListPage> {
         title: const Text('Friend List'),
         backgroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: friendList.length,
-          itemBuilder: (context, index) {
-            return Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child:
-                          Text(friendList[index]['username']![0].toUpperCase()),
-                    ),
-                    title: Text(
-                      friendList[index]['username']!,
-                      style: const TextStyle(
-                          color: Color(0xFF1B1E28),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    onTap: () {
-                      // Navigate to UserDetailPage
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UserDetailPage(
-                            userId: friendList[index]['userId']!,
-                          ),
+      body: Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SizedBox(
+            child: ListView.builder(
+              itemCount: friendList.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        leading: SizedBox(
+                          child: friendList[index]['avatar'] != null
+                              ? Image.asset(
+                                  "lib/images/${friendList[index]['avatar']}")
+                              : null,
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
+                        title: Text(
+                          friendList[index]['username']!,
+                          style: const TextStyle(
+                              color: Color(0xFF1B1E28),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        onTap: () {
+                          // Navigate to UserDetailPage
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserDetailPage(
+                                userId: friendList[index]['userId']!,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
