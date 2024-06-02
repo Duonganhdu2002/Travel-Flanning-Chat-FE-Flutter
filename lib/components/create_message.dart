@@ -58,6 +58,7 @@ class _CreateMessageState extends State<CreateMessage> {
     String userId = details?.id ?? '';
     if (userId.isNotEmpty) {
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) => ChatPage(

@@ -12,239 +12,365 @@ class HomeComponent extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xFFFFFFFF),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Explore the ",
-              style: TextStyle(
-                fontSize: 46,
-                fontWeight: FontWeight.w300,
+      child: ListView(
+        // Changed to ListView for vertical scrolling
+        children: [
+          const Text(
+            "Explore the ",
+            style: TextStyle(
+              fontSize: 46,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          Row(
+            children: [
+              const Text(
+                "Beautiful ",
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            Row(
-              children: [
-                const Text(
-                  "Beautiful ",
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Column(
-                  children: [
-                    const Text(
-                      "world!",
-                      style: TextStyle(
-                        fontSize: 50,
-                        color: Color(0xFFFF7029),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Image.asset(
-                      'lib/images/text_under.png',
-                      width: 120,
-                      fit: BoxFit.contain,
-                    ),
-                  ],
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Best Destination",
-                  style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const PopularPlacesPage(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    "View all",
+              Column(
+                children: [
+                  const Text(
+                    "world!",
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.amber,
+                      fontSize: 50,
+                      color: Color(0xFFFF7029),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  Image.asset(
+                    'lib/images/text_under.png',
+                    width: 120,
+                    fit: BoxFit.contain,
+                  ),
+                ],
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Best Destination",
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.w500,
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Container(
-                      width: 300,
-                      margin: const EdgeInsets.only(right: 25.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.1),
-                              spreadRadius: 3,
-                              blurRadius: 5,
-                              offset: const Offset(4, 4))
-                        ],
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const DetailsPage()),
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.asset(
-                                        "lib/images/image1.png",
-                                        width: double.infinity,
-                                        height: 340,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 12,
-                                    right: 12,
-                                    child: Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xFF1B1E28)
-                                              .withOpacity(0.3),
-                                          borderRadius:
-                                              BorderRadius.circular(40)),
-                                      child: IconButton(
-                                        icon: ImageFiltered(
-                                          imageFilter: ColorFilter.mode(
-                                            Colors.grey.withOpacity(0.6),
-                                            BlendMode.srcATop,
-                                          ),
-                                          child: SvgPicture.asset(
-                                            "lib/images/fav_list.svg",
-                                            width: 24,
-                                            height: 24,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          // onPressed handler
-                                        },
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Niladri Reservoir",
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        size: 18,
-                                        color: Colors.amber,
-                                      ),
-                                      Text(
-                                        " 4.7",
-                                        style: TextStyle(fontSize: 16),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        "lib/images/Location.svg",
-                                        width: 22,
-                                        height: 22,
-                                      ),
-                                      const Text(
-                                        " Tekergat, Sunamgnj",
-                                        style: TextStyle(
-                                          color: Color(
-                                            0xFF7D848D,
-                                          ),
-                                          fontSize: 17,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PopularPlacesPage(),
                     ),
                   );
                 },
+                child: const Text(
+                  "View all",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.amber,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-            )
-          ],
-        ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 500, // Adjust height as needed
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    width: 300,
+                    margin: const EdgeInsets.only(right: 25.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: const Offset(4, 4))
+                      ],
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DetailsPage()),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.asset(
+                                      "lib/images/image1.png",
+                                      width: double.infinity,
+                                      height: 350,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 12,
+                                  right: 12,
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        color: const Color(0xFF1B1E28)
+                                            .withOpacity(0.3),
+                                        borderRadius:
+                                            BorderRadius.circular(40)),
+                                    child: IconButton(
+                                      icon: ImageFiltered(
+                                        imageFilter: ColorFilter.mode(
+                                          Colors.grey.withOpacity(0.6),
+                                          BlendMode.srcATop,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "lib/images/fav_list.svg",
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        // onPressed handler
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Niladri Reservoir",
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      size: 18,
+                                      color: Colors.amber,
+                                    ),
+                                    Text(
+                                      " 4.7",
+                                      style: TextStyle(fontSize: 16),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "lib/images/Location.svg",
+                                      width: 22,
+                                      height: 22,
+                                    ),
+                                    const Text(
+                                      " Tekergat, Sunamgnj",
+                                      style: TextStyle(
+                                        color: Color(
+                                          0xFF7D848D,
+                                        ),
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            "Explore",
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      )
+                    ],
+                  ),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.restaurant, size: 40),
+                      SizedBox(height: 10),
+                      Text("Nhà hàng", style: TextStyle(fontSize: 18)),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      )
+                    ],
+                  ),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.local_activity, size: 40),
+                      SizedBox(height: 10),
+                      Text("Hoạt động giải trí",
+                          style: TextStyle(fontSize: 18)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    blurRadius: 10,
+                    spreadRadius: 2,
+                  )
+                ],
+              ),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.hotel, size: 40),
+                  SizedBox(height: 10),
+                  Text("Khách sạn", style: TextStyle(fontSize: 18)),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2E7D32), // Dark green color
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Tripadvisor thiếu một địa điểm?",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    // Button pressed action
+                  },
+                  icon: const Icon(Icons.add_location, color: Colors.white),
+                  label: const Text(
+                    "Thêm địa điểm bị thiếu",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        const Color(0xFF388E3C), // Darker green color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }
