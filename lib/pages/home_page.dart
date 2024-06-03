@@ -9,6 +9,7 @@ import 'package:flutter_app/components/planning_component.dart';
 import 'package:flutter_app/components/profile.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/nav_bar.dart';
+import 'package:flutter_app/pages/notification_home_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,9 +50,18 @@ class _HomePageState extends State<HomePage> {
   PreferredSizeWidget buildCustomBar(int selected) {
     switch (selected) {
       case 0:
-        return const CustomBar(
-          leftWidget: ImageUsername(),
-          rightWidget: NotificationIcon(notificationExistence: true),
+        return CustomBar(
+          leftWidget: const ImageUsername(),
+          rightWidget: NotificationIcon(
+            notificationExistence: true,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NotificationHomePage()),
+              );
+            },
+          ),
         );
       case 1:
         return const CustomBar(
