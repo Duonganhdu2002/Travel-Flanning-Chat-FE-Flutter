@@ -20,6 +20,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selected = 0;
+  final PageStorageBucket bucket = PageStorageBucket();
+
   void navigateBottomBar(int index) {
     setState(() {
       selected = index;
@@ -27,11 +29,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> page = [
-    const HomeComponent(),
-    const PlanningComponent(),
-    const Text("Messages"),
-    const MessageComponent(),
-    const ProfileUser(),
+    const HomeComponent(key: PageStorageKey('HomeComponent')),
+    const PlanningComponent(key: PageStorageKey('PlanningComponent')),
+    const Text("Messages", key: PageStorageKey('Messages')),
+    const MessageComponent(key: PageStorageKey('MessageComponent')),
+    const ProfileUser(key: PageStorageKey('ProfileUser')),
   ];
 
   @override
@@ -43,7 +45,13 @@ class _HomePageState extends State<HomePage> {
         onTabChange: (index) => navigateBottomBar(index),
         selectedIndex: selected,
       ),
-      body: page[selected],
+      body: PageStorage(
+        bucket: bucket,
+        child: IndexedStack(
+          index: selected,
+          children: page,
+        ),
+      ),
     );
   }
 
