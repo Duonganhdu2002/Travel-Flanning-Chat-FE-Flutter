@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/services/friend_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_app/pages/user_detail_page.dart';

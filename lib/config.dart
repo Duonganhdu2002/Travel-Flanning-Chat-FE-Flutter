@@ -10,4 +10,6 @@ class Config {
   static const String checkWaitingListStatus = "api/user/check-wating-list";
   static const String getWaitingListApi = "api/user/waiting_list/";
   static const String otp = "api/auth/verify-otp";
+  //Place route
+  static const String bestPlace = "api/places/best-places";
 }
