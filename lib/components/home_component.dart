@@ -159,13 +159,14 @@ class HomeComponent extends StatelessWidget {
                                           height: 50,
                                           decoration: BoxDecoration(
                                               color: const Color(0xFF1B1E28)
-                                                  .withOpacity(0.3),
+                                                  .withOpacity(0.1),
                                               borderRadius:
                                                   BorderRadius.circular(40)),
                                           child: IconButton(
                                             icon: ImageFiltered(
-                                              imageFilter: ColorFilter.mode(
-                                                Colors.grey.withOpacity(0.6),
+                                              imageFilter:
+                                                  const ColorFilter.mode(
+                                                Colors.white,
                                                 BlendMode.srcATop,
                                               ),
                                               child: SvgPicture.asset(

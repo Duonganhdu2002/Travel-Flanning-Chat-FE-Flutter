@@ -44,7 +44,7 @@ class CustomBottomBar extends StatelessWidget {
               ),
               buildIconButton(
                 icon: 'lib/images/Calendar.svg',
-                label: 'Calendar',
+                label: 'Plans',
                 onPressed: () => onTabChange?.call(1),
                 isSelected: selectedIndex == 1,
               ),

@@ -17,7 +17,9 @@ class BestPlacesModel {
       this.photos});
 
   BestPlacesModel.fromJson(Map<String, dynamic> json) {
-    averageRating = json['averageRating'];
+    averageRating = json['averageRating'] is int
+        ? (json['averageRating'] as int).toDouble()
+        : json['averageRating'];
     placeId = json['place_id'];
     name = json['name'];
     category = json['category'];
