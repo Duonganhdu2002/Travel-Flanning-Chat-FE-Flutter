@@ -64,7 +64,7 @@ class _EditProfileState extends State<EditProfile> {
     _loadLoginDetails();
   }
 
-  void _selectImage(BuildContext context) async {
+  void _selectImage(BuildContext context) async {  
     Uint8List? img =
         await UserService.pickCustomImage(ImageSource.gallery, context);
     if (img != null) {
