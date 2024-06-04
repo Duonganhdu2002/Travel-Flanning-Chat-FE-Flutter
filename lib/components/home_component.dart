@@ -165,37 +165,7 @@ class _HomeComponentState extends State<HomeComponent>
                                               ),
                                             ),
                                           ),
-                                          Positioned(
-                                            top: 12,
-                                            right: 12,
-                                            child: Container(
-                                              width: 50,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                  color: const Color(0xFF1B1E28)
-                                                      .withOpacity(0.1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          40)),
-                                              child: IconButton(
-                                                icon: ImageFiltered(
-                                                  imageFilter:
-                                                      const ColorFilter.mode(
-                                                    Colors.white,
-                                                    BlendMode.srcATop,
-                                                  ),
-                                                  child: SvgPicture.asset(
-                                                    "lib/images/fav_list.svg",
-                                                    width: 24,
-                                                    height: 24,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  // onPressed handler
-                                                },
-                                              ),
-                                            ),
-                                          )
+                                          
                                         ],
                                       ),
                                     ),

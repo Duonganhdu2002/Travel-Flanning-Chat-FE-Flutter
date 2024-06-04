@@ -84,12 +84,23 @@ class _DetailsPageState extends State<DetailsPage> {
                                     ],
                                   ),
                                   ClipOval(
-                                    child: Image.asset(
-                                      'lib/images/User_img.png',
-                                      width: 60,
-                                      height: 60,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child: IconButton(
+                                                icon: ImageFiltered(
+                                                  imageFilter:
+                                                      const ColorFilter.mode(
+                                                    Colors.black,
+                                                    BlendMode.srcATop,
+                                                  ),
+                                                  child: SvgPicture.asset(
+                                                    "lib/images/fav_list.svg",
+                                                    width: 24,
+                                                    height: 24,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  // onPressed handler
+                                                },
+                                              ),
                                   ),
                                 ],
                               ),
