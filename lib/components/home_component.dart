@@ -165,7 +165,6 @@ class _HomeComponentState extends State<HomeComponent>
                                               ),
                                             ),
                                           ),
-                                          
                                         ],
                                       ),
                                     ),
@@ -266,9 +265,10 @@ class _HomeComponentState extends State<HomeComponent>
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.count(
                         shrinkWrap: true,
-                        crossAxisCount: 2,
+                        crossAxisCount: 3,
                         mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
+                        crossAxisSpacing: 6.5,
+                        childAspectRatio: 0.9,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           Container(
@@ -312,37 +312,35 @@ class _HomeComponentState extends State<HomeComponent>
                               children: [
                                 Icon(Icons.local_activity, size: 40),
                                 SizedBox(height: 10),
-                                Text("Hoạt động giải trí",
+                                Text("Giải trí",
+                                    style: TextStyle(fontSize: 18)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  blurRadius: 10,
+                                  spreadRadius: 2,
+                                )
+                              ],
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.hotel, size: 40),
+                                SizedBox(height: 10),
+                                Text("Khách sạn",
                                     style: TextStyle(fontSize: 18)),
                               ],
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              blurRadius: 10,
-                              spreadRadius: 2,
-                            )
-                          ],
-                        ),
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.hotel, size: 40),
-                            SizedBox(height: 10),
-                            Text("Khách sạn", style: TextStyle(fontSize: 18)),
-                          ],
-                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
