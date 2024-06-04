@@ -1,9 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/pages/edit_profile.dart';
+import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ProfileUser extends StatelessWidget {
+class ProfileUser extends StatefulWidget {
   const ProfileUser({super.key});
+
+  @override
+  State<ProfileUser> createState() => _ProfileUserState();
+}
+
+class _ProfileUserState extends State<ProfileUser> {
+  LoginResponseModel? loginDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLoginDetails();
+  }
+
+  void _loadLoginDetails() async {
+    final details = await SharedService.loginDetails();
+    setState(() {
+      loginDetails = details;
+    });
+  }
 
   void changeWidgets(BuildContext context, Widget newWidget) {
     Navigator.push(
@@ -25,25 +47,28 @@ class ProfileUser extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: Image.asset(
-                      'lib/images/image1.png',
+                      loginDetails?.avatar != null
+                          ? 'lib/images/${loginDetails?.avatar}'
+                          : 'lib/images/User_img.png',
                       width: 120,
                       height: 120,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Leonardo",
-                      style: TextStyle(
+                      loginDetails?.username ?? "Loading...",
+                      style: const TextStyle(
                           color: Color(0xFF1B1E28),
                           fontSize: 28,
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  const Text(
-                    "Leonardo@gmail.com",
-                    style: TextStyle(color: Color(0xFF7D848D), fontSize: 17),
+                  Text(
+                    loginDetails?.email ?? "Loading..",
+                    style:
+                        const TextStyle(color: Color(0xFF7D848D), fontSize: 17),
                   ),
                   const SizedBox(
                     height: 30,

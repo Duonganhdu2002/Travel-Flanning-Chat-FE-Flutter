@@ -36,17 +36,18 @@ class _ImageUsernameState extends State<ImageUsername> {
         padding: const EdgeInsets.only(right: 20.0),
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ClipOval(
-                child: Image.asset(
-                  'lib/images/image1.png',
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
+            if (loginDetails?.avatar != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipOval(
+                  child: Image.asset(
+                    'lib/images/${loginDetails!.avatar}',
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
             const SizedBox(width: 8),
             Text('Hi ${loginDetails?.username ?? 'Loading...'}'),
           ],
