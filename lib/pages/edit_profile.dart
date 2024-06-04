@@ -210,7 +210,7 @@ class _EditProfileState extends State<EditProfile> {
                       phoneController,
                       (value) =>
                           value.isNotEmpty &&
-                          RegExp(r"^[0-9]+$").hasMatch(value),
+                          RegExp(r"^[0-9]{10}$").hasMatch(value),
                     ),
                   ],
                 ),
