@@ -21,15 +21,17 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   Uint8List? imagePicker;
   LoginResponseModel? loginDetails;
+  final _formKey = GlobalKey<FormState>();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-
+  bool isFormValid = false;
   @override
   void initState() {
     super.initState();
     _loadLoginDetails();
+    _addListeners();
   }
 
   void _loadLoginDetails() async {
@@ -39,6 +41,13 @@ class _EditProfileState extends State<EditProfile> {
     locationController.text = loginDetails?.location ?? "";
     phoneController.text = loginDetails?.phone ?? "";
     setState(() {});
+  }
+
+  void _addListeners() {
+    fullNameController.addListener(_validateForm);
+    emailController.addListener(_validateForm);
+    locationController.addListener(_validateForm);
+    phoneController.addListener(_validateForm);
   }
 
   @override
@@ -51,20 +60,22 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void _updateUser(BuildContext context) async {
-    await UserService.updateUser(
-      loginDetails,
-      fullNameController,
-      emailController,
-      locationController,
-      phoneController,
-      context,
-    );
+    if (_formKey.currentState?.validate() ?? false) {
+      await UserService.updateUser(
+        loginDetails,
+        fullNameController,
+        emailController,
+        locationController,
+        phoneController,
+        context,
+      );
 
-    // Refresh login details
-    _loadLoginDetails();
+      // Refresh login details
+      _loadLoginDetails();
+    }
   }
 
-  void _selectImage(BuildContext context) async {  
+  void _selectImage(BuildContext context) async {
     Uint8List? img =
         await UserService.pickCustomImage(ImageSource.gallery, context);
     if (img != null) {
@@ -74,6 +85,12 @@ class _EditProfileState extends State<EditProfile> {
     } else {
       // Xử lý trường hợp không chọn được ảnh
     }
+  }
+
+  void _validateForm() {
+    setState(() {
+      isFormValid = _formKey.currentState?.validate() ?? false;
+    });
   }
 
   @override
@@ -90,11 +107,14 @@ class _EditProfileState extends State<EditProfile> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         rightWidget: InkWell(
-          onTap: () => _updateUser(context),
-          child: const Text(
+          onTap: isFormValid ? () => _updateUser(context) : null,
+          child: Text(
             "Done",
             style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.amber),
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: isFormValid ? Colors.amber : Colors.grey,
+            ),
           ),
         ),
       ),
@@ -146,7 +166,8 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ],
               ),
-              Expanded(
+              Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     customTextField(
@@ -156,7 +177,9 @@ class _EditProfileState extends State<EditProfile> {
                       BorderSide.none,
                       BorderRadius.circular(14),
                       fullNameController,
-                      true,
+                      (value) =>
+                          value.isNotEmpty &&
+                          RegExp(r"^[a-zA-Z\s]+$").hasMatch(value),
                     ),
                     customTextField(
                       "Email",
@@ -165,7 +188,9 @@ class _EditProfileState extends State<EditProfile> {
                       BorderSide.none,
                       BorderRadius.circular(14),
                       emailController,
-                      true,
+                      (value) =>
+                          value.isNotEmpty &&
+                          RegExp(r"^[^\s@]+@[^\s@]+\.[^\s@]+$").hasMatch(value),
                     ),
                     customTextField(
                       "Location",
@@ -174,7 +199,7 @@ class _EditProfileState extends State<EditProfile> {
                       BorderSide.none,
                       BorderRadius.circular(14),
                       locationController,
-                      true,
+                      (value) => value.isNotEmpty,
                     ),
                     customTextField(
                       "Mobile Number",
@@ -183,7 +208,9 @@ class _EditProfileState extends State<EditProfile> {
                       BorderSide.none,
                       BorderRadius.circular(14),
                       phoneController,
-                      false,
+                      (value) =>
+                          value.isNotEmpty &&
+                          RegExp(r"^[0-9]+$").hasMatch(value),
                     ),
                   ],
                 ),
@@ -196,13 +223,14 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Widget customTextField(
-      String lable,
-      Color color,
-      bool filled,
-      BorderSide borderSide,
-      BorderRadius borderRadius,
-      TextEditingController controller,
-      bool isCorrect) {
+    String lable,
+    Color color,
+    bool filled,
+    BorderSide borderSide,
+    BorderRadius borderRadius,
+    TextEditingController controller,
+    bool Function(String) validator,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -222,11 +250,20 @@ class _EditProfileState extends State<EditProfile> {
               borderSide: borderSide,
               borderRadius: borderRadius,
             ),
-            suffixIcon: Icon(
-              Icons.check,
-              color: isCorrect ? Colors.green : Colors.red,
-            ),
+            suffixIcon: controller.text.isNotEmpty
+                ? Icon(
+                    Icons.check,
+                    color:
+                        validator(controller.text) ? Colors.green : Colors.red,
+                  )
+                : null,
           ),
+          validator: (value) {
+            if (!validator(value ?? '')) {
+              return 'Invalid $lable';
+            }
+            return null;
+          },
         ),
       ],
     );
