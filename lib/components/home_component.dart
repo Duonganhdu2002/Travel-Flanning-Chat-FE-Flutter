@@ -7,7 +7,6 @@ import 'package:flutter_app/models/place_model.dart';
 
 class HomeComponent extends StatefulWidget {
   const HomeComponent({super.key});
-
   @override
   State<HomeComponent> createState() => _HomeComponentState();
 }
@@ -16,7 +15,6 @@ class _HomeComponentState extends State<HomeComponent>
     with AutomaticKeepAliveClientMixin<HomeComponent> {
   @override
   bool get wantKeepAlive => false;
-
   @override
   Widget build(BuildContext context) {
     super.build(context); // Call super.build to ensure the mixin works properly
@@ -107,6 +105,7 @@ class _HomeComponentState extends State<HomeComponent>
                 const Center(child: Text('No data available'))
               else
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       height: 500, // Adjust height as needed
@@ -272,10 +271,9 @@ class _HomeComponentState extends State<HomeComponent>
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.count(
                         shrinkWrap: true,
-                        crossAxisCount: 3,
+                        crossAxisCount: 2,
                         mainAxisSpacing: 10,
-                        crossAxisSpacing: 6.5,
-                        childAspectRatio: 0.9,
+                        crossAxisSpacing: 10,
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           Container(
@@ -319,35 +317,37 @@ class _HomeComponentState extends State<HomeComponent>
                               children: [
                                 Icon(Icons.local_activity, size: 40),
                                 SizedBox(height: 10),
-                                Text("Giải trí",
-                                    style: TextStyle(fontSize: 18)),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                )
-                              ],
-                            ),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.hotel, size: 40),
-                                SizedBox(height: 10),
-                                Text("Khách sạn",
+                                Text("Hoạt động giải trí",
                                     style: TextStyle(fontSize: 18)),
                               ],
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                            )
+                          ],
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.hotel, size: 40),
+                            SizedBox(height: 10),
+                            Text("Khách sạn", style: TextStyle(fontSize: 18)),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
