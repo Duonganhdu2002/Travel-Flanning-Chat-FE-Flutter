@@ -44,10 +44,7 @@ class _CreateGroupState extends State<CreateGroup> {
         padding: const EdgeInsets.all(15.0),
         child: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const DetailsPage()),
-            );
+            
           },
           child: Container(
             decoration: BoxDecoration(

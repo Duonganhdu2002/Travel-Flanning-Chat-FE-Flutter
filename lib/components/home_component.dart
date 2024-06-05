@@ -133,12 +133,19 @@ class _HomeComponentState extends State<HomeComponent>
                               ),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const DetailsPage()),
-                                  );
+                                  final placeId = place
+                                      ?.placeId; // Sử dụng trường placeId để truy cập vào id của địa điểm
+                                  if (placeId != null) {
+                                    print('placeId: $placeId');
+                                    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailsPage(
+            placeId: placeId,
+          ),
+        ),
+      );
+                                  }
                                 },
                                 child: Column(
                                   children: [

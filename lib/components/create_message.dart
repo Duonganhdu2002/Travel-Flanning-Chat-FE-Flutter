@@ -239,10 +239,7 @@ class _CreateMessageState extends State<CreateMessage> {
       padding: const EdgeInsets.only(bottom: 25.0),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const DetailsPage()),
-          );
+          
         },
         child: Row(
           children: [
