@@ -21,7 +21,8 @@ class PlaceService {
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
-      _cachedBestPlaces = data.map((item) => BestPlacesModel.fromJson(item)).toList();
+      _cachedBestPlaces =
+          data.map((item) => BestPlacesModel.fromJson(item)).toList();
       return _cachedBestPlaces!;
     } else {
       throw Exception('Failed to load best places');

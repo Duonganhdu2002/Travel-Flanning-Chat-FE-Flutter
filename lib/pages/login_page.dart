@@ -274,7 +274,9 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () {},
                       icon: Image.asset('lib/images/LogoChimXanh.png')),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Xử lí code đăng nhập bằng google
+                      },
                       icon: Image.asset('lib/images/LogoGoogle.png'))
                 ],
               ),
