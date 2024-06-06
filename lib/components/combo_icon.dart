@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/add_friend_page.dart';
 import 'package:flutter_app/pages/friend_list_page.dart';
 import 'package:flutter_app/pages/friends_request_page.dart';
@@ -70,7 +71,7 @@ class ComboIcon extends StatelessWidget {
                   value: '1',
                   child: Row(
                     children: [
-                      Icon(Icons.person_add),
+                      Icon(Icons.person_add,color: Colors.amber),
                       SizedBox(width: 8),
                       Text('Add friend'),
                     ],
@@ -80,7 +81,7 @@ class ComboIcon extends StatelessWidget {
                   value: '2',
                   child: Row(
                     children: [
-                      Icon(Icons.group),
+                      Icon(Icons.group,color: Colors.amber),
                       SizedBox(width: 8),
                       Text('List group'),
                     ],
@@ -90,7 +91,7 @@ class ComboIcon extends StatelessWidget {
                   value: '3',
                   child: Row(
                     children: [
-                      Icon(Icons.group_add),
+                      Icon(Icons.group_add,color: Colors.amber),
                       SizedBox(width: 8),
                       Text('Friend Requests'),
                     ],
@@ -100,9 +101,10 @@ class ComboIcon extends StatelessWidget {
                   value: '4',
                   child: Row(
                     children: [
-                      Icon(Icons.list),
+                      Icon(Icons.person_search_rounded,color: Colors.amber),
                       SizedBox(width: 8),
                       Text('Friends List'),
+                      
                     ],
                   ),
                 ),
