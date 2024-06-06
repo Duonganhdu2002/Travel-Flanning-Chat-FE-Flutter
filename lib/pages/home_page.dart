@@ -9,6 +9,7 @@ import 'package:flutter_app/components/planning_component.dart';
 import 'package:flutter_app/components/profile.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/nav_bar.dart';
+import 'package:flutter_app/components/search_component.dart';
 import 'package:flutter_app/pages/notification_home_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> page = [
     const HomeComponent(key: PageStorageKey('HomeComponent')),
     const PlanningComponent(key: PageStorageKey('PlanningComponent')),
-    const Text("Messages", key: PageStorageKey('Messages')),
+    const SearchComponent(key: PageStorageKey('SearchComponent')),
     const MessageComponent(key: PageStorageKey('MessageComponent')),
     const ProfileUser(key: PageStorageKey('ProfileUser')),
   ];
