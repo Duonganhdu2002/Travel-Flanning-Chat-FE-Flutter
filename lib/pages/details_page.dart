@@ -45,6 +45,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const PageStorageKey<String>('detailPlace'),
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Stack(

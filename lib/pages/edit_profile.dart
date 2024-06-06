@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -18,7 +16,8 @@ class EditProfile extends StatefulWidget {
   State<EditProfile> createState() => _EditProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileState extends State<EditProfile>
+    with AutomaticKeepAliveClientMixin<EditProfile> {
   Uint8List? imagePicker;
   LoginResponseModel? loginDetails;
   final _formKey = GlobalKey<FormState>();
@@ -27,6 +26,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController locationController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   bool isFormValid = false;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +40,7 @@ class _EditProfileState extends State<EditProfile> {
     emailController.text = loginDetails?.email ?? "";
     locationController.text = loginDetails?.location ?? "";
     phoneController.text = loginDetails?.phone ?? "";
+    _validateForm();
     setState(() {});
   }
 
@@ -69,8 +70,6 @@ class _EditProfileState extends State<EditProfile> {
         phoneController,
         context,
       );
-
-      // Refresh login details
       _loadLoginDetails();
     }
   }
@@ -95,9 +94,11 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     String? avatar = loginDetails?.avatar;
     String? fullname = loginDetails?.fullname;
     return Scaffold(
+      key: const PageStorageKey<String>('editProfile'),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: CustomBar(
@@ -264,8 +265,15 @@ class _EditProfileState extends State<EditProfile> {
             }
             return null;
           },
+          onChanged: (value) {
+            setState(
+                () {}); // This will re-render the widget to show/hide the check icon
+          },
         ),
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
