@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SearchComponent extends StatefulWidget {
   const SearchComponent({super.key});
@@ -60,8 +58,10 @@ class _SearchComponentState extends State<SearchComponent> {
                                         ),
                                         IconButton(
                                             onPressed: () {},
-                                            icon: const Icon(Icons.mic_none_outlined,
-                                                size: 30, color: Colors.grey)),
+                                            icon: const Icon(
+                                                Icons.mic_none_outlined,
+                                                size: 30,
+                                                color: Colors.grey)),
                                       ],
                                     ),
                                   ),

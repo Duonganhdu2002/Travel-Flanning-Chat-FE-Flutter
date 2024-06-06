@@ -4,7 +4,6 @@ import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/create_group.dart';
 import 'package:flutter_app/components/search_input.dart';
 import 'package:flutter_app/pages/chat_page.dart';
-import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_app/services/friend_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';

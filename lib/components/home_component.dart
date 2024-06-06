@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_app/pages/popular_places.dart';
 import 'package:flutter_app/services/places_service.dart';
@@ -133,10 +132,8 @@ class _HomeComponentState extends State<HomeComponent>
                               ),
                               child: GestureDetector(
                                 onTap: () {
-                                  final placeId = place
-                                      ?.placeId; // Sử dụng trường placeId để truy cập vào id của địa điểm
+                                  final placeId = place.placeId;
                                   if (placeId != null) {
-                                    print('placeId: $placeId');
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -263,7 +260,7 @@ class _HomeComponentState extends State<HomeComponent>
                     const Text(
                       "Explore",
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 21,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -304,7 +301,7 @@ class _HomeComponentState extends State<HomeComponent>
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Container(
                               padding: const EdgeInsets.only(
@@ -326,7 +323,7 @@ class _HomeComponentState extends State<HomeComponent>
                                   Icon(Icons.local_activity, size: 20),
                                   SizedBox(height: 10),
                                   Flexible(
-                                      child: const Text(
+                                      child: Text(
                                     "Hoạt động giải trí ",
                                     style: TextStyle(
                                         fontSize: 18,
@@ -405,7 +402,7 @@ class _HomeComponentState extends State<HomeComponent>
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.amber,
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
+                                side: const BorderSide(
                                   color: Colors.white, // Màu của border
                                   width: 1, // Độ dày của border
                                 ),

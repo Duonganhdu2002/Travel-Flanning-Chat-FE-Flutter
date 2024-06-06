@@ -17,6 +17,7 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   DetailPlaceModel? detailPlace;
   bool isLoading = true;
+  String? selectedPhoto;
 
   @override
   void initState() {
@@ -26,9 +27,11 @@ class _DetailsPageState extends State<DetailsPage> {
 
   void fetchPlaceDetail() async {
     try {
-      DetailPlaceModel fetchedDetail = await PlaceService.getPlaceDetail(widget.placeId);
+      DetailPlaceModel fetchedDetail =
+          await PlaceService.getPlaceDetail(widget.placeId);
       setState(() {
         detailPlace = fetchedDetail;
+        selectedPhoto = fetchedDetail.photos?.first;
         isLoading = false;
       });
     } catch (e) {
@@ -46,12 +49,13 @@ class _DetailsPageState extends State<DetailsPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Image.network(
-          //id?.photos?.first ?? '',
-          //   fit: BoxFit.cover,
-          //   width: double.infinity,
-          //   height: 620,
-          // ),
+          if (selectedPhoto != null)
+            Image.asset(
+              'lib/images/places/${selectedPhoto!}',
+              width: double.infinity,
+              height: 720,
+              fit: BoxFit.cover,
+            ),
           Column(
             children: [
               const CustomBar(
@@ -69,8 +73,8 @@ class _DetailsPageState extends State<DetailsPage> {
             ],
           ),
           DraggableScrollableSheet(
-            initialChildSize: 0.5,
-            minChildSize: 0.5,
+            initialChildSize: 0.3,
+            minChildSize: 0.3,
             maxChildSize: 1,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
@@ -91,31 +95,38 @@ class _DetailsPageState extends State<DetailsPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  detailPlace?.name ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    color: Color(0xFF1B1E28),
-                                    fontWeight: FontWeight.bold,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    detailPlace?.name ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF1B1E28),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
-                                ),
-                                Text(
-                                  detailPlace?.address?.street ?? '',
-                                  style: const TextStyle(
-                                    color: Color(0xFF7D848D),
-                                    fontSize: 16,
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    '${detailPlace?.address?.street}, ${detailPlace?.address?.ward}, ${detailPlace?.address?.province}',
+                                    style: const TextStyle(
+                                      color: Color(0xFF7D848D),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             ClipOval(
                               child: IconButton(
                                 icon: ImageFiltered(
                                   imageFilter: const ColorFilter.mode(
-                                    Colors.black,
+                                    Color(0xFF7D848D),
                                     BlendMode.srcATop,
                                   ),
                                   child: SvgPicture.asset(
@@ -124,10 +135,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                     height: 24,
                                   ),
                                 ),
-                                onPressed: () {
-                                  print(
-                                      'Place ID from HomePage: ${widget.placeId}');
-                                },
+                                onPressed: () {},
                               ),
                             ),
                           ],
@@ -152,9 +160,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                const Text(
-                                  'Tekergat',
-                                  style: TextStyle(
+                                Text(
+                                  detailPlace?.address?.country ?? '',
+                                  style: const TextStyle(
                                     color: Color(0xFF7D848D),
                                     fontSize: 16,
                                   ),
@@ -206,91 +214,39 @@ class _DetailsPageState extends State<DetailsPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.asset(
-                                'lib/images/Detail_img2.jpg',
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.asset(
-                                'lib/images/Detail_img2.jpg',
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.asset(
-                                'lib/images/Detail_img2.jpg',
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.asset(
-                                'lib/images/Detail_img2.jpg',
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Flexible(
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 64,
-                                height: 64,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(15),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        'lib/images/Detail_img4.jpg'),
-                                    fit: BoxFit.fill,
-                                    opacity: 0.8,
+                        if (detailPlace?.photos != null)
+                          SizedBox(
+                            height: 80,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: detailPlace!.photos!.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedPhoto =
+                                          detailPlace!.photos![index];
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 10),
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    child: Image.asset(
+                                      'lib/images/places/${detailPlace!.photos![index]}',
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                                child: const Text(
-                                  "+16",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
-                          ],
-                        ),
+                          ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -300,20 +256,22 @@ class _DetailsPageState extends State<DetailsPage> {
                             const Text(
                               'About Destination',
                               style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 22,
                                   color: Color(0xFF1B1E28),
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            const ReadMoreText(
-                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+                            ReadMoreText(
+                              detailPlace?.description ?? '',
                               trimMode: TrimMode.Line,
                               trimLines: 3,
                               colorClickableText: Colors.deepOrangeAccent,
                               trimCollapsedText: "Read More",
                               trimExpandedText: "Show Less",
+                              style: const TextStyle(
+                                  color: Color(0xFF7D848D), fontSize: 16),
                             ),
                             const SizedBox(
                               height: 10,
@@ -389,7 +347,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(vertical: 16.0),
                                   child: Center(
-                                    child: Text("Book now"),
+                                    child: Text("Make plan"),
                                   ),
                                 ),
                               ),

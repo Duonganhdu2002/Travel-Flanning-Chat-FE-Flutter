@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/add_friend_page.dart';
 import 'package:flutter_app/pages/friend_list_page.dart';
 import 'package:flutter_app/pages/friends_request_page.dart';

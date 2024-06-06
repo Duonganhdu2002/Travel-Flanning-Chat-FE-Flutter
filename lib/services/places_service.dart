@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 
 class PlaceService {
   static List<BestPlacesModel>? _cachedBestPlaces;
-  
+
   static Future<List<BestPlacesModel>> getBestPlaces() async {
     // Kiểm tra nếu dữ liệu đã được lưu trong cache
     if (_cachedBestPlaces != null) {
@@ -30,7 +30,8 @@ class PlaceService {
   }
 
   static Future<DetailPlaceModel> getPlaceDetail(String detailPlaceData) async {
-    final url = Uri.parse('${Config.apiURL}/api/places/places-detail/$detailPlaceData');
+    final url =
+        Uri.parse('${Config.apiURL}api/places/places-detail/$detailPlaceData');
     final response = await http.get(url);
 
     debugPrint("Get place detail response status: ${response.statusCode}");
