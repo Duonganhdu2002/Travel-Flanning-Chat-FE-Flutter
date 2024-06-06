@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_app/pages/popular_places.dart';
 import 'package:flutter_app/services/places_service.dart';
@@ -137,13 +138,13 @@ class _HomeComponentState extends State<HomeComponent>
                                   if (placeId != null) {
                                     print('placeId: $placeId');
                                     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DetailsPage(
-            placeId: placeId,
-          ),
-        ),
-      );
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailsPage(
+                                          placeId: placeId,
+                                        ),
+                                      ),
+                                    );
                                   }
                                 },
                                 child: Column(
@@ -269,57 +270,72 @@ class _HomeComponentState extends State<HomeComponent>
                     const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        physics: const NeverScrollableScrollPhysics(),
+                      child: Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                )
-                              ],
-                            ),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.restaurant, size: 40),
-                                SizedBox(height: 10),
-                                Text("Nhà hàng",
-                                    style: TextStyle(fontSize: 18)),
-                              ],
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  top: 20, bottom: 20, left: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                  )
+                                ],
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.restaurant, size: 20),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    " Nhà hàng",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                )
-                              ],
-                            ),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.local_activity, size: 40),
-                                SizedBox(height: 10),
-                                Text("Hoạt động giải trí",
-                                    style: TextStyle(fontSize: 18)),
-                              ],
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  top: 20, bottom: 20, left: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                  )
+                                ],
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.local_activity, size: 20),
+                                  SizedBox(height: 10),
+                                  Flexible(
+                                      child: const Text(
+                                    "Hoạt động giải trí ",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  )),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -340,30 +356,37 @@ class _HomeComponentState extends State<HomeComponent>
                             )
                           ],
                         ),
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Icon(Icons.hotel, size: 40),
+                            Icon(Icons.hotel, size: 20),
                             SizedBox(height: 10),
-                            Text("Khách sạn", style: TextStyle(fontSize: 18)),
+                            Text(
+                              " Khách sạn",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(40),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF2E7D32), // Dark green color
+                        color: Colors.amber,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text(
                             "Tripadvisor thiếu một địa điểm?",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 30,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -380,10 +403,13 @@ class _HomeComponentState extends State<HomeComponent>
                               style: TextStyle(color: Colors.white),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color(0xFF388E3C), // Darker green color
+                              backgroundColor: Colors.amber,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                                side: BorderSide(
+                                  color: Colors.white, // Màu của border
+                                  width: 1, // Độ dày của border
+                                ),
+                                borderRadius: BorderRadius.circular(20),
                               ),
                             ),
                           ),
