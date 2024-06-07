@@ -3,6 +3,7 @@ import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/place_model.dart';
+import 'package:flutter_app/pages/make_plan_page.dart';
 import 'package:flutter_app/services/places_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
@@ -336,7 +337,14 @@ class _DetailsPageState extends State<DetailsPage> {
                               height: 10,
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MakePlanPage(),
+                                  ),
+                                );
+                              },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
