@@ -3,6 +3,7 @@ import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/create_group.dart';
 import 'package:flutter_app/components/search_input.dart';
+import 'package:flutter_app/config.dart';
 import 'package:flutter_app/pages/chat_page.dart';
 import 'package:flutter_app/services/friend_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
@@ -153,7 +154,7 @@ class _CreateMessageState extends State<CreateMessage> {
                 itemBuilder: (context, index) {
                   return itemMessage(
                     context,
-                    'lib/images/${filteredFriends[index]['avatar']}',
+                    '${Config.apiURL}public/images/avatars/${filteredFriends[index]['avatar']}',
                     filteredFriends[index]['username']!,
                     filteredFriends[index]['userId']!,
                   );
@@ -185,7 +186,7 @@ class _CreateMessageState extends State<CreateMessage> {
                 children: [
                   SizedBox(
                     width: 60,
-                    child: Image.asset(
+                    child: Image.network(
                       pathImage,
                       width: 60,
                       height: 60,
@@ -237,9 +238,7 @@ class _CreateMessageState extends State<CreateMessage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 25.0),
       child: InkWell(
-        onTap: () {
-          
-        },
+        onTap: () {},
         child: Row(
           children: [
             Expanded(
@@ -252,7 +251,7 @@ class _CreateMessageState extends State<CreateMessage> {
                       Positioned(
                         child: SizedBox(
                           width: 55,
-                          child: Image.asset(
+                          child: Image.network(
                             userImage,
                             width: 55,
                             height: 55,
@@ -270,7 +269,7 @@ class _CreateMessageState extends State<CreateMessage> {
                               border: Border.all(color: Colors.white70),
                               borderRadius: BorderRadius.circular(100),
                             ),
-                            child: Image.asset(
+                            child: Image.network(
                               friendImage,
                               width: 40,
                               height: 40,
