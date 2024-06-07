@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/create_message.dart';
+import 'package:flutter_app/config.dart';
 import 'package:flutter_app/pages/chat_page.dart';
 import 'package:flutter_app/components/search_input.dart';
 import 'package:flutter_app/services/conversation_service.dart';
@@ -113,8 +114,8 @@ class _MessageComponentState extends State<MessageComponent> {
                   return itemMessage(
                     context,
                     friend['avatar'] != null
-                        ? "lib/images/${friend['avatar']}"
-                        : "lib/images/default_avatar.png",
+                        ? "${Config.apiURL}public/images/avatars${friend['avatar']}"
+                        : "${Config.apiURL}public/images/avatars/User_img.png",
                     friend['username'],
                     latestMessage,
                     1, // Replace with actual status if available
@@ -161,7 +162,7 @@ class _MessageComponentState extends State<MessageComponent> {
                 children: [
                   SizedBox(
                     width: 60,
-                    child: Image.asset(
+                    child: Image.network(
                       pathImage,
                       width: 60,
                       height: 60,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/services/shared_service.dart';
 
@@ -40,8 +41,8 @@ class _ImageUsernameState extends State<ImageUsername> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ClipOval(
-                  child: Image.asset(
-                    'lib/images/${loginDetails!.avatar}',
+                  child: Image.network(
+                    '${Config.apiURL}public/images/avatars/${loginDetails!.avatar}',
                     width: 40,
                     height: 40,
                     fit: BoxFit.cover,

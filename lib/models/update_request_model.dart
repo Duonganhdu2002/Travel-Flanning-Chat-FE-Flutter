@@ -4,9 +4,15 @@ class UpdateUserRequestModel {
   String? fullname;
   String? location;
   String? phone;
+  String? avatar;
 
   UpdateUserRequestModel(
-      {this.id, this.email, this.fullname, this.location, this.phone});
+      {this.id,
+      this.email,
+      this.fullname,
+      this.location,
+      this.phone,
+      this.avatar});
 
   UpdateUserRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -14,6 +20,7 @@ class UpdateUserRequestModel {
     fullname = json['fullname'];
     location = json['location'];
     phone = json['phone'];
+    avatar = json['avatar'];
   }
 
   Map<String, dynamic> toJson() {
@@ -23,6 +30,7 @@ class UpdateUserRequestModel {
     data['fullname'] = fullname;
     data['location'] = location;
     data['phone'] = phone;
+    data['avatar'] = avatar;
     return data;
   }
 }

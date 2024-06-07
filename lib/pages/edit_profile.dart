@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/models/login_response_model.dart';
@@ -8,6 +6,7 @@ import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/services/user_service.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_app/config.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -69,6 +68,7 @@ class _EditProfileState extends State<EditProfile>
         locationController,
         phoneController,
         context,
+        imagePicker,
       );
       _loadLoginDetails();
     }
@@ -81,8 +81,20 @@ class _EditProfileState extends State<EditProfile>
       setState(() {
         imagePicker = img;
       });
+      final newAvatarFileName =
+          await UserService.saveAvatar(img, loginDetails!.id!);
+      if (newAvatarFileName != null) {
+        setState(() {
+          loginDetails!.avatar =
+              newAvatarFileName; // Cập nhật tên tệp ảnh đại diện
+        });
+      } else {
+        // Xử lý trường hợp không tải lên ảnh được
+        debugPrint("Failed to upload avatar");
+      }
     } else {
       // Xử lý trường hợp không chọn được ảnh
+      debugPrint("No image selected");
     }
   }
 
@@ -134,12 +146,19 @@ class _EditProfileState extends State<EditProfile>
                         backgroundImage: MemoryImage(imagePicker!),
                       ),
                     )
+                  else if (avatar != null)
+                    ClipOval(
+                      child: Image.network(
+                        "${Config.apiURL}public/images/avatars/$avatar",
+                        width: 120,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      ),
+                    )
                   else
                     ClipOval(
                       child: Image.asset(
-                        avatar != null
-                            ? 'lib/images/${loginDetails?.avatar}'
-                            : 'lib/images/User_img.png',
+                        'lib/images/User_img.png',
                         width: 120,
                         height: 120,
                         fit: BoxFit.cover,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/pages/edit_profile.dart';
 import 'package:flutter_app/services/shared_service.dart';
@@ -46,10 +47,10 @@ class _ProfileUserState extends State<ProfileUser> {
               Column(
                 children: [
                   ClipOval(
-                    child: Image.asset(
+                    child: Image.network(
                       loginDetails?.avatar != null
-                          ? 'lib/images/${loginDetails?.avatar}'
-                          : 'lib/images/User_img.png',
+                          ? '${Config.apiURL}public/images/avatars/${loginDetails?.avatar}'
+                          : '${Config.apiURL}public/images/avatars/User_img.png',
                       width: 120,
                       height: 120,
                       fit: BoxFit.cover,
