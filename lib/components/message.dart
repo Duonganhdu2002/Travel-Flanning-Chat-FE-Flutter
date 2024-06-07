@@ -114,7 +114,7 @@ class _MessageComponentState extends State<MessageComponent> {
                   return itemMessage(
                     context,
                     friend['avatar'] != null
-                        ? "${Config.apiURL}public/images/avatars${friend['avatar']}"
+                        ? "${Config.apiURL}public/images/avatars/${friend['avatar']}"
                         : "${Config.apiURL}public/images/avatars/User_img.png",
                     friend['username'],
                     latestMessage,
