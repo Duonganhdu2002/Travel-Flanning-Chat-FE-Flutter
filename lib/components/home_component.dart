@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/config.dart';
 import 'package:flutter_app/pages/details_page.dart';
 import 'package:flutter_app/pages/popular_places.dart';
 import 'package:flutter_app/services/places_service.dart';
@@ -159,10 +160,10 @@ class _HomeComponentState extends State<HomeComponent>
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(20),
-                                              child: Image.asset(
+                                              child: Image.network(
                                                 place.photos?.isNotEmpty == true
-                                                    ? "lib/images/places/${place.photos!.first}"
-                                                    : 'lib/images/image1.png',
+                                                    ? "${Config.apiURL}public/images/places/${place.photos!.first}"
+                                                    : '${Config.apiURL}public/images/image1.png',
                                                 width: double.infinity,
                                                 height: 350,
                                                 fit: BoxFit.cover,

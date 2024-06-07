@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/app_bar.dart';
+import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/place_model.dart';
 import 'package:flutter_app/services/places_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -51,8 +52,8 @@ class _DetailsPageState extends State<DetailsPage> {
       body: Stack(
         children: [
           if (selectedPhoto != null)
-            Image.asset(
-              'lib/images/places/${selectedPhoto!}',
+            Image.network(
+              '${Config.apiURL}public/images/places/${selectedPhoto!}',
               width: double.infinity,
               height: 720,
               fit: BoxFit.cover,
@@ -237,8 +238,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    child: Image.asset(
-                                      'lib/images/places/${detailPlace!.photos![index]}',
+                                    child: Image.network(
+                                      '${Config.apiURL}public/images/places/${detailPlace!.photos![index]}',
                                       width: 60,
                                       height: 60,
                                       fit: BoxFit.cover,
