@@ -25,6 +25,7 @@ class _MakePlanPageState extends State<MakePlanPage>
   TextEditingController endDateController = TextEditingController();
   bool isPublic = false;
   bool isFormValid = false;
+  bool isPlanWithFund = false;
   List<Map<String, String>> selectedFriends = [];
   List<Map<String, String>> friends = [];
   List<Map<String, String>> filteredFriends = [];
@@ -82,10 +83,22 @@ class _MakePlanPageState extends State<MakePlanPage>
 
   void _validateForm() {
     setState(() {
+      DateTime? startDate;
+      DateTime? endDate;
+
+      if (startDateController.text.isNotEmpty) {
+        startDate = DateTime.parse(startDateController.text);
+      }
+
+      if (endDateController.text.isNotEmpty) {
+        endDate = DateTime.parse(endDateController.text);
+      }
+
       isFormValid = planNameController.text.isNotEmpty &&
-          fundController.text.isNotEmpty &&
-          startDateController.text.isNotEmpty &&
-          endDateController.text.isNotEmpty;
+          (isPlanWithFund ? fundController.text.isNotEmpty : true) &&
+          startDate != null &&
+          endDate != null &&
+          startDate.isBefore(endDate);
     });
   }
 
@@ -100,6 +113,7 @@ class _MakePlanPageState extends State<MakePlanPage>
     if (pickedDate != null) {
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+        _validateForm(); // Validate form after date selection
       });
     }
   }
@@ -141,6 +155,7 @@ class _MakePlanPageState extends State<MakePlanPage>
           builder: (context, setState) {
             return AlertDialog(
               title: const Text('Select Friends'),
+              backgroundColor: Colors.amber[50],
               content: SizedBox(
                 width: double.maxFinite,
                 child: Column(
@@ -216,6 +231,7 @@ class _MakePlanPageState extends State<MakePlanPage>
                         }
                       });
                     }),
+                    const SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
                         itemCount: filteredFriends.length,
@@ -250,10 +266,9 @@ class _MakePlanPageState extends State<MakePlanPage>
                                         Text(
                                           friend['username']!,
                                           style: const TextStyle(
-                                            color: Color(0xFF1B1E28),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                              color: Color(0xFF1B1E28),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
                                         ),
                                       ],
                                     ),
@@ -340,97 +355,130 @@ class _MakePlanPageState extends State<MakePlanPage>
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Center(
-          child: ListView(
+          child: Column(
             children: [
-              Form(
-                key: _formKey,
-                child: Column(
+              Expanded(
+                child: ListView(
                   children: [
-                    customTextField(
-                      "Plan Name",
-                      const Color(0xFFF7F7F9),
-                      true,
-                      BorderSide.none,
-                      BorderRadius.circular(14),
-                      planNameController,
-                      TextInputType.text,
-                    ),
-                    customTextField(
-                      "Plan's Fund",
-                      const Color(0xFFF7F7F9),
-                      true,
-                      BorderSide.none,
-                      BorderRadius.circular(14),
-                      fundController,
-                      TextInputType.number,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: customTextFieldWithDatePicker(
-                            "Start Date",
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          customTextField(
+                            "Plan Name",
                             const Color(0xFFF7F7F9),
                             true,
                             BorderSide.none,
                             BorderRadius.circular(14),
-                            startDateController,
-                            context,
+                            planNameController,
+                            TextInputType.text,
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: customTextFieldWithDatePicker(
-                            "End Date",
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: customTextFieldWithDatePicker(
+                                  "Start Date",
+                                  const Color(0xFFF7F7F9),
+                                  true,
+                                  BorderSide.none,
+                                  BorderRadius.circular(14),
+                                  startDateController,
+                                  context,
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: customTextFieldWithDatePicker(
+                                  "End Date",
+                                  const Color(0xFFF7F7F9),
+                                  true,
+                                  BorderSide.none,
+                                  BorderRadius.circular(14),
+                                  endDateController,
+                                  context,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF7F7F9),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: SwitchListTile(
+                              title: const Text("Plan with fund"),
+                              value: isPlanWithFund,
+                              activeColor: Colors.amber,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isPlanWithFund = value;
+                                  _validateForm();
+                                });
+                              },
+                            ),
+                          ),
+                          customTextField(
+                            "Plan's Fund",
                             const Color(0xFFF7F7F9),
                             true,
                             BorderSide.none,
                             BorderRadius.circular(14),
-                            endDateController,
-                            context,
+                            fundController,
+                            TextInputType.number,
+                            enabled: isPlanWithFund,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SwitchListTile(
-                      title: const Text("This plan is public"),
-                      value: isPublic,
-                      activeColor: Colors.amber,
-                      onChanged: (bool value) {
-                        setState(() {
-                          isPublic = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: _showFriendSelectionDialog,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.yellow[600],
-                      ),
-                      child: const SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
-                          child: Center(
-                            child: Text("Go with friend"),
+                          const SizedBox(
+                            height: 20,
                           ),
-                        ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF7F7F9),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: SwitchListTile(
+                              title: const Text("This plan is public"),
+                              value: isPublic,
+                              activeColor: Colors.amber,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isPublic = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
+              ),
+              ElevatedButton(
+                onPressed: _showFriendSelectionDialog,
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.yellow[600],
+                ),
+                child: const SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Center(
+                      child: Text("Go with friend"),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
             ],
           ),
@@ -446,8 +494,9 @@ class _MakePlanPageState extends State<MakePlanPage>
     BorderSide borderSide,
     BorderRadius borderRadius,
     TextEditingController controller,
-    TextInputType keyboardType,
-  ) {
+    TextInputType keyboardType, {
+    bool enabled = true,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -461,6 +510,7 @@ class _MakePlanPageState extends State<MakePlanPage>
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
+          enabled: enabled,
           decoration: InputDecoration(
             filled: filled,
             fillColor: color,

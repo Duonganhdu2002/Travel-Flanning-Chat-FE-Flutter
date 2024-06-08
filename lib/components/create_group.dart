@@ -42,9 +42,7 @@ class _CreateGroupState extends State<CreateGroup> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(15.0),
         child: InkWell(
-          onTap: () {
-            
-          },
+          onTap: () {},
           child: Container(
             decoration: BoxDecoration(
               color: const Color(0xFFFFD521), // Background color
