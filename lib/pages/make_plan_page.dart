@@ -118,7 +118,7 @@ class _MakePlanPageState extends State<MakePlanPage>
     if (pickedDate != null) {
       setState(() {
         controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-        _validateForm(); // Validate form after date selection
+        _validateForm(); 
       });
     }
   }
@@ -271,6 +271,7 @@ class _MakePlanPageState extends State<MakePlanPage>
                         }
                       });
                     }),
+                    const SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
                         itemCount: filteredFriends.length,
@@ -517,6 +518,7 @@ class _MakePlanPageState extends State<MakePlanPage>
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
