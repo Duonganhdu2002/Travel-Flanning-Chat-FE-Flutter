@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/back_icon.dart';
 import 'package:flutter_app/components/search_input.dart';
@@ -5,12 +7,15 @@ import 'package:flutter_app/config.dart';
 import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/services/friend_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
+import 'package:flutter_app/services/plan_service.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class MakePlanPage extends StatefulWidget {
-  const MakePlanPage({super.key});
+  const MakePlanPage({super.key, required this.placeId});
+
+  final String placeId;
 
   @override
   State<MakePlanPage> createState() => _MakePlanPageState();
@@ -118,9 +123,45 @@ class _MakePlanPageState extends State<MakePlanPage>
     }
   }
 
-  void _savePlan(BuildContext context) {
+  Future<void> _savePlan(BuildContext context) async {
     if (isFormValid) {
-      // Add your save plan logic here
+      final participants = selectedFriends
+          .where((friend) => friend['userId'] != null)
+          .map((friend) => friend['userId']!)
+          .toList();
+
+      debugPrint('Participants: $participants');
+
+      if (participants.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No participants selected')),
+        );
+        return;
+      }
+
+      final planData = {
+        "participants": participants,
+        "place_id": widget.placeId,
+        "day_start": startDateController.text,
+        "day_end": endDateController.text,
+        "fund": isPlanWithFund ? int.parse(fundController.text) : 0,
+        "plan_owner": loginDetails?.id,
+        "public": isPublic,
+        "name": planNameController.text,
+      };
+
+      final success = await PlanService.createPlan(planData);
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Plan created successfully')),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to create plan')),
+        );
+      }
     }
   }
 
@@ -155,7 +196,6 @@ class _MakePlanPageState extends State<MakePlanPage>
           builder: (context, setState) {
             return AlertDialog(
               title: const Text('Select Friends'),
-              backgroundColor: Colors.amber[50],
               content: SizedBox(
                 width: double.maxFinite,
                 child: Column(
@@ -231,7 +271,6 @@ class _MakePlanPageState extends State<MakePlanPage>
                         }
                       });
                     }),
-                    const SizedBox(height: 20),
                     Expanded(
                       child: ListView.builder(
                         itemCount: filteredFriends.length,
@@ -266,9 +305,10 @@ class _MakePlanPageState extends State<MakePlanPage>
                                         Text(
                                           friend['username']!,
                                           style: const TextStyle(
-                                              color: Color(0xFF1B1E28),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
+                                            color: Color(0xFF1B1E28),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -476,9 +516,6 @@ class _MakePlanPageState extends State<MakePlanPage>
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
               ),
             ],
           ),

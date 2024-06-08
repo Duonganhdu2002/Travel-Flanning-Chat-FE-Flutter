@@ -341,7 +341,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const MakePlanPage(),
+                                    builder: (context) => MakePlanPage(
+                                      placeId: widget.placeId,
+                                    ),
                                   ),
                                 );
                               },
