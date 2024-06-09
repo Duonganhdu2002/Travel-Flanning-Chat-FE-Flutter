@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'package:flutter_app/components/back_icon.dart';
+import 'package:flutter_app/models/place_model.dart';
+import 'package:flutter_app/services/places_service.dart';
 
 class PopularPlacesPage extends StatefulWidget {
   const PopularPlacesPage({super.key});
@@ -10,6 +12,27 @@ class PopularPlacesPage extends StatefulWidget {
 }
 
 class _PopularPlacesPageState extends State<PopularPlacesPage> {
+  List<BestPlacesModel> _cachedBestPlaces = [];
+  int itemsToShow = 2;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPlaces();
+  }
+
+  Future<void> fetchPlaces() async {
+    try {
+      final places = await PlaceService.getBestPlaces();
+      setState(() {
+        _cachedBestPlaces = places;
+      });
+    } catch (e) {
+      print('Failed to load places: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +60,9 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
             ),
             Expanded(
               child: GridView.builder(
-                itemCount: 8,
+                itemCount: itemsToShow < _cachedBestPlaces.length
+                    ? itemsToShow
+                    : _cachedBestPlaces.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisExtent: 320,
@@ -45,6 +70,7 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
                   mainAxisSpacing: 20,
                 ),
                 itemBuilder: (context, index) {
+                  final place = _cachedBestPlaces[index];
                   return Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -75,7 +101,7 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
+                                  child: Image.network(
                                     "lib/images/Detail_img4.jpg",
                                     width: double.infinity,
                                     height: 140,
@@ -109,10 +135,10 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
                           const SizedBox(
                             height: 15,
                           ),
-                          const Text(
-                            "Casa Las ",
+                          Text(
+                            place.name ?? '',
                             textAlign: TextAlign.start,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               overflow: TextOverflow.ellipsis,
@@ -122,15 +148,15 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Row(
+                          Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.location_on_outlined,
                                 size: 20,
                               ),
                               Text(
-                                "Casa Las Tirtugas",
-                                style: TextStyle(
+                                '${place.address?.street}',
+                                style: const TextStyle(
                                   fontSize: 13,
                                   color: Color(0xFF7D848D),
                                 ),
@@ -140,29 +166,29 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
                           const SizedBox(
                             height: 8,
                           ),
-                          const Row(
+                          Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.yellow,
                                 size: 18,
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.yellow,
                                 size: 18,
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.yellow,
                                 size: 18,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                "4.8",
-                                style: TextStyle(
+                                '${place.averageRating ?? 0}',
+                                style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -173,15 +199,15 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
                           const SizedBox(
                             height: 12,
                           ),
-                          const Row(
+                          Row(
                             children: [
-                              Icon(
-                                Icons.attach_money,
+                              const Icon(
+                                Icons.cottage_outlined,
                                 size: 18,
                               ),
                               Text(
-                                "857/Persons",
-                                style: TextStyle(
+                                '${place.category ?? 0}',
+                                style: const TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF7D848D),
                                   fontWeight: FontWeight.bold,
@@ -196,6 +222,19 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
                 },
               ),
             ),
+            if (itemsToShow < _cachedBestPlaces.length)
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    itemsToShow += 2; // Tăng số lượng mục hiển thị thêm 8
+                    if (itemsToShow > _cachedBestPlaces.length) {
+                      itemsToShow = _cachedBestPlaces
+                          .length; // Đảm bảo không vượt quá tổng số mục
+                    }
+                  });
+                },
+                child: const Text('Show more'),
+              ),
           ],
         ),
       ),
