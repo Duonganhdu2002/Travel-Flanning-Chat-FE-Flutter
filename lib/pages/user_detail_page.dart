@@ -91,7 +91,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
     super.dispose();
   }
 
-  void _sendFriendRequest(String receiverId) async {
+  void _sendFriendRequest(String receiverId) {
     if (currentUserId == null || currentUsername == null) return;
     setState(() {
       isRequestPending = true;
@@ -99,7 +99,6 @@ class _UserDetailPageState extends State<UserDetailPage> {
 
     try {
       debugPrint('Sending friend request from $currentUserId to $receiverId');
-      await FriendService.sendFriendRequest(currentUserId!, receiverId);
       webSocketService.sendFriendRequest(
           currentUserId!, receiverId, currentUsername!);
     } catch (e) {

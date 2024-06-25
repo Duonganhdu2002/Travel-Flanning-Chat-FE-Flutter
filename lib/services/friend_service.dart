@@ -91,7 +91,7 @@ class FriendService {
       List<dynamic> data = json.decode(response.body)['waiting_list'];
       return data.map((item) {
         return {
-          'userId': item['id'].toString(),
+          'userId': item['_id'].toString(),
           'username': item['username'].toString(),
         };
       }).toList();
