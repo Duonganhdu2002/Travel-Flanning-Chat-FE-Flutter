@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/create_message.dart';
 import 'package:flutter_app/config.dart';
+import 'package:flutter_app/models/login_response_model.dart';
 import 'package:flutter_app/pages/chat_page.dart';
 import 'package:flutter_app/components/search_input.dart';
-import 'package:flutter_app/services/conversation_service.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class MessageComponent extends StatefulWidget {
   const MessageComponent({super.key});
@@ -17,30 +18,69 @@ class MessageComponent extends StatefulWidget {
 class _MessageComponentState extends State<MessageComponent> {
   List<Map<String, dynamic>> conversations = [];
   List<Map<String, dynamic>> filteredConversations = [];
-  String userId = '';
+  LoginResponseModel? loginDetails;
+  late IO.Socket socket;
 
   @override
   void initState() {
     super.initState();
-    _fetchConversations();
+    _initializeSocket();
+    _loadLoginDetails();
   }
 
-  Future<void> _fetchConversations() async {
-    try {
-      final details = await SharedService.loginDetails();
-      userId = details?.id ?? '';
-      List<Map<String, dynamic>> fetchedConversations =
-          await ConversationService.getConversations(userId);
+  void _loadLoginDetails() async {
+    final details = await SharedService.loginDetails();
+    if (details != null) {
       setState(() {
-        conversations = fetchedConversations;
-        filteredConversations = fetchedConversations;
+        loginDetails = details;
       });
-    } catch (e) {
-      debugPrint('Error fetching conversations: $e');
+      _fetchInitialConversations();
+    } else {
+      print('Login details are null');
+    }
+  }
+
+  void _initializeSocket() {
+    socket = IO.io(
+        'http://10.0.2.2:8080',
+        IO.OptionBuilder()
+            .setTransports(['websocket'])
+            .disableAutoConnect()
+            .build());
+
+    socket.connect();
+
+    socket.on('connect', (_) {
+      print('Connected to socket server');
+      // Fetch initial conversations if needed
+      if (loginDetails != null) {
+        _fetchInitialConversations();
+      }
+    });
+
+    socket.on('disconnect', (_) {
+      print('Disconnected from socket server');
+    });
+
+    socket.on('initial_conversations', (data) {
+      setState(() {
+        conversations = List<Map<String, dynamic>>.from(data);
+        filteredConversations = conversations;
+      });
+    });
+  }
+
+  void _fetchInitialConversations() {
+    if (loginDetails != null) {
+      socket.emit('fetch_conversations', {'userId': loginDetails!.id});
     }
   }
 
   void _searchConversations(String query) {
+    if (loginDetails == null) {
+      return;
+    }
+
     setState(() {
       filteredConversations = conversations
           .where((conversation) => conversation['participants'].any(
@@ -48,13 +88,21 @@ class _MessageComponentState extends State<MessageComponent> {
                   participant['username']
                       .toLowerCase()
                       .contains(query.toLowerCase()) &&
-                  participant['_id'] != userId))
+                  participant['_id'] != loginDetails!.id))
           .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (loginDetails == null) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -103,7 +151,7 @@ class _MessageComponentState extends State<MessageComponent> {
                       ? conversation['messages'][0]['message']
                       : 'No messages yet';
                   final friend = conversation['participants'].firstWhere(
-                    (participant) => participant['_id'] != userId,
+                    (participant) => participant['_id'] != loginDetails!.id,
                     orElse: () => null,
                   );
 
@@ -144,16 +192,18 @@ class _MessageComponentState extends State<MessageComponent> {
       padding: const EdgeInsets.only(bottom: 25.0),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatPage(
-                userId: userId, // Use the actual user ID
-                friendId: friendId,
-                friendUsername: nameUser,
+          if (loginDetails != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatPage(
+                  userId: loginDetails!.id ?? '', // Use the actual user ID
+                  friendId: friendId,
+                  friendUsername: nameUser,
+                ),
               ),
-            ),
-          );
+            );
+          }
         },
         child: Row(
           children: [
