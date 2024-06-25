@@ -7,6 +7,7 @@ import 'package:flutter_app/services/friend_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_app/services/shared_service.dart';
 import 'package:flutter_app/services/websocket_service.dart';
+import 'package:flutter_app/pages/chat_page.dart'; // Import the ChatPage class
 
 class UserDetailPage extends StatefulWidget {
   final String userId;
@@ -124,6 +125,21 @@ class _UserDetailPageState extends State<UserDetailPage> {
     }
   }
 
+  void _navigateToChatPage(
+      BuildContext context, String friendId, String friendUsername) {
+    if (currentUserId == null) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatPage(
+          userId: currentUserId!,
+          friendId: friendId,
+          friendUsername: friendUsername,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,7 +195,10 @@ class _UserDetailPageState extends State<UserDetailPage> {
                                 horizontal: 20, vertical: 5),
                             child: TextButton.icon(
                               onPressed: () {
-                                // Handle button press
+                                _navigateToChatPage(
+                                    context,
+                                    userDetail.id.toString(),
+                                    userDetail.username ?? "No username");
                               },
                               icon: ImageFiltered(
                                 imageFilter: const ColorFilter.mode(

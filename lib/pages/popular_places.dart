@@ -29,7 +29,7 @@ class _PopularPlacesPageState extends State<PopularPlacesPage> {
         _cachedBestPlaces = places;
       });
     } catch (e) {
-      print('Failed to load places: $e');
+      debugPrint('Failed to load places: $e');
     }
   }
 
