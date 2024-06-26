@@ -1,3 +1,5 @@
+// ignore_for_file: library_prefixes, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/create_message.dart';
 import 'package:flutter_app/config.dart';
@@ -96,7 +98,7 @@ class _MessageComponentState extends State<MessageComponent> {
   @override
   Widget build(BuildContext context) {
     if (loginDetails == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),

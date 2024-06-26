@@ -66,12 +66,14 @@ class _ChatPageState extends State<ChatPage> {
           };
         }).toList();
 
-        setState(() {
-          messages.clear();
-          messages.addAll(fetchedMessages);
-        });
+        if (mounted) {
+          setState(() {
+            messages.clear();
+            messages.addAll(fetchedMessages);
+          });
 
-        _scrollToBottom();
+          _scrollToBottom();
+        }
       } catch (e) {
         debugPrint('Error parsing initial messages: $e');
       }
@@ -79,14 +81,16 @@ class _ChatPageState extends State<ChatPage> {
 
     socket.on('receive_message', (data) {
       try {
-        setState(() {
-          messages.add({
-            'type': data['senderId'] == widget.userId ? 'sender' : 'receiver',
-            'message': data['message'].toString(),
+        if (mounted) {
+          setState(() {
+            messages.add({
+              'type': data['senderId'] == widget.userId ? 'sender' : 'receiver',
+              'message': data['message'].toString(),
+            });
           });
-        });
 
-        _scrollToBottom();
+          _scrollToBottom();
+        }
       } catch (e) {
         debugPrint('Error receiving message: $e');
       }
@@ -108,11 +112,13 @@ class _ChatPageState extends State<ChatPage> {
       'message': message,
     };
     socket.emit('send_message', msg);
-    setState(() {
-      messages.add({'type': 'sender', 'message': message});
-    });
+    if (mounted) {
+      setState(() {
+        messages.add({'type': 'sender', 'message': message});
+      });
 
-    _scrollToBottom();
+      _scrollToBottom();
+    }
   }
 
   void _scrollToBottom() {
@@ -124,6 +130,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void dispose() {
     socket.disconnect();
+    socket.dispose();
     _scrollController.dispose();
     _focusNode.dispose();
     super.dispose();
